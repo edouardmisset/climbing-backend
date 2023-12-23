@@ -1,24 +1,40 @@
-import json from './data/training-data.json' with { type: "json" }
+import json from "./data/training-data.json" with { type: "json" }
 import { trainingSessionSchema } from "./schema/training.ts"
+import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts"
 
+const router = new Router()
+router
+  .get("/api/", (context) => {
+    context.response.body = "Hello world!"
+  })
+  .get("/api/training-sessions", (context) => {
+    const payload = { data: trainingSessionSchema.array().parse(json.data) }
+    context.response.headers.set("Content-Type", "application/json")
+    context.response.headers.set("Access-Control-Allow-Origin", "*")
+    context.response.body = payload
+  })
+  .get("/api/ascents", (context) => {
+    context.response.body = "Under construction"
+  })
 
-const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-}
+const app = new Application()
 
-function handler(): Response {
-  try {
-    const parsedData = trainingSessionSchema.array().parse(json.data)
-    const payload = JSON.stringify({ data: parsedData })
-    console.log("🚀 ~ file: main.ts:15 ~ handler ~ payload:\n", JSON.parse(payload))
+// Logger
+app.use(async (ctx, next) => {
+  await next()
+  const rt = ctx.response.headers.get("X-Response-Time")
+  globalThis.console.log(`${ctx.request.method} ${ctx.request.url} - ${rt}`)
+})
 
-    return new Response(payload, { headers })
-  } catch (error) {
-    console.error("🚀 ~ file: main.ts ~ handler ~ error:", error)
-    return new Response(JSON.stringify({ error }), { status: 500 })
-  }
-}
+// Timer
+app.use(async (ctx, next) => {
+  const start = Date.now()
+  await next()
+  const ms = Date.now() - start
+  ctx.response.headers.set("X-Response-Time", `${ms}ms`)
+})
 
-Deno.serve(handler)
+app.use(router.routes())
+app.use(router.allowedMethods())
+
+await app.listen({ port: 8000 })
