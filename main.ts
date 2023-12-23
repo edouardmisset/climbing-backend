@@ -2,6 +2,8 @@ import json from "./data/training-data.json" with { type: "json" }
 import { trainingSessionSchema } from "./schema/training.ts"
 import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts"
 
+const PORT: number = Number(Deno.env.get('PORT')) || 8000
+
 const router = new Router()
 router
   .get("/api/", (context) => {
@@ -37,4 +39,4 @@ app.use(async (ctx, next) => {
 app.use(router.routes())
 app.use(router.allowedMethods())
 
-await app.listen({ port: 8000 })
+await app.listen({ port: PORT })
