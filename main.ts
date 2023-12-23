@@ -6,8 +6,11 @@ const PORT: number = Number(Deno.env.get('PORT')) || 8000
 
 const router = new Router()
 router
-  .get("/api/", (context) => {
-    context.response.body = "Hello world!"
+  .get("/", (context) => {
+    context.response.redirect("/api")
+  })
+  .get("/api", (context) => {
+    context.response.body = "Hello API!"
   })
   .get("/api/training-sessions", (context) => {
     const payload = { data: trainingSessionSchema.array().parse(json.data) }
