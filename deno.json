@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --allow-net --allow-env --watch main.ts"
+    "dev": "deno run --allow-net --allow-env --allow-read --watch main.ts"
   },
   "imports": {
     "zod": "https://deno.land/x/zod@v3.22.4/mod.ts"

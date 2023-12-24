@@ -1,4 +1,4 @@
-import { number, string, z } from "zod";
+import { number, string, z } from "zod"
 
 const sessionTypeSchema = z.enum([
   "En",
@@ -15,11 +15,11 @@ const sessionTypeSchema = z.enum([
   "Co",
   "CS",
   "FB",
-]);
+])
 
-const frenchDateFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/gi;
+const frenchDateFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/gi
 
-const percentSchema = number().min(0).max(100);
+const percentSchema = number().min(0).max(100)
 
 export const trainingSessionSchema = z.object({
   date: string()
@@ -34,5 +34,5 @@ export const trainingSessionSchema = z.object({
   comments: string().optional(),
   intensity: percentSchema.optional(),
   load: percentSchema.optional(),
-});
-export type TrainingSession = z.infer<typeof trainingSessionSchema>;
+})
+export type TrainingSession = z.infer<typeof trainingSessionSchema>
