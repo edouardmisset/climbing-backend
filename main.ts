@@ -8,6 +8,8 @@ import {
   send,
 } from 'https://deno.land/x/oak@v12.6.1/mod.ts'
 import { load } from 'https://deno.land/std@0.210.0/dotenv/mod.ts'
+import { groupBy } from "./utils/group-by.ts"
+
 
 const env = await load()
 const PORT = Number(env.PORT) || 8000
@@ -26,19 +28,29 @@ router
     context.response.body = 'Hello API!'
   })
   .get('/api/training-sessions', (context) => {
-    const payload = {
+    context.response.body = {
       data: trainingSessionSchema.array().parse(trainingJSON.data),
     }
-
-    context.response.body = payload
   })
   .get('/api/ascents', (context) => {
-    const payload = {
+    context.response.body = {
       data: ascentSchema.array().parse(ascentJSON.data),
     }
+  })
+  .get('/api/ascents-by-grades', (context) => {
+    const ascentsGroupedByGrade = groupBy((ascentSchema.array().parse(ascentJSON.data)), 'topoGrade')
+    const sortedAscentsGroupedByGrade = Object.fromEntries(
+      Object.entries(ascentsGroupedByGrade)
+        .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+    )
 
+    const payload = {
+      data:
+        sortedAscentsGroupedByGrade
+    }
     context.response.body = payload
   })
+
 
 const app = new Application()
 
