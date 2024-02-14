@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "dev": "deno run --allow-net --allow-env --allow-read --watch main.ts"
+    "dev": "deno run --allow-net --allow-env --allow-read --unstable-temporal --watch main.ts",
+    "fmt": "deno fmt --no-semicolons --single-quote"
   },
   "imports": {
     "zod": "https://deno.land/x/zod@v3.22.4/mod.ts"
