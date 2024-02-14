@@ -14,6 +14,9 @@ import { groupBy } from "./utils/group-by.ts"
 const env = await load()
 const PORT = Number(env.PORT) || 8000
 
+const parsedTrainingSessions = trainingSessionSchema.array().parse(trainingJSON.data)
+const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
+
 const router = new Router()
 router
   .get('/favicon.ico', async (context) => {
@@ -29,19 +32,20 @@ router
   })
   .get('/api/training-sessions', (context) => {
     context.response.body = {
-      data: trainingSessionSchema.array().parse(trainingJSON.data),
+      data: parsedTrainingSessions,
     }
   })
   .get('/api/ascents', (context) => {
     context.response.body = {
-      data: ascentSchema.array().parse(ascentJSON.data),
+      data: parsedAscents,
     }
   })
   .get('/api/ascents-by-grades', (context) => {
-    const ascentsGroupedByGrade = groupBy((ascentSchema.array().parse(ascentJSON.data)), 'topoGrade')
+    // Transformations
+    const ascentsGroupedByGrade = groupBy((parsedAscents), 'topoGrade')
     const sortedAscentsGroupedByGrade = Object.fromEntries(
       Object.entries(ascentsGroupedByGrade)
-        .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+        .sort(([leftKey], [rightKey]) => leftKey.localeCompare(rightKey))
     )
 
     const payload = {
