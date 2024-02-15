@@ -21,5 +21,5 @@ export const groupBy = <
         [groupedObjectKey]: [...(grouped[groupedObjectKey] || []), obj],
       })
     },
-    {} as GroupedObject
+    {} as GroupedObject,
   )
