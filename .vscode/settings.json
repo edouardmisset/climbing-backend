@@ -1,6 +1,11 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "denoland.vscode-deno",
+  "prettier.enable": false,
+  "deno.enable": true,
+  "deno.lint": true,
+  "deno.cacheOnSave": true,
+  "editor.formatOnSaveMode": "modifications",
   "cSpell.words": [
     "departement"
   ]
