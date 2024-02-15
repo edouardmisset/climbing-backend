@@ -1,6 +1,6 @@
 import { load } from 'dotenv'
 import { Hono } from 'hono'
-import { logger, serveStatic, timing } from 'hono/middleware'
+import { compress, cors, csrf, etag, logger, serveStatic, timing } from 'hono/middleware'
 
 import ascentJSON from './data/ascent-data.json' with { type: 'json' }
 import trainingJSON from './data/training-data.json' with { type: 'json' }
@@ -20,6 +20,10 @@ const PORT = Number(env.PORT) || 8000
 const app = new Hono()
 
 app.use(timing())
+app.use(etag())
+app.use('/api/*', cors())
+app.use(csrf())
+app.use(compress())
 app.use(logger())
 app.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
 
