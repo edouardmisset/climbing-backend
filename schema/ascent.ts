@@ -28,11 +28,11 @@ export const ascentSchema = z.object({
   date: frenchDateSchema.or(
     z.string().regex(/^\d{4}-\d{2}-\d{2}$/).transform((date) => {
       const [year, month, day] = date.split('-').map(Number)
-      return Temporal.PlainDate.from({
+      return new Date(
         year,
-        month,
+        month - 1,
         day,
-      }).toString()
+      ).toISOString()
     }),
   ),
   routeName: z.string().min(1),

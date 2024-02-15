@@ -25,11 +25,11 @@ export const frenchDateSchema = string()
   .min(1)
   .regex(frenchDateFormat).transform((date) => {
     const [day, month, year] = date.split('/').map(Number)
-    return Temporal.PlainDate.from({
+    return new Date(
       year,
-      month,
+      month - 1,
       day,
-    }).toString()
+    ).toISOString()
   })
 
 export const trainingSessionSchema = z.object({

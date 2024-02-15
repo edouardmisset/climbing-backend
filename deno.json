@@ -1,16 +1,13 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
-    "dev": "deno run --allow-net --allow-env --allow-read --unstable-temporal --watch main.ts",
+    "dev": "deno run --allow-net --allow-env --allow-read --watch main.ts",
     "fmt": "deno lint && deno fmt"
   },
   "imports": {
     "zod": "https://deno.land/x/zod@v3.22.4/mod.ts",
     "hono/": "https://deno.land/x/hono@v4.0.2/"
   },
-  "unstable": [
-    "temporal"
-  ],
   "lint": {
     "rules": {
       "tags": [

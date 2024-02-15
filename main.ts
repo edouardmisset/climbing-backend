@@ -8,8 +8,6 @@ import { load } from 'https://deno.land/std@0.210.0/dotenv/mod.ts'
 import { groupBy } from './utils/group-by.ts'
 import { sortKeys } from './utils/sort-keys.ts'
 
-console.log(Deno.version.deno);
-
 const parsedTrainingSessions = trainingSessionSchema.array().parse(
   trainingJSON.data,
 )
@@ -50,15 +48,18 @@ app
     const filteredAscents = parsedAscents.filter((ascent) => {
       if (grade && ascent.topoGrade !== grade) return false
       if (tries && ascent.tries !== tries) return false
-      if (routeOrBoulder && routeOrBoulder === ascent.routeOrBouldering) 
+      if (routeOrBoulder && routeOrBoulder === ascent.routeOrBouldering) {
         return false
-      
+      }
+
       return true
     })
 
     const sortedAscents = filteredAscents.sort(
       ({ date: leftDate }, { date: rightDate }) =>
-        Temporal.PlainDate.compare(leftDate, rightDate) * (descending ? -1 : 1),
+        ((new Date(leftDate)).getTime() > (new Date(rightDate)).getTime()
+          ? 1
+          : -1) * (descending ? -1 : 1),
     )
 
     const groupedAscents = group
