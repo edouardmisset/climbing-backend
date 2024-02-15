@@ -1,10 +1,11 @@
-import trainingJSON from './data/training-data.json' with { type: 'json' }
+import { load } from 'dotenv'
+import { Hono } from 'hono'
+import { logger, serveStatic, timing } from 'hono/middleware'
+
 import ascentJSON from './data/ascent-data.json' with { type: 'json' }
-import { trainingSessionSchema } from './schema/training.ts'
+import trainingJSON from './data/training-data.json' with { type: 'json' }
 import { ascentSchema } from './schema/ascent.ts'
-import { Hono } from 'hono/mod.ts'
-import { logger, serveStatic, timing } from 'hono/middleware.ts'
-import { load } from 'https://deno.land/std@0.210.0/dotenv/mod.ts'
+import { trainingSessionSchema } from './schema/training.ts'
 import { groupBy } from './utils/group-by.ts'
 import { sortKeys } from './utils/sort-keys.ts'
 

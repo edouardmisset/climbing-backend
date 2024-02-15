@@ -5,8 +5,10 @@
     "fmt": "deno lint && deno fmt"
   },
   "imports": {
-    "zod": "https://deno.land/x/zod@v3.22.4/mod.ts",
-    "hono/": "https://deno.land/x/hono@v4.0.2/"
+    "dotenv": "https://deno.land/std@0.210.0/dotenv/mod.ts",
+    "hono": "https://deno.land/x/hono@v4.0.2/mod.ts",
+    "hono/middleware": "https://deno.land/x/hono@v4.0.2/middleware.ts",
+    "zod": "https://deno.land/x/zod@v3.22.4/mod.ts"
   },
   "lint": {
     "rules": {
