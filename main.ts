@@ -2,81 +2,68 @@ import trainingJSON from './data/training-data.json' with { type: 'json' }
 import ascentJSON from './data/ascent-data.json' with { type: 'json' }
 import { trainingSessionSchema } from './schema/training.ts'
 import { ascentSchema } from './schema/ascent.ts'
-import {
-  Application,
-  Router,
-  send,
-} from 'https://deno.land/x/oak@v12.6.1/mod.ts'
+import { Hono } from 'hono/mod.ts'
+import { logger, serveStatic, timing } from 'hono/middleware.ts'
 import { load } from 'https://deno.land/std@0.210.0/dotenv/mod.ts'
-import { groupBy } from "./utils/group-by.ts"
+import { groupBy } from './utils/group-by.ts'
+import { sortKeys } from './utils/sort-keys.ts'
 
+const parsedTrainingSessions = trainingSessionSchema.array().parse(
+  trainingJSON.data,
+)
+const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
 const env = await load()
 const PORT = Number(env.PORT) || 8000
 
-const parsedTrainingSessions = trainingSessionSchema.array().parse(trainingJSON.data)
-const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
+const app = new Hono()
 
-const router = new Router()
-router
-  .get('/favicon.ico', async (context) => {
-    await send(context, context.request.url.pathname, {
-      root: `${Deno.cwd()}`,
-    })
-  })
-  .get('/', (context) => {
-    context.response.redirect('/api')
-  })
-  .get('/api', (context) => {
-    context.response.body = 'Hello API!'
-  })
-  .get('/api/training-sessions', (context) => {
-    context.response.body = {
+app.use(timing())
+app.use(logger())
+app.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
+
+app
+  .get('/', (ctx) => ctx.redirect('/api'))
+  .get('/api', (ctx) => ctx.text('Hello API!'))
+  .get('/api/training-sessions', (ctx) =>
+    ctx.json({
       data: parsedTrainingSessions,
-    }
-  })
-  .get('/api/ascents', (context) => {
-    context.response.body = { data: parsedAscents }
-  })
-  .get('/api/ascents-by-grades', (context) => {
-    // Transformations
-    const ascentsGroupedByGrade = groupBy((parsedAscents), 'topoGrade')
-    const sortedAscentsGroupedByGrade = Object.fromEntries(
-      Object.entries(ascentsGroupedByGrade)
-        .sort(([leftKey], [rightKey]) => leftKey.localeCompare(rightKey))
+    }))
+  .get('/api/ascents', (ctx) => {
+    // Data : parsedAscents
+    // Pipe the data through the following steps:
+    // Filter : grade, tries, route-or-boulder
+    // Sort : grade, tries
+    // Group : grade, tries
+    // Pagination : page, limit
+    // Search : routeName
+    // Return : result
+
+    const grade = ctx.req.query('grade')
+    const tries = ctx.req.query('tries')
+    const group = ctx.req.query('group-by')
+    const descending = ctx.req.query('descending')
+    const routeOrBoulder = ctx.req.query('route-or-boulder')
+
+    const filteredAscents = parsedAscents.filter((ascent) => {
+      if (grade && ascent.topoGrade !== grade) return false
+      if (tries && ascent.tries !== tries) return false
+      if (routeOrBoulder && routeOrBoulder === ascent.routeOrBouldering) 
+        return false
+      
+      return true
+    })
+
+    const sortedAscents = filteredAscents.sort(
+      ({ date: leftDate }, { date: rightDate }) =>
+        Temporal.PlainDate.compare(leftDate, rightDate) * (descending ? -1 : 1),
     )
 
-    context.response.body = { data: sortedAscentsGroupedByGrade }
-  })
-  .get('/api/ascents-by-tries', (context) => {
-    // Transformations
-    const ascentsGroupedByTries = groupBy((parsedAscents), 'tries')
-    const sortedAscentsGroupedByTries = Object.fromEntries(
-      Object.entries(ascentsGroupedByTries)
-        .sort(([leftKey], [rightKey]) => leftKey.localeCompare(rightKey))
-    )
+    const groupedAscents = group
+      ? sortKeys(groupBy(sortedAscents, group))
+      : sortedAscents
 
-    context.response.body = { data: sortedAscentsGroupedByTries }
+    return ctx.json({ data: groupedAscents })
   })
 
-
-const app = new Application()
-
-// Logger
-app.use(async (ctx, next) => {
-  await next()
-  const rt = ctx.response.headers.get('X-Response-Time')
-  globalThis.console.log(`${ctx.request.method} ${ctx.request.url} - ${rt}`)
-})
-
-// Timer
-app.use(async (ctx, next) => {
-  const start = Date.now()
-  await next()
-  const ms = Date.now() - start
-  ctx.response.headers.set('X-Response-Time', `${ms}ms`)
-})
-app.use(router.routes())
-app.use(router.allowedMethods())
-
-await app.listen({ port: PORT })
+Deno.serve({ port: PORT }, app.fetch)
