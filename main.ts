@@ -36,9 +36,7 @@ router
     }
   })
   .get('/api/ascents', (context) => {
-    context.response.body = {
-      data: parsedAscents,
-    }
+    context.response.body = { data: parsedAscents }
   })
   .get('/api/ascents-by-grades', (context) => {
     // Transformations
@@ -48,11 +46,17 @@ router
         .sort(([leftKey], [rightKey]) => leftKey.localeCompare(rightKey))
     )
 
-    const payload = {
-      data:
-        sortedAscentsGroupedByGrade
-    }
-    context.response.body = payload
+    context.response.body = { data: sortedAscentsGroupedByGrade }
+  })
+  .get('/api/ascents-by-tries', (context) => {
+    // Transformations
+    const ascentsGroupedByTries = groupBy((parsedAscents), 'tries')
+    const sortedAscentsGroupedByTries = Object.fromEntries(
+      Object.entries(ascentsGroupedByTries)
+        .sort(([leftKey], [rightKey]) => leftKey.localeCompare(rightKey))
+    )
+
+    context.response.body = { data: sortedAscentsGroupedByTries }
   })
 
 
