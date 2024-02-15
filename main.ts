@@ -8,6 +8,8 @@ import { load } from 'https://deno.land/std@0.210.0/dotenv/mod.ts'
 import { groupBy } from './utils/group-by.ts'
 import { sortKeys } from './utils/sort-keys.ts'
 
+console.log(Deno.version.deno);
+
 const parsedTrainingSessions = trainingSessionSchema.array().parse(
   trainingJSON.data,
 )
