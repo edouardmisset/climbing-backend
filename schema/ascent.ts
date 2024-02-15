@@ -1,5 +1,4 @@
 import { string, z } from 'zod'
-import { trainingSessionSchema } from './training.ts'
 import { frenchDateSchema } from './training.ts'
 
 const degrees = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'] as const
@@ -37,7 +36,7 @@ export const ascentSchema = z.object({
   ),
   routeName: z.string().min(1),
   topoGrade: (routeFrenchGradeSchema.or(boulderingFrenchGradeSchema)),
-  routeOrBouldering: trainingSessionSchema.shape.routeOrBouldering,
+  routeOrBoulder: z.enum(['Route', 'Boulder', 'Multi-Pitch']),
   comments: z.string(),
   myGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema).or(
     z.literal(''),

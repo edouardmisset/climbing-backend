@@ -1,6 +1,14 @@
 import { load } from 'dotenv'
 import { Hono } from 'hono'
-import { compress, cors, csrf, etag, logger, serveStatic, timing } from 'hono/middleware'
+import {
+  compress,
+  cors,
+  csrf,
+  etag,
+  logger,
+  serveStatic,
+  timing,
+} from 'hono/middleware'
 
 import ascentJSON from './data/ascent-data.json' with { type: 'json' }
 import trainingJSON from './data/training-data.json' with { type: 'json' }
@@ -8,6 +16,7 @@ import { ascentSchema } from './schema/ascent.ts'
 import { trainingSessionSchema } from './schema/training.ts'
 import { groupBy } from './utils/group-by.ts'
 import { sortKeys } from './utils/sort-keys.ts'
+import { stringEqualsCaseInsensitive } from './utils/string-equals.ts'
 
 const parsedTrainingSessions = trainingSessionSchema.array().parse(
   trainingJSON.data,
@@ -45,20 +54,34 @@ app
     // Return : result
 
     const grade = ctx.req.query('grade')
-    const tries = ctx.req.query('tries')
+    const numberOfTries = ctx.req.query('tries')
     const group = ctx.req.query('group-by')
     const descending = ctx.req.query('descending')
-    const routeOrBoulder = ctx.req.query('route-or-boulder')
+    const routeOrBouldering = ctx.req.query('route-or-boulder')
 
-    const filteredAscents = parsedAscents.filter((ascent) => {
-      if (grade && ascent.topoGrade !== grade) return false
-      if (tries && ascent.tries !== tries) return false
-      if (routeOrBoulder && routeOrBoulder === ascent.routeOrBouldering) {
-        return false
-      }
+    const filteredAscents = parsedAscents.filter(
+      ({ topoGrade, routeOrBoulder, tries }) => {
+        if (grade && !stringEqualsCaseInsensitive(topoGrade, grade)) {
+          return false
+        }
+        if (
+          numberOfTries && !stringEqualsCaseInsensitive(tries, numberOfTries)
+        ) {
+          return false
+        }
+        if (
+          routeOrBouldering &&
+          !stringEqualsCaseInsensitive(
+            routeOrBoulder,
+            routeOrBouldering,
+          )
+        ) {
+          return false
+        }
 
-      return true
-    })
+        return true
+      },
+    )
 
     const sortedAscents = filteredAscents.sort(
       ({ date: leftDate }, { date: rightDate }) =>
