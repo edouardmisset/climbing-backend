@@ -1,8 +1,7 @@
 import { Hono } from 'hono'
 
-import trainingJSON from '../../data/training-data.json' with { type: 'json' }
-
-import { trainingSessionSchema } from '../../schema/training.ts'
+import trainingJSON from '@data/training-data.json' with { type: 'json' }
+import { trainingSessionSchema } from '@schema/training.ts'
 
 const app = new Hono()
 

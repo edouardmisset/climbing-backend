@@ -1,10 +1,10 @@
 import { Hono } from 'hono'
 
-import ascentJSON from '../../data/ascent-data.json' with { type: 'json' }
-import { ascentSchema } from '../../schema/ascent.ts'
-import { groupBy } from '../../utils/group-by.ts'
-import { sortKeys } from '../../utils/sort-keys.ts'
-import { stringEqualsCaseInsensitive } from '../../utils/string-equals.ts'
+import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
+import { ascentSchema } from '@schema/ascent.ts'
+import { groupBy } from '@utils/group-by.ts'
+import { sortKeys } from '@utils/sort-keys.ts'
+import { stringEqualsCaseInsensitive } from '@utils/string-equals.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 

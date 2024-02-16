@@ -1,14 +1,17 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
-    "dev": "deno run --allow-net --allow-env --allow-read --watch main.ts",
-    "fmt": "deno lint && deno fmt"
+    "dev": "deno lint --watch & deno fmt --watch & deno run --allow-net --allow-env --allow-read --watch server.ts"
   },
   "imports": {
     "dotenv": "https://deno.land/std@0.210.0/dotenv/mod.ts",
     "hono": "https://deno.land/x/hono@v4.0.2/mod.ts",
     "hono/middleware": "https://deno.land/x/hono@v4.0.2/middleware.ts",
-    "zod": "https://deno.land/x/zod@v3.22.4/mod.ts"
+    "zod": "https://deno.land/x/zod@v3.22.4/mod.ts",
+    "@utils/": "./src/utils/",
+    "@schema/": "./src/schema/",
+    "@data/": "./src/data/",
+    "@routes/": "./src/routes/"
   },
   "lint": {
     "rules": {
