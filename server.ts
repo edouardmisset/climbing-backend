@@ -34,6 +34,11 @@ api.route('/ascents', ascents)
 api.route('/training', training)
 
 api
-  .get('/', (ctx) => ctx.text('Hello API!'))
+  .get('/', (ctx) =>
+    ctx.html(
+      `<h1>Hello API!</h1></br>
+      <a href="api/ascents" >Ascents</a></br>
+      <a href="api/training" >Training</a>`,
+    ))
 
 Deno.serve({ port: PORT }, api.fetch)
