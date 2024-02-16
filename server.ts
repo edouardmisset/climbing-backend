@@ -6,7 +6,6 @@ import {
   csrf,
   etag,
   logger,
-  prettyJSON,
   serveStatic,
   timing,
 } from 'hono/middleware'
@@ -23,9 +22,6 @@ api.use(timing())
 api.use(etag())
 api.use(cors())
 api.use(csrf())
-api.use(prettyJSON({
-  space: 2,
-}))
 api.use(compress())
 api.use(logger())
 api.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
