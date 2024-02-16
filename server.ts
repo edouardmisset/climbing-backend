@@ -10,8 +10,8 @@ import {
   timing,
 } from 'hono/middleware'
 
-import ascents from './src/routes/ascents.ts'
-import training from './src/routes/training.ts'
+import ascents from '@routes/ascents.ts'
+import training from '@routes/training.ts'
 
 const env = await load()
 const PORT = Number(env.PORT) || 8000
@@ -38,3 +38,5 @@ api
     ))
 
 Deno.serve({ port: PORT }, api.fetch)
+
+export default api
