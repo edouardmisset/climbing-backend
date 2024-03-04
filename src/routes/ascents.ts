@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { compareSimilarity } from 'text'
 
 import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
 import { Ascent, ascentSchema } from '@schema/ascent.ts'
@@ -111,18 +112,27 @@ app.get('/', (ctx) => {
     : sortFields.reduce(
       (previouslySortedAscents, sortField) => {
         const ascending = sortField.startsWith('-') ? false : true
+        const field = ascending ? sortField : sortField.slice(1)
+
         return sortBy(
           previouslySortedAscents,
-          sortField,
+          field,
           ascending,
         )
       },
       dateSortedAscents,
     )
 
-  const groupedAscents = group !== undefined
-    ? sortKeys(groupBy(sortedAscents, group))
+  const sortedByClosestRouteName = routeNameFilter
+    ? sortedAscents.sort((
+      { routeName: aRouteName },
+      { routeName: bRouteName },
+    ) => compareSimilarity(routeNameFilter)(aRouteName, bRouteName))
     : sortedAscents
+
+  const groupedAscents = group !== undefined
+    ? sortKeys(groupBy(sortedByClosestRouteName, group))
+    : sortedByClosestRouteName
 
   return ctx.json({ data: groupedAscents })
 })
