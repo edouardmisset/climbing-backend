@@ -137,4 +137,20 @@ app.get('/', (ctx) => {
   return ctx.json({ data: groupedAscents })
 })
 
+app.get('/duplicates', (ctx) => {
+  const ascentMap = new Map()
+
+  parsedAscents.forEach(({ routeName, topoGrade, crag }) => {
+    const key =
+      `${routeName.trim().toLowerCase()} - ${topoGrade} - ${crag.trim().toLowerCase()}`
+    ascentMap.set(key, (ascentMap.get(key) || 0) + 1)
+  })
+
+  const duplicateRoutes = Array.from(ascentMap.entries())
+    .filter(([, count]) => count > 1)
+    .map(([key]) => key)
+
+  return ctx.json({ data: duplicateRoutes })
+})
+
 export default app
