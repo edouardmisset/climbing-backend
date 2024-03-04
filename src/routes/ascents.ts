@@ -38,50 +38,44 @@ app.get('/', (ctx) => {
     list.split(',')
   )
 
-  const filteredAscents = parsedAscents.filter(
-    ({ topoGrade, routeOrBoulder, tries, date, crag, routeName }) => {
-      if (
-        gradeFilter !== undefined &&
-        !stringEqualsCaseInsensitive(topoGrade, gradeFilter)
-      ) {
-        return false
-      }
-      if (
-        numberOfTriesFilter !== undefined &&
-        !stringEqualsCaseInsensitive(tries, numberOfTriesFilter)
-      ) {
-        return false
-      }
-      if (
-        disciplineFilter !== undefined &&
-        !stringEqualsCaseInsensitive(
-          routeOrBoulder,
-          disciplineFilter,
-        )
-      ) {
-        return false
-      }
-      if (
-        yearFilter !== undefined &&
-        new Date(date).getFullYear() !== Number(yearFilter)
-      ) {
-        return false
-      }
-      if (
-        cragFilter !== undefined &&
-        cragFilter !== crag
-      ) {
-        return false
-      }
-      if (
-        routeNameFilter !== undefined &&
-        !stringIncludesCaseInsensitive(routeName, routeNameFilter)
-      ) {
-        return false
-      }
-
-      return true
+  const filters: {
+    value: string
+    compare: (a: string, b: string) => boolean
+    key: keyof Ascent
+  }[] = [
+    {
+      value: gradeFilter,
+      compare: stringEqualsCaseInsensitive,
+      key: 'topoGrade',
     },
+    {
+      value: numberOfTriesFilter,
+      compare: stringEqualsCaseInsensitive,
+      key: 'tries',
+    },
+    {
+      value: disciplineFilter,
+      compare: stringEqualsCaseInsensitive,
+      key: 'routeOrBoulder',
+    },
+    {
+      value: yearFilter,
+      compare: (left: string, right: string) =>
+        new Date(left).getFullYear() === Number(right),
+      key: 'date',
+    },
+    { value: cragFilter, compare: stringEqualsCaseInsensitive, key: 'crag' },
+    {
+      value: routeNameFilter,
+      compare: stringIncludesCaseInsensitive,
+      key: 'routeName',
+    },
+  ]
+
+  const filteredAscents = parsedAscents.filter((ascent) =>
+    filters.every(({ value, compare, key }) =>
+      value === undefined || compare(ascent[key] as string, value)
+    )
   )
 
   const ascentsWithSelectedFields = selectedFields === undefined
