@@ -5,6 +5,7 @@ import { Ascent, ascentSchema } from '@schema/ascent.ts'
 import { groupBy } from '@utils/group-by.ts'
 import { sortKeys } from '@utils/sort-keys.ts'
 import { stringEqualsCaseInsensitive } from '@utils/string-equals.ts'
+import { stringIncludesCaseInsensitive } from '@utils/string-includes.ts'
 import { sortBy } from '@utils/sort-by.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
@@ -23,6 +24,7 @@ app.get('/', (ctx) => {
   // Return : result
 
   const {
+    routeName: routeNameFilter,
     topoGrade: gradeFilter,
     year: yearFilter,
     tries: numberOfTriesFilter,
@@ -37,7 +39,7 @@ app.get('/', (ctx) => {
   )
 
   const filteredAscents = parsedAscents.filter(
-    ({ topoGrade, routeOrBoulder, tries, date, crag }) => {
+    ({ topoGrade, routeOrBoulder, tries, date, crag, routeName }) => {
       if (
         gradeFilter !== undefined &&
         !stringEqualsCaseInsensitive(topoGrade, gradeFilter)
@@ -68,6 +70,12 @@ app.get('/', (ctx) => {
       if (
         cragFilter !== undefined &&
         cragFilter !== crag
+      ) {
+        return false
+      }
+      if (
+        routeNameFilter !== undefined &&
+        !stringIncludesCaseInsensitive(routeName, routeNameFilter)
       ) {
         return false
       }
