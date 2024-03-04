@@ -3,10 +3,10 @@ import { Hono } from 'hono'
 import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
 import { Ascent, ascentSchema } from '@schema/ascent.ts'
 import { groupBy } from '@utils/group-by.ts'
+import { sortBy } from '@utils/sort-by.ts'
 import { sortKeys } from '@utils/sort-keys.ts'
 import { stringEqualsCaseInsensitive } from '@utils/string-equals.ts'
 import { stringIncludesCaseInsensitive } from '@utils/string-includes.ts'
-import { sortBy } from '@utils/sort-by.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
@@ -20,7 +20,7 @@ app.get('/', (ctx) => {
   // Sort : grade, tries
   // Group : grade, tries, year...
   // Pagination : page, limit
-  //? Search : routeName
+  // Search : routeName
   // Return : result
 
   const {

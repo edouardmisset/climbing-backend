@@ -26,9 +26,6 @@ api.use(compress())
 api.use(logger())
 api.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
 
-api.route('/ascents', ascents)
-api.route('/training', training)
-
 api
   .get('/', (ctx) =>
     ctx.html(
@@ -36,6 +33,9 @@ api
       <a href="api/ascents" >Ascents</a></br>
       <a href="api/training" >Training</a>`,
     ))
+
+api.route('/ascents', ascents)
+api.route('/training', training)
 
 Deno.serve({ port: PORT }, api.fetch)
 

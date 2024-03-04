@@ -49,6 +49,6 @@ export const ascentSchema = z.object({
   crag: z.string(),
   area: z.string(),
   departement: z.string(),
-  climber: z.enum(['Edouard Misset', 'Damien Brenac']),
+  climber: z.literal('Edouard Misset'),
 }).passthrough()
 export type Ascent = z.infer<typeof ascentSchema>
