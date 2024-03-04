@@ -5,43 +5,63 @@ import { ascentSchema } from '@schema/ascent.ts'
 import { groupBy } from '@utils/group-by.ts'
 import { sortKeys } from '@utils/sort-keys.ts'
 import { stringEqualsCaseInsensitive } from '@utils/string-equals.ts'
+import { sortBy } from '@utils/sort-by.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
 const app = new Hono()
 
 app.get('/', (ctx) => {
-  // Data : parsedAscents
+  // Data : validated ascents (from db or file)
   // Pipe the data through the following steps:
   // Filter : grade, tries, route-or-boulder
   // Sort : grade, tries
-  // Group : grade, tries
+  // Group : grade, tries, year...
   // Pagination : page, limit
-  // Search : routeName
+  //? Search : routeName
   // Return : result
 
-  const grade = ctx.req.query('grade')
-  const numberOfTries = ctx.req.query('tries')
+  const gradeFilter = ctx.req.query('topoGrade')
+  const yearFilter = Number(ctx.req.query('year'))
+  const numberOfTriesFilter = ctx.req.query('tries')
+  const cragFilter = ctx.req.query('crag')
   const group = ctx.req.query('group-by')
-  const descending = ctx.req.query('descending')
-  const routeOrBouldering = ctx.req.query('route-or-boulder')
+  const dateIsDescending = ctx.req.query('descending') === 'true'
+  const disciplineFilter = ctx.req.query('route-or-boulder')
+  const sortFields = ctx.req.queries('sort')?.flatMap((s) => s.split(','))
 
   const filteredAscents = parsedAscents.filter(
-    ({ topoGrade, routeOrBoulder, tries }) => {
-      if (grade && !stringEqualsCaseInsensitive(topoGrade, grade)) {
-        return false
-      }
+    ({ topoGrade, routeOrBoulder, tries, date, crag }) => {
       if (
-        numberOfTries && !stringEqualsCaseInsensitive(tries, numberOfTries)
+        gradeFilter !== undefined &&
+        !stringEqualsCaseInsensitive(topoGrade, gradeFilter)
       ) {
         return false
       }
       if (
-        routeOrBouldering &&
+        numberOfTriesFilter !== undefined &&
+        !stringEqualsCaseInsensitive(tries, numberOfTriesFilter)
+      ) {
+        return false
+      }
+      if (
+        disciplineFilter !== undefined &&
         !stringEqualsCaseInsensitive(
           routeOrBoulder,
-          routeOrBouldering,
+          disciplineFilter,
         )
+      ) {
+        return false
+      }
+      if (
+        yearFilter !== undefined &&
+        new Date(date).getFullYear() !== yearFilter
+      ) {
+        return false
+      }
+      if (
+        cragFilter !== undefined &&
+        cragFilter !== crag
       ) {
         return false
       }
@@ -50,14 +70,28 @@ app.get('/', (ctx) => {
     },
   )
 
-  const sortedAscents = filteredAscents.sort(
-    ({ date: leftDate }, { date: rightDate }) =>
-      ((new Date(leftDate)).getTime() > (new Date(rightDate)).getTime()
-        ? 1
-        : -1) * (descending ? -1 : 1),
-  )
+  const dateSortedAscents = filteredAscents
+    .sort(
+      ({ date: leftDate }, { date: rightDate }) =>
+        ((new Date(leftDate)).getTime() > (new Date(rightDate)).getTime()
+          ? 1
+          : -1) * (dateIsDescending ? -1 : 1),
+    )
+  const sortedAscents = sortFields === undefined
+    ? dateSortedAscents
+    : sortFields.reduce(
+      (previouslySortedAscents, sortField) => {
+        const ascending = sortField.startsWith('-') ? false : true
+        return sortBy(
+          previouslySortedAscents,
+          sortField,
+          ascending,
+        )
+      },
+      dateSortedAscents,
+    )
 
-  const groupedAscents = group
+  const groupedAscents = group !== undefined
     ? sortKeys(groupBy(sortedAscents, group))
     : sortedAscents
 
