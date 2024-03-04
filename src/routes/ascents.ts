@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 
 import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
-import { ascentSchema } from '@schema/ascent.ts'
+import { Ascent, ascentSchema } from '@schema/ascent.ts'
 import { groupBy } from '@utils/group-by.ts'
 import { sortKeys } from '@utils/sort-keys.ts'
 import { stringEqualsCaseInsensitive } from '@utils/string-equals.ts'
@@ -15,20 +15,26 @@ app.get('/', (ctx) => {
   // Data : validated ascents (from db or file)
   // Pipe the data through the following steps:
   // Filter : grade, tries, route-or-boulder
+  // Selectors: whitelist, blacklist
   // Sort : grade, tries
   // Group : grade, tries, year...
   // Pagination : page, limit
   //? Search : routeName
   // Return : result
 
-  const gradeFilter = ctx.req.query('topoGrade')
-  const yearFilter = Number(ctx.req.query('year'))
-  const numberOfTriesFilter = ctx.req.query('tries')
-  const cragFilter = ctx.req.query('crag')
-  const group = ctx.req.query('group-by')
-  const dateIsDescending = ctx.req.query('descending') === 'true'
-  const disciplineFilter = ctx.req.query('route-or-boulder')
-  const sortFields = ctx.req.queries('sort')?.flatMap((s) => s.split(','))
+  const {
+    topoGrade: gradeFilter,
+    year: yearFilter,
+    tries: numberOfTriesFilter,
+    crag: cragFilter,
+    'group-by': group,
+    descending: dateIsDescending,
+    'route-or-boulder': disciplineFilter,
+  } = ctx.req.query()
+  const sortFields = ctx.req.queries('sort')?.flatMap((list) => list.split(','))
+  const selectedFields = ctx.req.queries('fields')?.flatMap((list) =>
+    list.split(',')
+  )
 
   const filteredAscents = parsedAscents.filter(
     ({ topoGrade, routeOrBoulder, tries, date, crag }) => {
@@ -55,7 +61,7 @@ app.get('/', (ctx) => {
       }
       if (
         yearFilter !== undefined &&
-        new Date(date).getFullYear() !== yearFilter
+        new Date(date).getFullYear() !== Number(yearFilter)
       ) {
         return false
       }
@@ -70,7 +76,28 @@ app.get('/', (ctx) => {
     },
   )
 
-  const dateSortedAscents = filteredAscents
+  const ascentsWithSelectedFields = selectedFields === undefined
+    ? filteredAscents
+    : filteredAscents.map((ascent) => {
+      // Separate whitelist and blacklist
+      const whitelist = selectedFields.filter((field) => !field.startsWith('-'))
+      const blacklist = selectedFields.filter((field) => field.startsWith('-'))
+        .map((field) => field.slice(1))
+
+      // If whitelist is empty, include all fields
+      const finalWhitelist = whitelist.length === 0
+        ? Object.keys(ascent)
+        : whitelist
+
+      // Apply whitelist and blacklist
+      return Object.fromEntries(
+        Object.entries(ascent).filter(([key]) =>
+          finalWhitelist.includes(key) && !blacklist.includes(key)
+        ),
+      )
+    })
+
+  const dateSortedAscents = (ascentsWithSelectedFields as Ascent[])
     .sort(
       ({ date: leftDate }, { date: rightDate }) =>
         ((new Date(leftDate)).getTime() > (new Date(rightDate)).getTime()
