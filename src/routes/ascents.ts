@@ -15,19 +15,24 @@ const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 const app = new Hono()
 
 app.get('/', (ctx) => {
-  // Data : validated ascents (from db or file)
-  // Pipe the data through the following steps:
-  // Filter : grade, tries, route-or-boulder
-  // Selectors: whitelist, blacklist
-  // Sort : grade, tries
-  // Group : grade, tries, year...
-  // Pagination : page, limit
-  // Search : routeName
-  // Return : result
+  /**
+   * Data: validated ascents (from db or file)
+   *
+   * Pipe the data through the following steps:
+   *
+   * Filter
+   * Selectors
+   * Sort
+   * Group
+   * Pagination
+   * Search : routeName
+   *
+   * Return result
+   */
 
   const {
     routeName: routeNameFilter,
-    topoGrade: gradeFilter,
+    'topo-grade': gradeFilter,
     year: yearFilter,
     tries: numberOfTriesFilter,
     crag: cragFilter,
@@ -142,6 +147,7 @@ app.get('/duplicates', (ctx) => {
   const ascentMap = new Map()
 
   parsedAscents.forEach(({ routeName, crag, topoGrade }) => {
+    // We ignore the "+" in the topoGrade in case it was logged inconsistently
     const key = [routeName, topoGrade.replace('+', ''), crag].map((string) =>
       removeAccents(string.toLocaleLowerCase())
     ).join('-')
