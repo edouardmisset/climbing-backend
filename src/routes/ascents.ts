@@ -131,9 +131,9 @@ app.get('/', (ctx) => {
     ) => compareSimilarity(routeNameFilter)(aRouteName, bRouteName))
     : sortedAscents
 
-  const groupedAscents = group !== undefined
-    ? sortKeys(groupBy(sortedByClosestRouteName, group))
-    : sortedByClosestRouteName
+  const groupedAscents = group === undefined
+    ? sortedByClosestRouteName
+    : sortKeys(groupBy(sortedByClosestRouteName, group))
 
   return ctx.json({ data: groupedAscents })
 })
