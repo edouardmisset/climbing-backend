@@ -8,6 +8,7 @@ import { sortBy } from '@utils/sort-by.ts'
 import { sortKeys } from '@utils/sort-keys.ts'
 import { stringEqualsCaseInsensitive } from '@utils/string-equals.ts'
 import { stringIncludesCaseInsensitive } from '@utils/string-includes.ts'
+import { removeAccents } from '@utils/remove-accents.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
@@ -140,9 +141,10 @@ app.get('/', (ctx) => {
 app.get('/duplicates', (ctx) => {
   const ascentMap = new Map()
 
-  parsedAscents.forEach(({ routeName, topoGrade, crag }) => {
-    const key =
-      `${routeName.trim().toLowerCase()} - ${topoGrade} - ${crag.trim().toLowerCase()}`
+  parsedAscents.forEach(({ routeName, crag, topoGrade }) => {
+    const key = [routeName, topoGrade.replace('+', ''), crag].map((string) =>
+      removeAccents(string.toLocaleLowerCase())
+    ).join('-')
     ascentMap.set(key, (ascentMap.get(key) || 0) + 1)
   })
 
