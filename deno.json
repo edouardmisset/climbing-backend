@@ -5,15 +5,16 @@
     "lock": "deno cache --lock=deno.lock --lock-write server.ts"
   },
   "imports": {
+    "@data/": "./src/data/",
+    "@edouardmisset/utils": "jsr:@edouardmisset/utils@^1.1.1",
+    "@routes/": "./src/routes/",
+    "@schema/": "./src/schema/",
+    "@utils/": "./src/utils/",
     "dotenv": "https://deno.land/std@0.210.0/dotenv/mod.ts",
     "hono": "https://deno.land/x/hono@v4.0.2/mod.ts",
     "hono/middleware": "https://deno.land/x/hono@v4.0.2/middleware.ts",
     "text": "https://deno.land/std@0.218.2/text/mod.ts",
-    "zod": "https://deno.land/x/zod@v3.22.4/mod.ts",
-    "@utils/": "./src/utils/",
-    "@schema/": "./src/schema/",
-    "@data/": "./src/data/",
-    "@routes/": "./src/routes/"
+    "zod": "https://deno.land/x/zod@v3.22.4/mod.ts"
   },
   "lint": {
     "rules": {

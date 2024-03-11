@@ -1,14 +1,17 @@
 import { Hono } from 'hono'
 import { compareSimilarity } from 'text'
 
+import {
+  groupBy,
+  removeAccents,
+  sortBy,
+  stringEqualsCaseInsensitive,
+  stringIncludesCaseInsensitive,
+} from '@edouardmisset/utils'
+
 import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
 import { Ascent, ascentSchema } from '@schema/ascent.ts'
-import { groupBy } from '@utils/group-by.ts'
-import { sortBy } from '@utils/sort-by.ts'
 import { sortKeys } from '@utils/sort-keys.ts'
-import { stringEqualsCaseInsensitive } from '@utils/string-equals.ts'
-import { stringIncludesCaseInsensitive } from '@utils/string-includes.ts'
-import { removeAccents } from '@utils/remove-accents.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
