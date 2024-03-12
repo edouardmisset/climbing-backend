@@ -9,6 +9,7 @@
     "@edouardmisset/utils": "jsr:@edouardmisset/utils@^1.1.1",
     "@routes/": "./src/routes/",
     "@schema/": "./src/schema/",
+    "@std/dotenv": "jsr:@std/dotenv@^0.219.1",
     "@utils/": "./src/utils/",
     "dotenv": "https://deno.land/std@0.210.0/dotenv/mod.ts",
     "hono": "https://deno.land/x/hono@v4.0.2/mod.ts",
