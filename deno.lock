@@ -5,7 +5,8 @@
       "jsr:@edouardmisset/utils@^1.1.1": "jsr:@edouardmisset/utils@1.1.1",
       "jsr:@std/dotenv@0.210.0": "jsr:@std/dotenv@0.210.0",
       "jsr:@std/dotenv@0.218.2": "jsr:@std/dotenv@0.218.2",
-      "jsr:@std/dotenv@0.219.1": "jsr:@std/dotenv@0.219.1"
+      "jsr:@std/dotenv@0.219.1": "jsr:@std/dotenv@0.219.1",
+      "jsr:@std/dotenv@^0.219.1": "jsr:@std/dotenv@0.219.1"
     },
     "jsr": {
       "@edouardmisset/utils@1.1.1": {
@@ -148,7 +149,8 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@edouardmisset/utils@^1.1.1"
+      "jsr:@edouardmisset/utils@^1.1.1",
+      "jsr:@std/dotenv@^0.219.1"
     ]
   }
 }
