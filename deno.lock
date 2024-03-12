@@ -1,5 +1,18 @@
 {
   "version": "3",
+  "packages": {
+    "specifiers": {
+      "jsr:@edouardmisset/utils@^1.1.1": "jsr:@edouardmisset/utils@1.1.1"
+    },
+    "jsr": {
+      "@edouardmisset/utils@1.1.1": {
+        "integrity": "911583cc67216b452b02fb8c1df0c03aa5c99c82b0034a6903ed71b16c404dca",
+        "dependencies": [
+          "jsr:@std/dotenv@0.218.2"
+        ]
+      }
+    }
+  },
   "remote": {
     "https://deno.land/std@0.210.0/dotenv/mod.ts": "55d51d0c244da70e10ccbbdb68644064ce19c8af1683289d16ac802ceef64c8c",
     "https://deno.land/std@0.210.0/dotenv/parse.ts": "d76ff5a59bd7c374a40249dc28bd15c740da0428559c838b1ea5644f561bff20",
@@ -120,5 +133,10 @@
     "https://deno.land/x/zod@v3.22.4/locales/en.ts": "a7a25cd23563ccb5e0eed214d9b31846305ddbcdb9c5c8f508b108943366ab4c",
     "https://deno.land/x/zod@v3.22.4/mod.ts": "64e55237cb4410e17d968cd08975566059f27638ebb0b86048031b987ba251c4",
     "https://deno.land/x/zod@v3.22.4/types.ts": "724185522fafe43ee56a52333958764c8c8cd6ad4effa27b42651df873fc151e"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@edouardmisset/utils@^1.1.1"
+    ]
   }
 }
