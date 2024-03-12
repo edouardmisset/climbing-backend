@@ -2,7 +2,10 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@edouardmisset/utils@^1.1.1": "jsr:@edouardmisset/utils@1.1.1"
+      "jsr:@edouardmisset/utils@^1.1.1": "jsr:@edouardmisset/utils@1.1.1",
+      "jsr:@std/dotenv@0.210.0": "jsr:@std/dotenv@0.210.0",
+      "jsr:@std/dotenv@0.218.2": "jsr:@std/dotenv@0.218.2",
+      "jsr:@std/dotenv@0.219.1": "jsr:@std/dotenv@0.219.1"
     },
     "jsr": {
       "@edouardmisset/utils@1.1.1": {
@@ -10,6 +13,15 @@
         "dependencies": [
           "jsr:@std/dotenv@0.218.2"
         ]
+      },
+      "@std/dotenv@0.210.0": {
+        "integrity": "3fd18ed69ddfe0d043ffdf7aa3d0f571e55290b37713c6244a14653925cd5d0f"
+      },
+      "@std/dotenv@0.218.2": {
+        "integrity": "b1d6749c6ae394355502a001266701b36cf659090dd19abcf3275f3f6a9fd7de"
+      },
+      "@std/dotenv@0.219.1": {
+        "integrity": "061a8d284c85ac6f47ce6df7b90f950ae3f89de61e94cf4523cc4a1ba5175050"
       }
     }
   },

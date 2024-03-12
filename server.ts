@@ -1,4 +1,4 @@
-import { load } from 'dotenv'
+import { load } from 'jsr:@std/dotenv@0.219.1'
 import { Hono } from 'hono'
 import {
   compress,
