@@ -27,7 +27,7 @@ app.get('/', (ctx) => {
    * Selectors
    * Sort
    * Group
-   * Pagination
+   * (Pagination)
    * Search : routeName
    *
    * Return result
@@ -49,7 +49,7 @@ app.get('/', (ctx) => {
   )
 
   const filters: {
-    value: string
+    value?: string
     compare: (a: string, b: string) => boolean
     key: keyof Ascent
   }[] = [
@@ -84,7 +84,7 @@ app.get('/', (ctx) => {
 
   const filteredAscents = parsedAscents.filter((ascent) =>
     filters.every(({ value, compare, key }) =>
-      compare(ascent[key] as string, value)
+      value === undefined || compare(String(ascent[key]), value)
     )
   )
 
