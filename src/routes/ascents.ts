@@ -84,7 +84,7 @@ app.get('/', (ctx) => {
 
   const filteredAscents = parsedAscents.filter((ascent) =>
     filters.every(({ value, compare, key }) =>
-      value === undefined || compare(ascent[key] as string, value)
+      compare(ascent[key] as string, value)
     )
   )
 
