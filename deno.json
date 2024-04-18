@@ -6,7 +6,7 @@
   },
   "imports": {
     "@data/": "./src/data/",
-    "@edouardmisset/utils": "jsr:@edouardmisset/utils@^1.1.1",
+    "@edouardmisset/utils": "jsr:@edouardmisset/utils@^2.0.9",
     "@routes/": "./src/routes/",
     "@schema/": "./src/schema/",
     "@std/dotenv": "jsr:@std/dotenv@^0.219.1",

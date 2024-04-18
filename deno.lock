@@ -2,29 +2,28 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@edouardmisset/utils@^1.1.1": "jsr:@edouardmisset/utils@1.1.1",
+      "jsr:@edouardmisset/utils@^2.0.9": "jsr:@edouardmisset/utils@2.0.9",
       "jsr:@std/dotenv@0.210.0": "jsr:@std/dotenv@0.210.0",
-      "jsr:@std/dotenv@0.218.2": "jsr:@std/dotenv@0.218.2",
       "jsr:@std/dotenv@0.219.1": "jsr:@std/dotenv@0.219.1",
       "jsr:@std/dotenv@^0.219.1": "jsr:@std/dotenv@0.219.1"
     },
     "jsr": {
-      "@edouardmisset/utils@1.1.1": {
-        "integrity": "911583cc67216b452b02fb8c1df0c03aa5c99c82b0034a6903ed71b16c404dca",
+      "@edouardmisset/utils@2.0.9": {
+        "integrity": "67c32c9a11ae4d736695efc6ead86ee312f7ee7eff78cfffb75fad039e8e157f",
         "dependencies": [
-          "jsr:@std/dotenv@0.218.2"
+          "jsr:@std/dotenv@^0.219.1"
         ]
       },
       "@std/dotenv@0.210.0": {
         "integrity": "3fd18ed69ddfe0d043ffdf7aa3d0f571e55290b37713c6244a14653925cd5d0f"
       },
-      "@std/dotenv@0.218.2": {
-        "integrity": "b1d6749c6ae394355502a001266701b36cf659090dd19abcf3275f3f6a9fd7de"
-      },
       "@std/dotenv@0.219.1": {
         "integrity": "061a8d284c85ac6f47ce6df7b90f950ae3f89de61e94cf4523cc4a1ba5175050"
       }
     }
+  },
+  "redirects": {
+    "https://deno.land/std/io/read_all.ts?s=readAll": "https://deno.land/std@0.223.0/io/read_all.ts"
   },
   "remote": {
     "https://deno.land/std@0.210.0/dotenv/mod.ts": "55d51d0c244da70e10ccbbdb68644064ce19c8af1683289d16ac802ceef64c8c",
@@ -39,6 +38,9 @@
     "https://deno.land/std@0.218.2/text/levenshtein_distance.ts": "24be5cc88326bbba83ca7c1ea89259af0050cffda2817ff3a6d240ad6495eae2",
     "https://deno.land/std@0.218.2/text/mod.ts": "216a1b4c4c0b2c6718e9af020e9f7d439158e5421442458b7b98cd32d8b6a109",
     "https://deno.land/std@0.218.2/text/word_similarity_sort.ts": "579760a2cb4075a6d5960bce161eb8bb84ea3d15f0747bb55f190a2b122b94fb",
+    "https://deno.land/std@0.223.0/bytes/concat.ts": "9cac3b4376afbef98ff03588eb3cf948e0d1eb6c27cfe81a7651ab6dd3adc54a",
+    "https://deno.land/std@0.223.0/io/_constants.ts": "3c7ad4695832e6e4a32e35f218c70376b62bc78621ef069a4a0a3d55739f8856",
+    "https://deno.land/std@0.223.0/io/read_all.ts?s=readAll": "876c1cb20adea15349c72afc86cecd3573335845ae778967aefb5e55fe5a8a4a",
     "https://deno.land/x/hono@v4.0.2/adapter/deno/serve-static.ts": "dc857afc2c2bac7668d2625e2d2970acd1affc46d5ffbe0db163412f5cee708f",
     "https://deno.land/x/hono@v4.0.2/adapter/deno/ssg.ts": "49d73dd0d351fc52a54bfc8094096aff957f5a955a3eb976844ed8d88903bc0f",
     "https://deno.land/x/hono@v4.0.2/client/client.ts": "9aa632e0df3bb1e10081a29577117c92b65f27252c56d2474ddba2113f584848",
@@ -149,7 +151,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@edouardmisset/utils@^1.1.1",
+      "jsr:@edouardmisset/utils@^2.0.9",
       "jsr:@std/dotenv@^0.219.1"
     ]
   }
