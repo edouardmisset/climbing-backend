@@ -9,8 +9,9 @@
     "@edouardmisset/utils": "jsr:@edouardmisset/utils@^2.0.9",
     "@routes/": "./src/routes/",
     "@schema/": "./src/schema/",
+    "@std/csv": "jsr:@std/csv@^0.223.0",
     "@std/dotenv": "jsr:@std/dotenv@^0.219.1",
-    "@utils/": "./src/utils/",
+    "@helpers/": "./src/helpers/",
     "dotenv": "https://deno.land/std@0.210.0/dotenv/mod.ts",
     "hono": "https://deno.land/x/hono@v4.0.2/mod.ts",
     "hono/middleware": "https://deno.land/x/hono@v4.0.2/middleware.ts",
@@ -39,6 +40,9 @@
     },
     "include": [
       "."
+    ],
+    "exclude": [
+      "src/scripts/*"
     ]
   },
   "fmt": {

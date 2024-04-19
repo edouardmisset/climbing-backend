@@ -252,11 +252,7 @@
       "routeOrBouldering": "Route",
       "sessionType": "Ex"
     },
-    {
-      "date": "21/06/2018",
-      "gymCrag": "DA",
-      "sessionType": "Ta"
-    },
+    { "date": "21/06/2018", "gymCrag": "DA", "sessionType": "Ta" },
     {
       "date": "22/06/2018",
       "gymCrag": "Murmur",
@@ -419,11 +415,7 @@
       "routeOrBouldering": "Route",
       "sessionType": "Ex"
     },
-    {
-      "date": "28/10/2018",
-      "routeOrBouldering": "Route",
-      "sessionType": "Sk"
-    },
+    { "date": "28/10/2018", "routeOrBouldering": "Route", "sessionType": "Sk" },
     {
       "date": "02/11/2018",
       "gymCrag": "Siurana",
@@ -454,10 +446,7 @@
       "routeOrBouldering": "Bouldering",
       "sessionType": "MS"
     },
-    {
-      "date": "19/11/2018",
-      "sessionType": "Sg"
-    },
+    { "date": "19/11/2018", "sessionType": "Sg" },
     {
       "date": "22/11/2018",
       "gymCrag": "Gymnase de la Plaine",
@@ -487,11 +476,7 @@
       "routeOrBouldering": "Route",
       "sessionType": "En"
     },
-    {
-      "date": "05/12/2018",
-      "gymCrag": "DA",
-      "sessionType": "Co"
-    },
+    { "date": "05/12/2018", "gymCrag": "DA", "sessionType": "Co" },
     {
       "date": "06/12/2018",
       "gymCrag": "Gymnase de la Plaine",
@@ -2319,11 +2304,7 @@
       "sessionType": "Ex",
       "volume": 60
     },
-    {
-      "date": "10/09/2020",
-      "gymCrag": "Home",
-      "sessionType": "Sg"
-    },
+    { "date": "10/09/2020", "gymCrag": "Home", "sessionType": "Sg" },
     {
       "anatomicalRegion": "Ge",
       "date": "15/09/2020",
@@ -5633,17 +5614,6 @@
       "routeOrBouldering": "Route",
       "sessionType": "PE",
       "volume": 80
-    },
-    {
-      "anatomicalRegion": "Ge",
-      "date": "30/01/2024",
-      "energySystem": "AA",
-      "gymCrag": "Moon",
-      "intensity": 60,
-      "load": 30,
-      "routeOrBouldering": "Bouldering",
-      "sessionType": "CS",
-      "volume": 50
     },
     {
       "anatomicalRegion": "Ge",

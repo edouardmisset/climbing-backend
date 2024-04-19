@@ -11,7 +11,7 @@ import {
 
 import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
 import { Ascent, ascentSchema } from '@schema/ascent.ts'
-import { sortKeys } from '@utils/sort-keys.ts'
+import { sortKeys } from '@helpers/sort-keys.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
