@@ -1,4 +1,4 @@
-import { string, z } from 'zod'
+import { number, string, z } from 'zod'
 import { frenchDateSchema } from './training.ts'
 
 const degrees = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'] as const
@@ -34,20 +34,18 @@ export const ascentSchema = z.object({
       ).toISOString()
     }),
   ),
-  routeName: string().min(1),
+  routeName: string().min(1).or(number()),
   topoGrade: (routeFrenchGradeSchema.or(boulderingFrenchGradeSchema)),
   routeOrBoulder: z.enum(['Route', 'Boulder', 'Multi-Pitch']),
-  comments: string(),
-  myGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema).or(
-    z.literal(''),
-  ),
+  comments: string().optional(),
+  myGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema).optional(),
   height: string().optional(),
   tries: string(),
   profile: string(),
   holds: string(),
   rating: string(),
   crag: string(),
-  area: string().optional(),
+  area: string().or(number()).optional(),
   departement: string(),
   climber: z.literal('Edouard Misset'),
 }).passthrough()
