@@ -20,13 +20,13 @@ export type RouteGrade = `${Degree}${RouteGradeLetter}${OptionalPlus}`
 export type BoulderGrade = Uppercase<RouteGrade>
 type Grade = RouteGrade | BoulderGrade
 
-const routeFrenchGradeSchema = z.string().min(2).regex(/^\d{1}[a-c]\+?$/)
+const routeFrenchGradeSchema = string().min(2).regex(/^\d{1}[a-c]\+?$/)
 const boulderingFrenchGradeSchema = routeFrenchGradeSchema.toUpperCase()
 
 export const ascentSchema = z.object({
   date: frenchDateSchema.or(
-    z.string().regex(/^\d{4}-\d{2}-\d{2}$/).transform((date) => {
-      const [year, month, day] = date.split('-').map(Number)
+    string().regex(/^\d{2}-\d{2}-\d{4}$/).transform((date) => {
+      const [day, month, year] = date.split('-').map(Number)
       return new Date(
         year,
         month - 1,
@@ -34,21 +34,21 @@ export const ascentSchema = z.object({
       ).toISOString()
     }),
   ),
-  routeName: z.string().min(1),
+  routeName: string().min(1),
   topoGrade: (routeFrenchGradeSchema.or(boulderingFrenchGradeSchema)),
   routeOrBoulder: z.enum(['Route', 'Boulder', 'Multi-Pitch']),
-  comments: z.string(),
+  comments: string(),
   myGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema).or(
     z.literal(''),
   ),
-  height: z.string(),
-  tries: z.string(),
-  profile: z.string(),
-  holds: z.string(),
+  height: string().optional(),
+  tries: string(),
+  profile: string(),
+  holds: string(),
   rating: string(),
-  crag: z.string(),
-  area: z.string(),
-  departement: z.string(),
+  crag: string(),
+  area: string().optional(),
+  departement: string(),
   climber: z.literal('Edouard Misset'),
 }).passthrough()
 export type Ascent = z.infer<typeof ascentSchema>
