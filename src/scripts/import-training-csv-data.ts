@@ -4,7 +4,7 @@ import { sortKeys } from '@helpers/sort-keys.ts'
 
 const CSV_FILE_NAME = 'Training 🏋️‍♀️ - AllTraining.csv'
 
-const CLEANED_HEADER_NAMES = {
+const TRANSFORMED_HEADER_NAMES = {
   'Anatomical Region': 'anatomicalRegion',
   Comments: 'comments',
   Date: 'date',
@@ -25,7 +25,7 @@ try {
   // Replace the headers
   const replacedHeaders = headers.map((header) => {
     const cleanedHeader =
-      CLEANED_HEADER_NAMES[header as keyof typeof CLEANED_HEADER_NAMES]
+      TRANSFORMED_HEADER_NAMES[header as keyof typeof TRANSFORMED_HEADER_NAMES]
     if (!cleanedHeader) {
       throw new Error(
         `Header (${header}) is not defined in CLEANED_HEADER_NAMES`,
