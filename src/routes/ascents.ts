@@ -10,12 +10,14 @@ import {
 } from '@edouardmisset/utils'
 
 import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
-import { Ascent, ascentSchema } from '@schema/ascent.ts'
 import { sortKeys } from '@helpers/sort-keys.ts'
+import { Ascent, ascentSchema } from '@schema/ascent.ts'
+import { etag } from 'hono/middleware'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
 const app = new Hono()
+app.use(etag())
 
 app.get('/', (ctx) => {
   /**
