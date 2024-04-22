@@ -34,7 +34,7 @@ export const ascentSchema = z.object({
       ).toISOString()
     }),
   ),
-  routeName: string().min(1).or(number()),
+  routeName: string().min(1).or(number()).transform(String),
   topoGrade: (routeFrenchGradeSchema.or(boulderingFrenchGradeSchema)),
   routeOrBoulder: z.enum(['Route', 'Boulder', 'Multi-Pitch']),
   comments: string().optional(),
@@ -45,7 +45,7 @@ export const ascentSchema = z.object({
   holds: string(),
   rating: string(),
   crag: string(),
-  area: string().or(number()).optional(),
+  area: string().or(number()).transform(String).optional(),
   departement: string(),
   climber: z.literal('Edouard Misset'),
 }).passthrough()
