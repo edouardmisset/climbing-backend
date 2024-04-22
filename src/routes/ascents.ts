@@ -13,6 +13,7 @@ import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
 import { sortKeys } from '@helpers/sort-keys.ts'
 import { Ascent, ascentSchema } from '@schema/ascent.ts'
 import { etag } from 'hono/middleware'
+import { normalizeData } from '../helpers/normalize-data.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
@@ -44,7 +45,9 @@ app.get('/', (ctx) => {
     'group-by': group,
     descending: dateIsDescending,
     'route-or-boulder': disciplineFilter,
+    normalize = false,
   } = ctx.req.query()
+
   const sortFields = ctx.req.queries('sort')?.flatMap((list) => list.split(','))
   const selectedFields = ctx.req.queries('fields')?.flatMap((list) =>
     list.split(',')
@@ -145,7 +148,9 @@ app.get('/', (ctx) => {
     ? sortedByClosestRouteName
     : sortKeys(groupBy(sortedByClosestRouteName, group))
 
-  return ctx.json({ data: groupedAscents })
+  return ctx.json({
+    data: normalize ? normalizeData(sortedByClosestRouteName) : groupedAscents,
+  })
 })
 
 app.get('/duplicates', (ctx) => {

@@ -37,4 +37,4 @@ printf "\e[34m%-50s %15s\e[0m\n" "Command" "Average Time (ms)"
 printf "%-66s\n" "-------------------------------------------------------------------"
 
 # Call the 'timeit' function with the commands to be timed.
-timeit "curl http://localhost:8000/api/ascents"
+timeit "curl 'http://localhost:8000/api/ascents?normalize=true'" "curl 'http://localhost:8000/api/ascents'" "curl 'http://localhost:8000/api/training?normalize=true'" "curl 'http://localhost:8000/api/training'"
