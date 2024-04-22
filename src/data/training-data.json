@@ -5926,6 +5926,18 @@
       "routeOrBouldering": "Route",
       "sessionType": "Ta",
       "volume": 40
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "comments": "Faible ",
+      "date": "19/04/2024",
+      "energySystem": "AL",
+      "gymCrag": "Murmure",
+      "intensity": 70,
+      "load": 56,
+      "routeOrBouldering": "Route",
+      "sessionType": "SE",
+      "volume": 80
     }
   ]
 }
