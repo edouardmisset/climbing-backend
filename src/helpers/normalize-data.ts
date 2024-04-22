@@ -4,7 +4,9 @@ export function normalizeData(
 ): { headers: string[]; rows: unknown[][] } {
   const headers = Array.from(
     trainingSessions.reduce((acc, session) => {
-      Object.keys(session).forEach((key) => acc.add(key))
+      for (const key of Object.keys(session)) {
+        acc.add(key)
+      }
       return acc
     }, new Set()),
   ) as string[]
