@@ -18,7 +18,7 @@ export const FALLBACK_PORT = 8000
 
 const api = new Hono().basePath('/api')
 
-ENV === 'production' && api.use(etag())
+ENV === 'production' && api.use(etag({ weak: true }))
 ENV === 'dev' && api.use(timing())
 ENV === 'production' && api.use(cors())
 ENV === 'production' && api.use(csrf())
