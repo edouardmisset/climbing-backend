@@ -18,12 +18,13 @@ const PORT = Number(env.PORT) || 8000
 
 const api = new Hono().basePath('/api')
 
-api.use(timing())
+
 api.use(etag())
+env.ENV === 'dev' && api.use(timing())
 api.use(cors())
 api.use(csrf())
 api.use(compress())
-api.use(logger())
+env.ENV === 'dev' && api.use(logger())
 api.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
 
 api

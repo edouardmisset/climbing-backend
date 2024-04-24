@@ -1,3 +1,5 @@
+// TODO: Make this function generic and improve its types
+
 export function normalizeData(
   // deno-lint-ignore no-explicit-any
   trainingSessions: any[],

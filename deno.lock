@@ -9,7 +9,8 @@
       "jsr:@std/dotenv@0.210.0": "jsr:@std/dotenv@0.210.0",
       "jsr:@std/dotenv@0.219.1": "jsr:@std/dotenv@0.219.1",
       "jsr:@std/dotenv@^0.219.1": "jsr:@std/dotenv@0.219.1",
-      "jsr:@std/streams@^0.223.0": "jsr:@std/streams@0.223.0"
+      "jsr:@std/streams@^0.223.0": "jsr:@std/streams@0.223.0",
+      "npm:tinybench": "npm:tinybench@2.8.0"
     },
     "jsr": {
       "@edouardmisset/utils@2.0.9": {
@@ -42,6 +43,12 @@
         "dependencies": [
           "jsr:@std/bytes@^0.223.0"
         ]
+      }
+    },
+    "npm": {
+      "tinybench@2.8.0": {
+        "integrity": "sha512-1/eK7zUnIklz4JUUlL+658n58XO2hHLQfSk1Zf2LKieUjxidN16eKFEoDEfjHc3ohofSSqK3X5yO6VGb6iW8Lw==",
+        "dependencies": {}
       }
     }
   },
