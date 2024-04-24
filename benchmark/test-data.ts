@@ -28,5 +28,3 @@ export const apiTestCases = [
 export const TEST_PORT = 8001
 
 export const baseURL = `http://localhost:${TEST_PORT}/api`
-
-
