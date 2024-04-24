@@ -74,7 +74,7 @@ async function processAllTestEndpoints(): Promise<void> {
 export async function runSpaceBench(): Promise<void> {
   await processAllTestEndpoints()
 
-  console.log('Space')
+  globalThis.console.log('Space')
 
   console.table(
     apiTestCases.map(({ name, size }, index, array) => ({

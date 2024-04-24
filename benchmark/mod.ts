@@ -9,7 +9,9 @@ const httpServer = Deno.serve(
   (req) => api.fetch(req, { ENV: 'production' }),
 )
 
+globalThis.console.log('Benchmarking time...')
 await runTimeBench()
+globalThis.console.log('Benchmarking size...')
 await runSpaceBench()
 
 globalThis.console.log('Shutting down server...')

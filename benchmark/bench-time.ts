@@ -1,8 +1,9 @@
-import { Bench } from 'npm:tinybench'
-import { apiTestCases, baseURL } from './test-data.ts'
+import { Bench, Options } from 'npm:tinybench@2.8.0'
+import { apiTestCases, baseURL, TEST_PORT } from './test-data.ts'
 
-export async function runTimeBench(): Promise<void> {
-  const bench = new Bench({ time: 100, iterations: 200 })
+export async function runTimeBench(options?: Options): Promise<void> {
+  const { time = 100, iterations = 200 } = options || {}
+  const bench = new Bench({ time, iterations })
 
   apiTestCases.forEach(({ name, normalize, endpoint }) => {
     bench.add(name, async () => {
@@ -11,8 +12,8 @@ export async function runTimeBench(): Promise<void> {
           `${baseURL}/${endpoint}${normalize ? '?normalize=true' : ''}`,
         )
       } catch (error) {
-        console.error(`Failed to fetch ${name}: ${error.message}.
-Is the development server ("http://localhost:8000") running?`)
+        globalThis.console.error(`Failed to fetch ${name}: ${error.message}.
+Is the development server ("http://localhost:${TEST_PORT}") running?`)
       }
     })
   })
@@ -20,7 +21,7 @@ Is the development server ("http://localhost:8000") running?`)
   await bench.warmup()
   await bench.run()
 
-  console.log('Time')
+  globalThis.console.log('Time')
 
-  console.table(bench.table())
+  globalThis.console.table(bench.table())
 }
