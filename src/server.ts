@@ -10,7 +10,9 @@ import {
   timing,
 } from 'hono/middleware'
 
+import areas from '@routes/areas.ts'
 import ascents from '@routes/ascents.ts'
+import crags from '@routes/crags.ts'
 import training from '@routes/training.ts'
 
 const { ENV } = await load()
@@ -34,7 +36,9 @@ api
       <a href="api/training" >Training</a>`,
     ))
 
+api.route('/areas', areas)
 api.route('/ascents', ascents)
+api.route('/crags', crags)
 api.route('/training', training)
 
 export default api

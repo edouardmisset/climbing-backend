@@ -13,7 +13,7 @@ import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
 import { sortKeys } from '@helpers/sort-keys.ts'
 import { Ascent, ascentSchema } from '@schema/ascent.ts'
 import { etag } from 'hono/middleware'
-import { normalizeData } from '../helpers/normalize-data.ts'
+import { normalizeData } from '@helpers/normalize-data.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
