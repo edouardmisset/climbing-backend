@@ -1,4 +1,6 @@
 /**
+ * *WARNING* Sorting objects'keys or values is not guaranteed to be stable.
+ *
  * Sorts the keys of an object in lexicographical order and returns a new object
  * with the sorted keys.
  *
