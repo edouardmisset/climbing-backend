@@ -1755,7 +1755,7 @@
       "tries": "10 go"
     },
     {
-      "area": "La grotte",
+      "area": "La Grotte",
       "climber": "Edouard Misset",
       "comments": "Trav engagé au début puis un où deux moves un peu durs.",
       "crag": "Peillon",
@@ -4469,7 +4469,7 @@
       "tries": "02 go"
     },
     {
-      "area": "De Que Fas Aqui",
+      "area": "Dé Qué Fas Aqui",
       "climber": "Edouard Misset",
       "comments": "VOIE LONGUE et dalleuse. Ne pas perdre ses moyens. Assez homogène",
       "crag": "Gorges du Tarn",
@@ -6458,7 +6458,7 @@
       "tries": "001 Onsight"
     },
     {
-      "area": "La muse",
+      "area": "La Muse",
       "climber": "Edouard Misset",
       "comments": "Fun, athletic. Deux moves un peu blocs / dynamiques en haut",
       "crag": "Gorges du Tarn",
@@ -6797,7 +6797,7 @@
       "tries": "02 go"
     },
     {
-      "area": "Face ouest",
+      "area": "Face Ouest",
       "climber": "Edouard Misset",
       "comments": "Pls. Reta de l'enfer après la première section 😱",
       "crag": "Buoux",
@@ -7244,7 +7244,7 @@
       "tries": "05 go"
     },
     {
-      "area": "Le canyon ",
+      "area": "Le canyon",
       "climber": "Edouard Misset",
       "comments": "Fatigué, subit jusqu’en haut",
       "crag": "Rue des masques",
@@ -7261,7 +7261,7 @@
       "tries": "01 Flash"
     },
     {
-      "area": "Le canyon ",
+      "area": "Le canyon",
       "climber": "Edouard Misset",
       "comments": "Méthodes de bourrin mais sympa ",
       "crag": "Rue des masques",
@@ -7419,7 +7419,7 @@
       "tries": "01 Flash"
     },
     {
-      "area": "Hola",
+      "area": "Holà",
       "climber": "Edouard Misset",
       "crag": "Baderne",
       "date": "26/11/2022",
@@ -7804,7 +7804,7 @@
       "tries": "01 Flash"
     },
     {
-      "area": "Nouveau monde",
+      "area": "Nouveau Monde",
       "climber": "Edouard Misset",
       "crag": "Seynes",
       "date": "04/02/2023",
@@ -7820,7 +7820,7 @@
       "tries": "03 go"
     },
     {
-      "area": "Nouveau monde",
+      "area": "Nouveau Monde",
       "climber": "Edouard Misset",
       "crag": "Seynes",
       "date": "04/02/2023",
@@ -7836,7 +7836,7 @@
       "tries": "001 Onsight"
     },
     {
-      "area": "Nouveau monde",
+      "area": "Nouveau Monde",
       "climber": "Edouard Misset",
       "crag": "Seynes",
       "date": "05/02/2023",
@@ -9422,7 +9422,7 @@
       "tries": "10 go"
     },
     {
-      "area": "Loups hurlants ",
+      "area": "Loups hurlants",
       "climber": "Edouard Misset",
       "comments": "Toutes les prises sont à l’envers !",
       "crag": "Tournoux",
@@ -9776,7 +9776,7 @@
       "tries": "02 go"
     },
     {
-      "area": "Espero Primavera",
+      "area": "Esperó Primavera",
       "climber": "Edouard Misset",
       "comments": "Magnifique !!",
       "crag": "Siurana",
@@ -10024,7 +10024,7 @@
       "tries": "02 go"
     },
     {
-      "area": "Face est",
+      "area": "Face Est",
       "climber": "Edouard Misset",
       "comments": "À la chauffe. Bien tranquille à délayer sur tous les moves. Chouette voie !",
       "crag": "Saint-Léger-du-Ventoux",
@@ -10041,7 +10041,7 @@
       "tries": "02 go"
     },
     {
-      "area": "Face est",
+      "area": "Face Est",
       "climber": "Edouard Misset",
       "crag": "Saint-Léger-du-Ventoux",
       "date": "23/03/2024",
@@ -10057,7 +10057,7 @@
       "tries": "02 go"
     },
     {
-      "area": "Face est",
+      "area": "Face Est",
       "climber": "Edouard Misset",
       "crag": "Saint-Léger-du-Ventoux",
       "date": "24/03/2024",
@@ -10228,6 +10228,119 @@
       "routeOrBoulder": "Boulder",
       "topoGrade": "7a",
       "tries": "03 go"
+    },
+    {
+      "area": "Dé Qué Fas Aqui",
+      "climber": "Edouard Misset",
+      "crag": "Gorges du Tarn",
+      "date": "03/05/2024",
+      "departement": "Tarn",
+      "height": "25m",
+      "holds": "Crack",
+      "myGrade": "6c+",
+      "profile": "Traverse",
+      "rating": "4*",
+      "routeName": "Farniente",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7a",
+      "tries": "001 Onsight"
+    },
+    {
+      "area": "Dé Qué Fas Aqui",
+      "climber": "Edouard Misset",
+      "crag": "Gorges du Tarn",
+      "date": "03/05/2024",
+      "departement": "Tarn",
+      "height": "25m",
+      "holds": "Crimp",
+      "myGrade": "7b",
+      "profile": "Vertical",
+      "rating": "3*",
+      "routeName": "Caforobe",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7a+",
+      "tries": "001 Onsight"
+    },
+    {
+      "area": "Dé Qué Fas Aqui",
+      "climber": "Edouard Misset",
+      "crag": "Gorges du Tarn",
+      "date": "03/05/2024",
+      "departement": "Tarn",
+      "height": "35m",
+      "holds": "Crimp",
+      "myGrade": "7b",
+      "profile": "Vertical",
+      "rating": "3*",
+      "routeName": "La femme grigri",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7b",
+      "tries": "01 Flash"
+    },
+    {
+      "area": "Dé Qué Fas Aqui",
+      "climber": "Edouard Misset",
+      "crag": "Gorges du Tarn",
+      "date": "04/05/2024",
+      "departement": "Tarn",
+      "height": "35m",
+      "holds": "Crimp",
+      "myGrade": "7a",
+      "profile": "Vertical",
+      "rating": "3*",
+      "routeName": "De que fache aquo",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7a",
+      "tries": "001 Onsight"
+    },
+    {
+      "area": "Dé Qué Fas Aqui",
+      "climber": "Edouard Misset",
+      "crag": "Gorges du Tarn",
+      "date": "04/05/2024",
+      "departement": "Tarn",
+      "height": "35m",
+      "holds": "Crimp",
+      "myGrade": "7a+",
+      "profile": "Vertical",
+      "rating": "3*",
+      "routeName": "L'autralopitèque du samedi",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7a",
+      "tries": "001 Onsight"
+    },
+    {
+      "area": "Dé Qué Fas Aqui",
+      "climber": "Edouard Misset",
+      "comments": "Magnifique voie. Avec un petit Flash :) Deux passages un peu plus dur, dont celui du haut avec de verticales sur lesquels il faut avancer...",
+      "crag": "Gorges du Tarn",
+      "date": "05/05/2024",
+      "departement": "Tarn",
+      "height": "30m",
+      "holds": "Crimp",
+      "myGrade": "7c",
+      "profile": "Vertical",
+      "rating": "5*",
+      "routeName": "Arachnide",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7c",
+      "tries": "01 Flash"
+    },
+    {
+      "area": "Dé Qué Fas Aqui",
+      "climber": "Edouard Misset",
+      "crag": "Gorges du Tarn",
+      "date": "05/05/2024",
+      "departement": "Tarn",
+      "height": "25m",
+      "holds": "Crimp",
+      "myGrade": "7a+",
+      "profile": "Vertical",
+      "rating": "4*",
+      "routeName": "Le refuge des gros mulets",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7a+",
+      "tries": "001 Onsight"
     }
   ]
 }

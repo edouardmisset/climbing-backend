@@ -4,7 +4,8 @@
     "dev": "deno lint --watch & deno fmt --watch & deno run --allow-net --allow-env --allow-read --watch src/dev.ts",
     "bench": "deno run --allow-net --allow-read --allow-env benchmark/mod.ts",
     "lock": "deno cache --lock=deno.lock --lock-write src/server.ts",
-    "check": "deno check './**/*.ts*'"
+    "check": "deno check './**/*.ts*'",
+    "import": "deno run -A src/scripts/import-ascent-csv-data.ts src/scripts/import-training-csv-data.ts && deno fmt"
   },
   "imports": {
     "@data/": "./src/data/",

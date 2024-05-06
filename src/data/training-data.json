@@ -5938,6 +5938,51 @@
       "routeOrBouldering": "Route",
       "sessionType": "SE",
       "volume": 80
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "comments": "Horrible. 3 arrêts dans la marche d’approche. Pas réussi à sortir un 7a. Très énervé mais surtout fatigué ",
+      "date": "27/04/2024",
+      "energySystem": "AL",
+      "gymCrag": "Bellecombe en Bauges",
+      "intensity": 40,
+      "load": 16,
+      "routeOrBouldering": "Route",
+      "sessionType": "Ex",
+      "volume": 40
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "date": "03/05/2024",
+      "energySystem": "AL",
+      "gymCrag": "Gorges du Tarn",
+      "intensity": 70,
+      "load": 49,
+      "routeOrBouldering": "Route",
+      "sessionType": "Ex",
+      "volume": 70
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "date": "04/05/2024",
+      "energySystem": "AL",
+      "gymCrag": "Gorges du Tarn",
+      "intensity": 60,
+      "load": 42,
+      "routeOrBouldering": "Route",
+      "sessionType": "Ex",
+      "volume": 70
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "date": "05/05/2024",
+      "energySystem": "AL",
+      "gymCrag": "Gorges du Tarn",
+      "intensity": 70,
+      "load": 56,
+      "routeOrBouldering": "Route",
+      "sessionType": "Ex",
+      "volume": 80
     }
   ]
 }
