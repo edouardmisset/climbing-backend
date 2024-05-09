@@ -5983,6 +5983,17 @@
       "routeOrBouldering": "Route",
       "sessionType": "Ex",
       "volume": 80
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "date": "08/05/2024",
+      "energySystem": "AL",
+      "gymCrag": "Gorges du Tarn",
+      "intensity": 80,
+      "load": 72,
+      "routeOrBouldering": "Route",
+      "sessionType": "Ex",
+      "volume": 90
     }
   ]
 }

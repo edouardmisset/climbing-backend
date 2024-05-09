@@ -5,7 +5,7 @@
     "bench": "deno run --allow-net --allow-read --allow-env benchmark/mod.ts",
     "lock": "deno cache --lock=deno.lock --lock-write src/server.ts",
     "check": "deno check './**/*.ts*'",
-    "import": "deno run -A src/scripts/import-ascent-csv-data.ts src/scripts/import-training-csv-data.ts && deno fmt"
+    "import": "deno run --allow-net --allow-read --allow-write src/scripts/import-training-and-ascent-data-from-gs.ts && deno fmt"
   },
   "imports": {
     "@data/": "./src/data/",

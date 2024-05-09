@@ -10341,6 +10341,38 @@
       "routeOrBoulder": "Route",
       "topoGrade": "7a+",
       "tries": "001 Onsight"
+    },
+    {
+      "area": "Dé Qué Fas Aqui",
+      "climber": "Edouard Misset",
+      "crag": "Gorges du Tarn",
+      "date": "08/05/2024",
+      "departement": "Tarn",
+      "height": "25m",
+      "holds": "Crimp",
+      "myGrade": "7c+",
+      "profile": "Vertical",
+      "rating": "3*",
+      "routeName": "Moules frites",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7c+",
+      "tries": "05 go"
+    },
+    {
+      "area": "Dé Qué Fas Aqui",
+      "climber": "Edouard Misset",
+      "crag": "Gorges du Tarn",
+      "date": "08/05/2024",
+      "departement": "Tarn",
+      "height": "35m",
+      "holds": "Various",
+      "myGrade": "7a",
+      "profile": "Vertical",
+      "rating": "5*",
+      "routeName": "Self Control L1",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7a+",
+      "tries": "01 Flash"
     }
   ]
 }
