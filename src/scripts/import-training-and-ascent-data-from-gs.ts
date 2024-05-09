@@ -2,13 +2,13 @@ import { parse } from '@std/csv'
 import { removeObjectExtendedNullishValues } from '@helpers/remove-undefined-values.ts'
 import { sortKeys } from '@helpers/sort-keys.ts'
 
-const ascentsURL =
+export const ascentsURL =
   'https://docs.google.com/spreadsheets/d/e/2PACX-1vQu1B4frLAYYVXD9-lam59jV6gqYYu93GoGUlPiRzkmd_f9Z6Fegf6m7xCMuOYeZxbWvb3dXxYw5JS1/pub?gid=1693455229&single=true&output=csv'
-const ascentFileName = 'ascent-data.json'
+export const ascentFileName = 'ascent-data.json'
 
-const trainingURL =
+export const trainingURL =
   'https://docs.google.com/spreadsheets/d/e/2PACX-1vR60aQqhO9PL0072_4d78EPuHnbl4BncjNiDX3NmSMM3aOVPhLEkQaFjKqFqquT2fFTwYj0QtsRyFvc/pub?gid=277284868&single=true&output=csv'
-const trainingFileName = 'training-data.json'
+export const trainingFileName = 'training-data.json'
 
 type CSVHeaders = string[]
 type CSVData = string[][]
@@ -18,7 +18,7 @@ type CSVParsedData = {
   data: CSVData
 }
 
-const TRANSFORMED_ASCENT_HEADER_NAMES = {
+export const TRANSFORMED_ASCENT_HEADER_NAMES = {
   'Route Name': 'routeName',
   'Topo Grade': 'topoGrade',
   'Date': 'date',
@@ -36,7 +36,7 @@ const TRANSFORMED_ASCENT_HEADER_NAMES = {
   'Ascent Comments': 'comments',
 } as const
 
-const TRANSFORMED_TRAINING_HEADER_NAMES = {
+export const TRANSFORMED_TRAINING_HEADER_NAMES = {
   'Anatomical Region': 'anatomicalRegion',
   Comments: 'comments',
   Date: 'date',
@@ -148,7 +148,7 @@ async function writeDataToFile(
  * @param {string} fileName - The name of the file to write data to.
  * @returns {Promise<void>} - A promise that resolves when the data has been written.
  */
-async function processCsvDataFromUrl(
+export async function processCsvDataFromUrl(
   uri: string,
   fileName: string,
   transformedHeaderNames: Record<string, string>,
@@ -162,22 +162,3 @@ async function processCsvDataFromUrl(
     console.error(error)
   }
 }
-
-Deno.cron(
-  'Import training and ascent data from Google Sheets',
-  {
-    hour: { every: 6 },
-  },
-  async () => {
-    await processCsvDataFromUrl(
-      ascentsURL,
-      ascentFileName,
-      TRANSFORMED_ASCENT_HEADER_NAMES,
-    )
-    await processCsvDataFromUrl(
-      trainingURL,
-      trainingFileName,
-      TRANSFORMED_TRAINING_HEADER_NAMES,
-    )
-  },
-)
