@@ -163,13 +163,21 @@ async function processCsvDataFromUrl(
   }
 }
 
-await processCsvDataFromUrl(
-  ascentsURL,
-  ascentFileName,
-  TRANSFORMED_ASCENT_HEADER_NAMES,
-)
-await processCsvDataFromUrl(
-  trainingURL,
-  trainingFileName,
-  TRANSFORMED_TRAINING_HEADER_NAMES,
+Deno.cron(
+  'Import training and ascent data from Google Sheets',
+  {
+    hour: { every: 6 },
+  },
+  async () => {
+    await processCsvDataFromUrl(
+      ascentsURL,
+      ascentFileName,
+      TRANSFORMED_ASCENT_HEADER_NAMES,
+    )
+    await processCsvDataFromUrl(
+      trainingURL,
+      trainingFileName,
+      TRANSFORMED_TRAINING_HEADER_NAMES,
+    )
+  },
 )
