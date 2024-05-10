@@ -162,3 +162,23 @@ export async function processCsvDataFromUrl(
     console.error(error)
   }
 }
+
+export async function syncAscentsAndTrainingFromGoogleSheets(): Promise<
+  boolean
+> {
+  try {
+    await processCsvDataFromUrl(
+      ascentsURL,
+      ascentFileName,
+      TRANSFORMED_ASCENT_HEADER_NAMES,
+    )
+    await processCsvDataFromUrl(
+      trainingURL,
+      trainingFileName,
+      TRANSFORMED_TRAINING_HEADER_NAMES,
+    )
+    return true
+  } catch (_error) {
+    return false
+  }
+}

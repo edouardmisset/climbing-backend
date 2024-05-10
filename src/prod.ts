@@ -1,4 +1,4 @@
-import { processCsvDataFromUrl, ascentsURL, ascentFileName, TRANSFORMED_ASCENT_HEADER_NAMES, trainingURL, trainingFileName, TRANSFORMED_TRAINING_HEADER_NAMES } from './scripts/import-training-and-ascent-data-from-gs.ts'
+import { syncAscentsAndTrainingFromGoogleSheets } from './scripts/import-training-and-ascent-data-from-gs.ts'
 import api, { FALLBACK_PORT } from './server.ts'
 
 Deno.env.set('ENV', 'production')
@@ -8,23 +8,10 @@ Deno.serve({
   port: Number(Deno.env.get('PORT')) || FALLBACK_PORT,
 }, (req) => api.fetch(req, { ENV: Deno.env.get('ENV') }))
 
-
 Deno.cron(
   'Import training and ascent data from Google Sheets',
   {
     hour: { every: 6 },
   },
-  async () => {
-    await processCsvDataFromUrl(
-      ascentsURL,
-      ascentFileName,
-      TRANSFORMED_ASCENT_HEADER_NAMES,
-    )
-    await processCsvDataFromUrl(
-      trainingURL,
-      trainingFileName,
-      TRANSFORMED_TRAINING_HEADER_NAMES,
-    )
-  },
+  syncAscentsAndTrainingFromGoogleSheets,
 )
-

@@ -10,6 +10,8 @@ import {
   timing,
 } from 'hono/middleware'
 
+import { syncAscentsAndTrainingFromGoogleSheets } from './scripts/import-training-and-ascent-data-from-gs.ts'
+
 import areas from '@routes/areas.ts'
 import ascents from '@routes/ascents.ts'
 import crags from '@routes/crags.ts'
@@ -22,7 +24,7 @@ const api = new Hono().basePath('/api')
 
 ENV === 'production' && api.use(etag({ weak: true }))
 ENV === 'dev' && api.use(timing())
-ENV === 'production' && api.use(cors())
+api.use(cors())
 ENV === 'production' && api.use(csrf())
 ENV === 'production' && api.use(compress())
 ENV === 'dev' && api.use(logger())
@@ -35,6 +37,18 @@ api
       <a href="api/ascents" >Ascents</a></br>
       <a href="api/training" >Training</a>`,
     ))
+
+api.post('/sync', async (ctx) => {
+  try {
+    const success = await syncAscentsAndTrainingFromGoogleSheets()
+    ctx.status(200)
+    return ctx.json({ status: success ? 'success' : 'failure' })
+  } catch (error) {
+    console.error(error)
+    ctx.status(500)
+    return ctx.json(error)
+  }
+})
 
 api.route('/areas', areas)
 api.route('/ascents', ascents)
