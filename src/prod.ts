@@ -13,5 +13,7 @@ Deno.cron(
   {
     hour: { every: 6 },
   },
-  syncAscentsAndTrainingFromGoogleSheets,
+  async () => {
+    await syncAscentsAndTrainingFromGoogleSheets()
+  },
 )
