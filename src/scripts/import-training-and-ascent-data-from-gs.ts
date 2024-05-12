@@ -167,7 +167,9 @@ export async function processCsvDataFromUrl(
  * Synchronizes ascent and training data from Google Sheets.
  * @returns {Promise<boolean>} - A promise that resolves to true if the synchronization was successful, and false otherwise.
  */
-export async function syncAscentsAndTrainingFromGoogleSheets(): Promise<boolean> {
+export async function syncAscentsAndTrainingFromGoogleSheets(): Promise<
+  boolean
+> {
   try {
     await processCsvDataFromUrl(
       ascentsURL,
