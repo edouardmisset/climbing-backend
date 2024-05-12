@@ -179,6 +179,10 @@ export async function syncAscentsAndTrainingFromGoogleSheets(): Promise<
     )
     return true
   } catch (_error) {
+    console.error(
+      'An error occurred while syncing data from Google Sheets',
+      _error,
+    )
     return false
   }
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
-    "dev": "deno lint --watch & deno fmt --watch & deno run --allow-net --allow-env --allow-read --allow-write --watch src/dev.ts",
+    "dev": "deno lint --watch & deno fmt --watch & deno run --allow-net --allow-env --allow-read --allow-write src/dev.ts",
     "bench": "deno run --allow-net --allow-read --allow-env benchmark/mod.ts",
     "lock": "deno cache --lock=deno.lock --lock-write src/server.ts",
     "check": "deno check './**/*.ts*'",
