@@ -1,10 +1,10 @@
 import { apiTestCases, baseURL } from './test-data.ts'
 
-// import { format } from "https://deno.land/std@0.223.0/fmt/bytes.ts";
+const { log, error } = globalThis.console
+
 function formatBytesToHumanReadable(
   bytes: number = 0,
   unitSystem: 1000 | 1024 = 1024,
-  precision: number = 0,
 ): string {
   if (bytes < 0) {
     throw new Error('Input value must be non-negative.')
@@ -26,7 +26,13 @@ function formatBytesToHumanReadable(
   const suffixIndex = Math.floor(Math.log(bytes) / Math.log(unitSystem))
 
   // Calculate the formatted value
-  const formattedValue = (bytes / unitSystem ** suffixIndex).toFixed(precision)
+  let rawValue = bytes / unitSystem ** suffixIndex
+
+  // Round the value to the nearest whole number
+  rawValue = Math.round(rawValue)
+
+  // Ensure the value is at least 6 characters long by padding with spaces if necessary
+  const formattedValue = rawValue.toString().padStart(6, ' ')
 
   // Retrieve the appropriate suffix
   const suffix = suffixes[suffixIndex]
@@ -58,8 +64,8 @@ async function fetchJsonResponseSize(
       return responseSize
     }
     throw new Error('Content-Length header not found.')
-  } catch (error) {
-    console.error(`Failed to fetch size for ${url}: ${error.message}`)
+  } catch (err) {
+    error(`Failed to fetch size for ${url}: ${err.message}`)
     return 0
   }
 }
@@ -72,18 +78,41 @@ async function processAllTestEndpoints(): Promise<void> {
     }),
   )
 }
+
 export async function runSpaceBench(): Promise<void> {
   await processAllTestEndpoints()
 
-  globalThis.console.log('Space')
-
-  console.table(
-    apiTestCases.map(({ name, size }, index, array) => ({
-      name,
-      size: formatBytesToHumanReadable(size),
-      ratio: index % 2 === 0
-        ? ''
-        : `${(size / array[index - 1].size * 100).toFixed(0)}%`,
-    })),
+  // Calculate the maximum length of the test names for alignment
+  const maxNameLength = apiTestCases.reduce(
+    (max, { name }) => Math.max(max, name.length),
+    0,
   )
+
+  const separator = `\t\t`;
+
+  // Print the table headers with colors and boldness
+  const headers = `📝 Test Name${' '.repeat(maxNameLength - 9)
+    }${separator}📦 Size${separator}📈 Ratio (%)`
+
+  log(headers)
+  const allSeparatorSize = 16
+  log(`${'-'.repeat(headers.length + allSeparatorSize)}`)
+
+  // Print each row of the table
+  apiTestCases.forEach(({ name, size }, index, array) => {
+    const ratio = index % 2 === 0
+      ? ''
+      : `${(size / array[index - 1].size * 100).toFixed(0)}%`
+
+    // Determine the color based on whether the first test case's name is included in the current test case's name
+    const colorCode =
+      name.toLowerCase().includes(apiTestCases[0].name.toLowerCase())
+        ? '32'
+        : '33'
+    // Pad the test name with spaces to align the columns
+    const paddedName = name.padEnd(maxNameLength, ' ')
+    const formattedSize = formatBytesToHumanReadable(size)
+
+    log(`\x1b[${colorCode}m${paddedName}${separator}${formattedSize}${separator}${ratio}\x1b[0m`)
+  })
 }
