@@ -88,11 +88,12 @@ export async function runSpaceBench(): Promise<void> {
     0,
   )
 
-  const separator = `\t\t`;
+  const separator = `\t\t`
 
   // Print the table headers with colors and boldness
-  const headers = `📝 Test Name${' '.repeat(maxNameLength - 9)
-    }${separator}📦 Size${separator}📈 Ratio (%)`
+  const headers = `📝 Test Name${
+    ' '.repeat(maxNameLength - 9)
+  }${separator}📦 Size${separator}📈 Ratio (%)`
 
   log(headers)
   const allSeparatorSize = 16
@@ -113,6 +114,8 @@ export async function runSpaceBench(): Promise<void> {
     const paddedName = name.padEnd(maxNameLength, ' ')
     const formattedSize = formatBytesToHumanReadable(size)
 
-    log(`\x1b[${colorCode}m${paddedName}${separator}${formattedSize}${separator}${ratio}\x1b[0m`)
+    log(
+      `\x1b[${colorCode}m${paddedName}${separator}${formattedSize}${separator}${ratio}\x1b[0m`,
+    )
   })
 }
