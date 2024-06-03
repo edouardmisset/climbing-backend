@@ -11,6 +11,7 @@
       "jsr:@std/dotenv@^0.219.1": "jsr:@std/dotenv@0.219.1",
       "jsr:@std/streams@^0.223.0": "jsr:@std/streams@0.223.0",
       "npm:chalk-animation@2.0.3": "npm:chalk-animation@2.0.3",
+      "npm:fuzzysort@^3.0.1": "npm:fuzzysort@3.0.1",
       "npm:tinybench": "npm:tinybench@2.8.0",
       "npm:tinybench@2.8.0": "npm:tinybench@2.8.0"
     },
@@ -186,6 +187,10 @@
       },
       "function-bind@1.1.2": {
         "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==",
+        "dependencies": {}
+      },
+      "fuzzysort@3.0.1": {
+        "integrity": "sha512-jpiSrv+j2GwtI13z3vzdBAD5m7iVH23spSZwJrD657dfr6jUV2Jyc5YuSPKirmTp9OqnJbHudPIBGIId1bCWmA==",
         "dependencies": {}
       },
       "gradient-string@2.0.2": {
@@ -589,7 +594,8 @@
     "dependencies": [
       "jsr:@edouardmisset/utils@^2.0.9",
       "jsr:@std/csv@^0.223.0",
-      "jsr:@std/dotenv@^0.219.1"
+      "jsr:@std/dotenv@^0.219.1",
+      "npm:fuzzysort@^3.0.1"
     ]
   }
 }

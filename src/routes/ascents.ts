@@ -7,13 +7,17 @@ import {
   sortBy,
   stringEqualsCaseInsensitive,
   stringIncludesCaseInsensitive,
+  validNumberWithFallback,
 } from '@edouardmisset/utils'
 
 import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
+import { normalizeData } from '@helpers/normalize-data.ts'
 import { sortKeys } from '@helpers/sort-keys.ts'
 import { Ascent, ascentSchema } from '@schema/ascent.ts'
 import { etag } from 'hono/middleware'
-import { normalizeData } from '@helpers/normalize-data.ts'
+
+import { getPreparedCachedAscents } from '@helpers/cache-ascents.ts'
+import fuzzySort from 'fuzzysort'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
@@ -169,6 +173,36 @@ app.get('/duplicates', (ctx) => {
     .map(([key]) => key)
 
   return ctx.json({ data: duplicateRoutes })
+})
+
+app.get('/search', async (ctx) => {
+  const queries = ctx.req.query()
+  const { query, limit } = queries
+
+  const options = {
+    keys: ['routeName', 'crag'],
+    limit: validNumberWithFallback(limit, 100),
+    threshold: 0.5,
+  }
+  const results = fuzzySort.go(
+    removeAccents(query),
+    await getPreparedCachedAscents(),
+    options,
+  )
+
+  return ctx.json({
+    data: results.map((result) => {
+      const firstResult = result.find((res) => res.target !== '')
+      return ({
+        highlight: firstResult?.highlight(),
+        target: firstResult?.target,
+        ...result.obj,
+      })
+    }),
+    metadata: {
+      total: results.total,
+    },
+  })
 })
 
 export default app
