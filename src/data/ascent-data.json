@@ -10455,6 +10455,52 @@
       "routeOrBoulder": "Route",
       "topoGrade": "7b",
       "tries": "02 go"
+    },
+    {
+      "climber": "Edouard Misset",
+      "crag": "Neuville sur Ain",
+      "date": "28/05/2024",
+      "departement": "Ain",
+      "height": "15m",
+      "holds": "Pocket",
+      "myGrade": "7a+",
+      "profile": "Overhang",
+      "rating": "2*",
+      "routeName": "Raison d'état",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7a+",
+      "tries": "03 go"
+    },
+    {
+      "climber": "Edouard Misset",
+      "crag": "Les Petits Goulets",
+      "date": "01/06/2024",
+      "departement": "Drôme",
+      "height": "25m",
+      "holds": "Crimp",
+      "myGrade": "7b",
+      "profile": "Vertical",
+      "rating": "3*",
+      "routeName": "Au top le biotop",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7c",
+      "tries": "01 Flash"
+    },
+    {
+      "climber": "Edouard Misset",
+      "comments": "Horrible",
+      "crag": "Les Petits Goulets",
+      "date": "01/06/2024",
+      "departement": "Drôme",
+      "height": "30m",
+      "holds": "Crimp",
+      "myGrade": "7b+",
+      "profile": "Vertical",
+      "rating": "2*",
+      "routeName": "Eighties dream",
+      "routeOrBoulder": "Route",
+      "topoGrade": "7a+",
+      "tries": "03 go"
     }
   ]
 }
