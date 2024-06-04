@@ -1,7 +1,7 @@
 import { number, string, z } from 'zod'
 import { frenchDateSchema } from './training.ts'
 
-const degrees = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'] as const
+const degrees = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] as const
 const degreeSchema = z.enum(degrees)
 
 type Degree = z.infer<typeof degreeSchema>
@@ -18,7 +18,7 @@ type OptionalPlus = z.infer<typeof optionalPlusSchema>
 
 export type RouteGrade = `${Degree}${RouteGradeLetter}${OptionalPlus}`
 export type BoulderGrade = Uppercase<RouteGrade>
-type Grade = RouteGrade | BoulderGrade
+export type Grade = RouteGrade | BoulderGrade
 
 const routeFrenchGradeSchema = string().min(2).regex(/^\d{1}[a-c]\+?$/)
 const boulderingFrenchGradeSchema = routeFrenchGradeSchema.toUpperCase()

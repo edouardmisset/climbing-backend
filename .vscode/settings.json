@@ -8,5 +8,7 @@
   "editor.formatOnSaveMode": "modifications",
   "cSpell.words": [
     "departement"
-  ]
+  ],
+  "deno.future": true,
+  "deno.codeLens.test": true
 }
