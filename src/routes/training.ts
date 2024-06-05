@@ -19,7 +19,7 @@ app.get(
   zValidator(
     'query',
     z.object({
-      normalize: z.enum(['true', 'false']).transform((value) =>
+      normalize: z.enum(['true', 'false']).optional().transform((value) =>
         value === 'true'
       ),
     }),
