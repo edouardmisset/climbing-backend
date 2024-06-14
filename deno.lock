@@ -10,6 +10,7 @@
       "jsr:@std/dotenv@0.219.1": "jsr:@std/dotenv@0.219.1",
       "jsr:@std/dotenv@^0.219.1": "jsr:@std/dotenv@0.219.1",
       "jsr:@std/streams@^0.223.0": "jsr:@std/streams@0.223.0",
+      "jsr:@std/text@^0.224.3": "jsr:@std/text@0.224.3",
       "npm:@hono/zod-validator@^0.2.2": "npm:@hono/zod-validator@0.2.2_hono@4.4.3_zod@3.23.8",
       "npm:@total-typescript/ts-reset@^0.5.1": "npm:@total-typescript/ts-reset@0.5.1",
       "npm:chalk-animation@2.0.3": "npm:chalk-animation@2.0.3",
@@ -50,6 +51,9 @@
         "dependencies": [
           "jsr:@std/bytes@^0.223.0"
         ]
+      },
+      "@std/text@0.224.3": {
+        "integrity": "12f6b96817a6104a2de028c4f8d9bcb9f351a27c95895b39ac978d527732cd21"
       }
     },
     "npm": {
@@ -631,6 +635,7 @@
       "jsr:@edouardmisset/utils@^2.0.9",
       "jsr:@std/csv@^0.223.0",
       "jsr:@std/dotenv@^0.219.1",
+      "jsr:@std/text@^0.224.3",
       "npm:@hono/zod-validator@^0.2.2",
       "npm:@total-typescript/ts-reset@^0.5.1",
       "npm:fuzzysort@^3.0.1",

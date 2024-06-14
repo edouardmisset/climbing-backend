@@ -16,10 +16,9 @@
     "@std/csv": "jsr:@std/csv@^0.223.0",
     "@std/dotenv": "jsr:@std/dotenv@^0.219.1",
     "@total-typescript/ts-reset": "npm:@total-typescript/ts-reset@^0.5.1",
-    "dotenv": "https://deno.land/std@0.210.0/dotenv/mod.ts",
     "fuzzysort": "npm:fuzzysort@^3.0.1",
     "hono": "npm:hono@^4.4.3",
-    "text": "https://deno.land/std@0.218.2/text/mod.ts",
+    "text": "jsr:@std/text@^0.224.3",
     "zod": "npm:zod@^3.23.8",
     "zod-validator": "npm:@hono/zod-validator@^0.2.2"
   },
