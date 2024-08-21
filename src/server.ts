@@ -40,12 +40,13 @@ let timestamp = 0
 
 api.post('/sync', async (ctx) => {
   try {
-    const _5Minutes = 1000 * 60 * 5
-    if (Date.now() - timestamp < _5Minutes) {
+    const throttleTimeInMinutes = 5
+    const throttleTimeInMs = 1000 * 60 * throttleTimeInMinutes
+    if (Date.now() - timestamp < throttleTimeInMs) {
       ctx.status(200)
       return ctx.json({
         status: 'failure',
-        message: `Sync was triggered less than ${_5Minutes} min ago.`,
+        message: `Sync was triggered less than ${throttleTimeInMinutes} min ago.`,
       })
     }
     const success = await syncAscentsAndTrainingFromGoogleSheets()
