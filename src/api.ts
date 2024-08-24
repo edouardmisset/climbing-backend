@@ -36,9 +36,8 @@ api
       <a href="api/training" >Training</a>`,
     ))
 
-let timestamp = 0
-
 api.post('/sync', async (ctx) => {
+  let timestamp = 0
   try {
     const throttleTimeInMinutes = 5
     const throttleTimeInMs = 1000 * 60 * throttleTimeInMinutes
@@ -65,5 +64,7 @@ api.route('/areas', areas)
 api.route('/ascents', ascents)
 api.route('/crags', crags)
 api.route('/training', training)
+
+api.notFound((ctx) => ctx.json({ message: 'Not Found' }, 404))
 
 export default api
