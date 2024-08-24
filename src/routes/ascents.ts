@@ -21,13 +21,14 @@ import { getPreparedCachedAscents } from '@helpers/cache-ascents.ts'
 import fuzzySort from 'fuzzysort'
 import { boolean, string, z } from 'zod'
 import { groupSimilarStrings } from '@helpers/find-similar.ts'
+import { Ascent as AscentModel } from '../db/models/ascent.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
-const app = new Hono()
-app.use(etag())
+const ascents = new Hono()
+ascents.use(etag())
 
-app.get(
+ascents.get(
   '/',
   zValidator(
     'query',
@@ -193,7 +194,30 @@ app.get(
   },
 )
 
-app.get('/duplicates', (ctx) => {
+ascents.post(
+  '/',
+  zValidator(
+    'json',
+    z.object({
+      routeName: string(),
+      topoGrade: string(),
+      date: string(),
+      crag: string().optional(),
+    }),
+  ),
+  async (ctx) => {
+    try {
+      const payload = await ctx.req.json()
+      console.log(payload)
+      AscentModel.create(payload)
+    } catch (error) {
+      console.error(error)
+    }
+    return ctx.json({ success: true })
+  },
+)
+
+ascents.get('/duplicates', (ctx) => {
   const ascentMap = new Map()
 
   parsedAscents.forEach(({ routeName, crag, topoGrade }) => {
@@ -212,7 +236,7 @@ app.get('/duplicates', (ctx) => {
 })
 
 // Similar crag names
-app.get('/similar', (ctx) => {
+ascents.get('/similar', (ctx) => {
   const similarAscents = Array.from(
     groupSimilarStrings(parsedAscents.map((ascent) => ascent.routeName), 3)
       .entries(),
@@ -221,7 +245,7 @@ app.get('/similar', (ctx) => {
   return ctx.json({ data: similarAscents })
 })
 
-app.get(
+ascents.get(
   '/search',
   zValidator(
     'query',
@@ -262,4 +286,4 @@ app.get(
   },
 )
 
-export default app
+export default ascents
