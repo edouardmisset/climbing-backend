@@ -1,5 +1,5 @@
 import { syncAscentsAndTrainingFromGoogleSheets } from './scripts/import-training-and-ascent-data-from-gs.ts'
-import api, { FALLBACK_PORT } from './server.ts'
+import api, { FALLBACK_PORT } from './api.ts'
 
 Deno.env.set('ENV', 'production')
 Deno.env.set('PORT', '8000')

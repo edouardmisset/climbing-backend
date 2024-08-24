@@ -1,4 +1,4 @@
-import api, { FALLBACK_PORT } from './server.ts'
+import api, { FALLBACK_PORT } from './api.ts'
 
 Deno.env.set('ENV', 'dev')
 Deno.env.set('PORT', '8000')

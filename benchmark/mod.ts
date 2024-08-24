@@ -1,4 +1,4 @@
-import api from '../src/server.ts'
+import api from '../src/api.ts'
 import { runSpaceBench } from './bench-space.ts'
 import { TEST_PORT } from './test-data.ts'
 const { log, clear } = globalThis.console

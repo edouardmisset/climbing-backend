@@ -46,7 +46,8 @@ api.post('/sync', async (ctx) => {
       ctx.status(200)
       return ctx.json({
         status: 'failure',
-        message: `Sync was triggered less than ${throttleTimeInMinutes} min ago.`,
+        message:
+          `Sync was triggered less than ${throttleTimeInMinutes} min ago.`,
       })
     }
     const success = await syncAscentsAndTrainingFromGoogleSheets()
