@@ -20,6 +20,7 @@ import { zValidator } from 'zod-validator'
 import { getPreparedCachedAscents } from '@helpers/cache-ascents.ts'
 import fuzzySort from 'fuzzysort'
 import { boolean, string, z } from 'zod'
+import { groupSimilarStrings } from '@helpers/find-similar.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
@@ -210,13 +211,25 @@ app.get('/duplicates', (ctx) => {
   return ctx.json({ data: duplicateRoutes })
 })
 
+// Similar crag names
+app.get('/similar', (ctx) => {
+  const similarAscents = Array.from(
+    groupSimilarStrings(parsedAscents.map((ascent) => ascent.routeName), 3)
+      .entries(),
+  )
+
+  return ctx.json({ data: similarAscents })
+})
+
 app.get(
   '/search',
   zValidator(
     'query',
     z.object({
       query: string(),
-      limit: z.string().transform((val) => validNumberWithFallback(val, 100)),
+      limit: z.string().optional().transform((val) =>
+        validNumberWithFallback(val, 100)
+      ),
     }),
   ),
   async (ctx) => {

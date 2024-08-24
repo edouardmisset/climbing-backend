@@ -4,7 +4,7 @@ import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
 import { ascentSchema } from '@schema/ascent.ts'
 import { etag } from 'hono/etag'
 import { frequency } from '@edouardmisset/utils'
-import { findSimilar } from '@helpers/find-similar.ts'
+import { findSimilar, groupSimilarStrings } from '@helpers/find-similar.ts'
 import { sortNumericalValues } from '@helpers/sort-values.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
@@ -35,6 +35,13 @@ app.get('/duplicates', (ctx) => {
   const duplicateAreas = findSimilar(validAreas)
 
   return ctx.json({ data: duplicateAreas })
+})
+
+// Similar area names
+app.get('/similar', (ctx) => {
+  const similarAreas = Array.from(groupSimilarStrings(validAreas, 3).entries())
+
+  return ctx.json({ data: similarAreas })
 })
 
 export default app

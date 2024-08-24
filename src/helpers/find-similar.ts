@@ -1,4 +1,5 @@
 import { removeAccents } from '@edouardmisset/utils'
+import { levenshteinDistance } from 'text'
 
 function formatString(item: string): string {
   const synonyms: Record<string, string> = {
@@ -42,4 +43,41 @@ export function findSimilar(items: string[]): { [key: string]: string[] }[] {
   return Array.from(map.entries())
     .filter(([, values]) => values.length > 1)
     .map(([key, values]) => ({ [key]: values }))
+}
+
+export function groupSimilarStrings(
+  arr: string[],
+  maxDistance: number,
+): Map<string, string[]> {
+  const result = new Map<string, string[]>()
+  const seen = new Set<string>()
+  const distanceCache = new Map<string, number>()
+
+  const getDistance = (a: string, b: string): number => {
+    const key = a < b ? `${a}-${b}` : `${b}-${a}`
+    if (!distanceCache.has(key)) {
+      distanceCache.set(key, levenshteinDistance(a, b))
+    }
+    return distanceCache.get(key) ?? 0
+  }
+
+  for (const word of arr) {
+    if (!seen.has(word)) {
+      const similarStrings: string[] = []
+      for (const str of arr) {
+        if (str !== word && !seen.has(str)) {
+          if (getDistance(str, word) <= maxDistance) {
+            similarStrings.push(str)
+            seen.add(str)
+          }
+        }
+      }
+      if (similarStrings.length > 1) {
+        result.set(word, similarStrings)
+      }
+      seen.add(word)
+    }
+  }
+
+  return result
 }

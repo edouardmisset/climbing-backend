@@ -12,7 +12,7 @@ import {
   convertGradeToNumber,
   ROUTE_GRADE_TO_NUMBER,
 } from '@helpers/converters.ts'
-import { findSimilar } from '@helpers/find-similar.ts'
+import { findSimilar, groupSimilarStrings } from '@helpers/find-similar.ts'
 import { sortNumericalValues } from '@helpers/sort-values.ts'
 import { zValidator } from 'zod-validator'
 import { z } from 'zod'
@@ -113,6 +113,13 @@ app.get(
 
 app.get('/duplicates', (ctx) => {
   const similarCrags = findSimilar(validCrags)
+
+  return ctx.json({ data: similarCrags })
+})
+
+// Similar crag names
+app.get('/similar', (ctx) => {
+  const similarCrags = Array.from(groupSimilarStrings(validCrags, 2).entries())
 
   return ctx.json({ data: similarCrags })
 })
