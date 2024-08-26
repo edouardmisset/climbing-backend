@@ -1,11 +1,11 @@
-import { Database, SQLite3Connector } from "denodb"
+import { Database } from '@db/sqlite'
 
-import { Ascent } from "./models/ascent.ts"
+const currentPath = import.meta.url
 
-const connector = new SQLite3Connector({
-  filepath: "./dev.sqlite",
-})
+const db = new Database(new URL("./test.db", currentPath))
 
-export const db = new Database(connector)
+// deno-lint-ignore no-non-null-assertion
+const [version] = db.prepare('select sqlite_version()').value<[string]>()!
+console.log(version)
 
-db.link([Ascent])
+db.close()
