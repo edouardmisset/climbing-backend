@@ -2,22 +2,13 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@db/sqlite@^0.12.0": "jsr:@db/sqlite@0.12.0",
-      "jsr:@denosaurs/plug@1": "jsr:@denosaurs/plug@1.0.6",
       "jsr:@edouardmisset/utils@^2.0.9": "jsr:@edouardmisset/utils@2.0.9",
-      "jsr:@std/assert@^0.217.0": "jsr:@std/assert@0.217.0",
-      "jsr:@std/assert@^0.221.0": "jsr:@std/assert@0.221.0",
       "jsr:@std/assert@^0.223.0": "jsr:@std/assert@0.223.0",
       "jsr:@std/bytes@^0.223.0": "jsr:@std/bytes@0.223.0",
       "jsr:@std/csv@^0.223.0": "jsr:@std/csv@0.223.0",
       "jsr:@std/dotenv@0.210.0": "jsr:@std/dotenv@0.210.0",
       "jsr:@std/dotenv@0.219.1": "jsr:@std/dotenv@0.219.1",
       "jsr:@std/dotenv@^0.219.1": "jsr:@std/dotenv@0.219.1",
-      "jsr:@std/encoding@^0.221.0": "jsr:@std/encoding@0.221.0",
-      "jsr:@std/fmt@^0.221.0": "jsr:@std/fmt@0.221.0",
-      "jsr:@std/fs@^0.221.0": "jsr:@std/fs@0.221.0",
-      "jsr:@std/path@0.217": "jsr:@std/path@0.217.0",
-      "jsr:@std/path@^0.221.0": "jsr:@std/path@0.221.0",
       "jsr:@std/streams@^0.223.0": "jsr:@std/streams@0.223.0",
       "jsr:@std/text@^0.224.3": "jsr:@std/text@0.224.3",
       "npm:@hono/zod-validator@^0.2.2": "npm:@hono/zod-validator@0.2.2_hono@4.4.3_zod@3.23.8",
@@ -25,38 +16,17 @@
       "npm:chalk-animation@2.0.3": "npm:chalk-animation@2.0.3",
       "npm:fuzzysort@^3.0.1": "npm:fuzzysort@3.0.1",
       "npm:hono@^4.4.3": "npm:hono@4.4.3",
+      "npm:prisma@latest": "npm:prisma@5.19.1",
       "npm:tinybench": "npm:tinybench@2.8.0",
       "npm:tinybench@2.8.0": "npm:tinybench@2.8.0",
       "npm:zod@^3.23.8": "npm:zod@3.23.8"
     },
     "jsr": {
-      "@db/sqlite@0.12.0": {
-        "integrity": "dd1ef7f621ad50fc1e073a1c3609c4470bd51edc0994139c5bf9851de7a6d85f",
-        "dependencies": [
-          "jsr:@denosaurs/plug@1",
-          "jsr:@std/path@0.217"
-        ]
-      },
-      "@denosaurs/plug@1.0.6": {
-        "integrity": "6cf5b9daba7799837b9ffbe89f3450510f588fafef8115ddab1ff0be9cb7c1a7",
-        "dependencies": [
-          "jsr:@std/encoding@^0.221.0",
-          "jsr:@std/fmt@^0.221.0",
-          "jsr:@std/fs@^0.221.0",
-          "jsr:@std/path@^0.221.0"
-        ]
-      },
       "@edouardmisset/utils@2.0.9": {
         "integrity": "67c32c9a11ae4d736695efc6ead86ee312f7ee7eff78cfffb75fad039e8e157f",
         "dependencies": [
           "jsr:@std/dotenv@^0.219.1"
         ]
-      },
-      "@std/assert@0.217.0": {
-        "integrity": "c98e279362ca6982d5285c3b89517b757c1e3477ee9f14eb2fdf80a45aaa9642"
-      },
-      "@std/assert@0.221.0": {
-        "integrity": "a5f1aa6e7909dbea271754fd4ab3f4e687aeff4873b4cef9a320af813adb489a"
       },
       "@std/assert@0.223.0": {
         "integrity": "eb8d6d879d76e1cc431205bd346ed4d88dc051c6366365b1af47034b0670be24"
@@ -76,31 +46,6 @@
       },
       "@std/dotenv@0.219.1": {
         "integrity": "061a8d284c85ac6f47ce6df7b90f950ae3f89de61e94cf4523cc4a1ba5175050"
-      },
-      "@std/encoding@0.221.0": {
-        "integrity": "d1dd76ef0dc5d14088411e6dc1dede53bf8308c95d1537df1214c97137208e45"
-      },
-      "@std/fmt@0.221.0": {
-        "integrity": "379fed69bdd9731110f26b9085aeb740606b20428ce6af31ef6bd45ef8efa62a"
-      },
-      "@std/fs@0.221.0": {
-        "integrity": "028044450299de8ed5a716ade4e6d524399f035513b85913794f4e81f07da286",
-        "dependencies": [
-          "jsr:@std/assert@^0.221.0",
-          "jsr:@std/path@^0.221.0"
-        ]
-      },
-      "@std/path@0.217.0": {
-        "integrity": "1217cc25534bca9a2f672d7fe7c6f356e4027df400c0e85c0ef3e4343bc67d11",
-        "dependencies": [
-          "jsr:@std/assert@^0.217.0"
-        ]
-      },
-      "@std/path@0.221.0": {
-        "integrity": "0a36f6b17314ef653a3a1649740cc8db51b25a133ecfe838f20b79a56ebe0095",
-        "dependencies": [
-          "jsr:@std/assert@^0.221.0"
-        ]
       },
       "@std/streams@0.223.0": {
         "integrity": "d6b28e498ced3960b04dc5d251f2dcfc1df244b5ec5a48dc23a8f9b490be3b99",
@@ -138,6 +83,37 @@
         "dependencies": {
           "hono": "hono@4.4.3",
           "zod": "zod@3.23.8"
+        }
+      },
+      "@prisma/debug@5.19.1": {
+        "integrity": "sha512-lAG6A6QnG2AskAukIEucYJZxxcSqKsMK74ZFVfCTOM/7UiyJQi48v6TQ47d6qKG3LbMslqOvnTX25dj/qvclGg==",
+        "dependencies": {}
+      },
+      "@prisma/engines-version@5.19.1-2.69d742ee20b815d88e17e54db4a2a7a3b30324e3": {
+        "integrity": "sha512-xR6rt+z5LnNqTP5BBc+8+ySgf4WNMimOKXRn6xfNRDSpHvbOEmd7+qAOmzCrddEc4Cp8nFC0txU14dstjH7FXA==",
+        "dependencies": {}
+      },
+      "@prisma/engines@5.19.1": {
+        "integrity": "sha512-kR/PoxZDrfUmbbXqqb8SlBBgCjvGaJYMCOe189PEYzq9rKqitQ2fvT/VJ8PDSe8tTNxhc2KzsCfCAL+Iwm/7Cg==",
+        "dependencies": {
+          "@prisma/debug": "@prisma/debug@5.19.1",
+          "@prisma/engines-version": "@prisma/engines-version@5.19.1-2.69d742ee20b815d88e17e54db4a2a7a3b30324e3",
+          "@prisma/fetch-engine": "@prisma/fetch-engine@5.19.1",
+          "@prisma/get-platform": "@prisma/get-platform@5.19.1"
+        }
+      },
+      "@prisma/fetch-engine@5.19.1": {
+        "integrity": "sha512-pCq74rtlOVJfn4pLmdJj+eI4P7w2dugOnnTXpRilP/6n5b2aZiA4ulJlE0ddCbTPkfHmOL9BfaRgA8o+1rfdHw==",
+        "dependencies": {
+          "@prisma/debug": "@prisma/debug@5.19.1",
+          "@prisma/engines-version": "@prisma/engines-version@5.19.1-2.69d742ee20b815d88e17e54db4a2a7a3b30324e3",
+          "@prisma/get-platform": "@prisma/get-platform@5.19.1"
+        }
+      },
+      "@prisma/get-platform@5.19.1": {
+        "integrity": "sha512-sCeoJ+7yt0UjnR+AXZL7vXlg5eNxaFOwC23h0KvW1YIXUoa7+W2ZcAUhoEQBmJTW4GrFqCuZ8YSP0mkDa4k3Zg==",
+        "dependencies": {
+          "@prisma/debug": "@prisma/debug@5.19.1"
         }
       },
       "@total-typescript/ts-reset@0.5.1": {
@@ -259,6 +235,10 @@
           "locate-path": "locate-path@6.0.0",
           "path-exists": "path-exists@4.0.0"
         }
+      },
+      "fsevents@2.3.3": {
+        "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==",
+        "dependencies": {}
       },
       "function-bind@1.1.2": {
         "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==",
@@ -423,6 +403,13 @@
       "picocolors@1.0.0": {
         "integrity": "sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==",
         "dependencies": {}
+      },
+      "prisma@5.19.1": {
+        "integrity": "sha512-c5K9MiDaa+VAAyh1OiYk76PXOme9s3E992D7kvvIOhCrNsBQfy2mP2QAQtX0WNj140IgG++12kwZpYB9iIydNQ==",
+        "dependencies": {
+          "@prisma/engines": "@prisma/engines@5.19.1",
+          "fsevents": "fsevents@2.3.3"
+        }
       },
       "quick-lru@5.1.1": {
         "integrity": "sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==",
@@ -1187,7 +1174,6 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@db/sqlite@^0.12.0",
       "jsr:@edouardmisset/utils@^2.0.9",
       "jsr:@std/csv@^0.223.0",
       "jsr:@std/dotenv@^0.219.1",

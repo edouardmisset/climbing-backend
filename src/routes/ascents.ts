@@ -19,9 +19,8 @@ import { zValidator } from 'zod-validator'
 
 import { getPreparedCachedAscents } from '@helpers/cache-ascents.ts'
 import fuzzySort from 'fuzzysort'
-import { boolean, number, string, z } from 'zod'
+import { boolean, string, z } from 'zod'
 import { groupSimilarStrings } from '@helpers/find-similar.ts'
-import { db } from '../db/connect.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
@@ -198,37 +197,19 @@ ascents.post(
   '/',
   zValidator(
     'json',
-    z.object({
-      routeName: string(),
-      topoGrade: string(),
-      date: string(),
-      crag: string().optional(),
-      numberOfTries: number().optional(),
-    }),
+    ascentSchema,
   ),
   (ctx) => {
     try {
-      const { date, routeName, topoGrade, crag = '', numberOfTries = -1 } = ctx.req.valid(
+      const { date = new Date().toISOString(), routeName, topoGrade, crag = '', tries = -1 } = ctx.req.valid(
         'json',
       )
 
-      const sqlStatement =
-        `INSERT INTO ASCENTS (routeName, crag, date, topoGrade, numberOfTries)
-VALUES ('${routeName}', '${crag}', '${date}', '${topoGrade}', ${numberOfTries});`
-
-      using stmt = db.prepare(sqlStatement)
-      const result = stmt.all()
-      console.log(result)
-
-      const ascentSql = 'SELECT * FROM ASCENTS;'
-      using ascentStmt = db.prepare(ascentSql)
-      const res = ascentStmt.all()
-      console.log(res)
     } catch (error) {
       console.error(error)
       return ctx.json({ success: false, error })
     }
-    return ctx.json({ success: true })
+    return ctx.json({ success: true, data: ctx.req.valid('json') })
   },
 )
 

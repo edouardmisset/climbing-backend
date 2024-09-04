@@ -1,0 +1,30 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["deno"]
+  output          = "../generated/client"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model ascents {
+  id             Int      @id @default(autoincrement())
+  routeName      String
+  topoGrade      String
+  date           DateTime @default(now())
+  tries          Int
+  myGrade        String
+  height         Int
+  holds          String
+  profile        String
+  rating         Int
+  routeOrBoulder String
+  crag           String
+  area           String
+  departement    String
+  climber        String
+  comments       String
+}
