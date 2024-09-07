@@ -51,7 +51,8 @@
     ],
     "exclude": [
       "src/scripts/*",
-      "src/helpers/remove-undefined-values.ts"
+      "src/helpers/remove-undefined-values.ts",
+      "./generated"
     ]
   },
   "fmt": {
@@ -62,6 +63,9 @@
     "singleQuote": true,
     "include": [
       "."
+    ],
+    "exclude": [
+      "./generated"
     ]
   }
 }

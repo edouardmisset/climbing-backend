@@ -21,8 +21,11 @@ import { getPreparedCachedAscents } from '@helpers/cache-ascents.ts'
 import fuzzySort from 'fuzzysort'
 import { boolean, string, z } from 'zod'
 import { groupSimilarStrings } from '@helpers/find-similar.ts'
+import { PrismaClient } from '../../generated/client/deno/edge.ts'
 
+// GET Access to the data
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
+const db = new PrismaClient()
 
 const ascents = new Hono()
 ascents.use(etag())
@@ -47,7 +50,7 @@ ascents.get(
       fields: string().optional(),
     }),
   ),
-  (ctx) => {
+  async (ctx) => {
     /**
      * Data: validated ascents (from db or file)
      *
@@ -120,7 +123,11 @@ ascents.get(
       },
     ]
 
-    const filteredAscents = parsedAscents.filter((ascent) =>
+    const ascentsFromDb = ascentSchema.array().parse(
+      await db.ascents.findMany(),
+    )
+    db.$disconnect()
+    const filteredAscents = ascentsFromDb.filter((ascent) =>
       filters.every(({ value, compare, key }) =>
         value === undefined || compare(String(ascent[key]), value)
       )
@@ -197,14 +204,23 @@ ascents.post(
   '/',
   zValidator(
     'json',
-    ascentSchema,
+    ascentSchema.merge(z.object({
+      tries: z.number(),
+      height: z.string().transform((s) => Number(s.replace('m', '') || -1))
+        .optional(),
+      rating: z.string().transform((s) => Number(s.replace('*', '') || -1))
+        .optional(),
+    })),
   ),
   (ctx) => {
     try {
-      const { date = new Date().toISOString(), routeName, topoGrade, crag = '', tries = -1 } = ctx.req.valid(
+      const incomingAscent = ctx.req.valid(
         'json',
       )
 
+      db.ascents.create({
+        data: incomingAscent,
+      })
     } catch (error) {
       console.error(error)
       return ctx.json({ success: false, error })

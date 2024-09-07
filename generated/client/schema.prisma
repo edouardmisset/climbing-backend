@@ -10,21 +10,26 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+enum RouteOrBoulder {
+  Route
+  Boulder
+}
+
 model ascents {
-  id             Int      @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   routeName      String
   topoGrade      String
-  date           DateTime @default(now())
+  date           DateTime       @default(now())
   tries          Int
-  myGrade        String
-  height         Int
-  holds          String
-  profile        String
-  rating         Int
-  routeOrBoulder String
+  myGrade        String?
+  height         Int?
+  holds          String?
+  profile        String?
+  rating         Int?
+  routeOrBoulder RouteOrBoulder @default(Route)
   crag           String
-  area           String
-  departement    String
-  climber        String
-  comments       String
+  area           String?
+  departement    String?
+  climber        String         @default("Edouard Misset")
+  comments       String?
 }

@@ -20,6 +20,23 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 export type ascents = $Result.DefaultSelection<Prisma.$ascentsPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const RouteOrBoulder: {
+  Route: 'Route',
+  Boulder: 'Boulder'
+};
+
+export type RouteOrBoulder = (typeof RouteOrBoulder)[keyof typeof RouteOrBoulder]
+
+}
+
+export type RouteOrBoulder = $Enums.RouteOrBoulder
+
+export const RouteOrBoulder: typeof $Enums.RouteOrBoulder
+
+/**
  * ##  Prisma Client ʲˢ
  * 
  * Type-safe database client for TypeScript & Node.js
@@ -878,7 +895,7 @@ export namespace Prisma {
     holds: string | null
     profile: string | null
     rating: number | null
-    routeOrBoulder: string | null
+    routeOrBoulder: $Enums.RouteOrBoulder | null
     crag: string | null
     area: string | null
     departement: string | null
@@ -897,7 +914,7 @@ export namespace Prisma {
     holds: string | null
     profile: string | null
     rating: number | null
-    routeOrBoulder: string | null
+    routeOrBoulder: $Enums.RouteOrBoulder | null
     crag: string | null
     area: string | null
     departement: string | null
@@ -1090,17 +1107,17 @@ export namespace Prisma {
     topoGrade: string
     date: Date
     tries: number
-    myGrade: string
-    height: number
-    holds: string
-    profile: string
-    rating: number
-    routeOrBoulder: string
+    myGrade: string | null
+    height: number | null
+    holds: string | null
+    profile: string | null
+    rating: number | null
+    routeOrBoulder: $Enums.RouteOrBoulder
     crag: string
-    area: string
-    departement: string
+    area: string | null
+    departement: string | null
     climber: string
-    comments: string
+    comments: string | null
     _count: AscentsCountAggregateOutputType | null
     _avg: AscentsAvgAggregateOutputType | null
     _sum: AscentsSumAggregateOutputType | null
@@ -1189,17 +1206,17 @@ export namespace Prisma {
       topoGrade: string
       date: Date
       tries: number
-      myGrade: string
-      height: number
-      holds: string
-      profile: string
-      rating: number
-      routeOrBoulder: string
+      myGrade: string | null
+      height: number | null
+      holds: string | null
+      profile: string | null
+      rating: number | null
+      routeOrBoulder: $Enums.RouteOrBoulder
       crag: string
-      area: string
-      departement: string
+      area: string | null
+      departement: string | null
       climber: string
-      comments: string
+      comments: string | null
     }, ExtArgs["result"]["ascents"]>
     composites: {}
   }
@@ -1603,7 +1620,7 @@ export namespace Prisma {
     readonly holds: FieldRef<"ascents", 'String'>
     readonly profile: FieldRef<"ascents", 'String'>
     readonly rating: FieldRef<"ascents", 'Int'>
-    readonly routeOrBoulder: FieldRef<"ascents", 'String'>
+    readonly routeOrBoulder: FieldRef<"ascents", 'RouteOrBoulder'>
     readonly crag: FieldRef<"ascents", 'String'>
     readonly area: FieldRef<"ascents", 'String'>
     readonly departement: FieldRef<"ascents", 'String'>
@@ -1949,6 +1966,14 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
   /**
    * Field references 
    */
@@ -1997,6 +2022,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'RouteOrBoulder'
+   */
+  export type EnumRouteOrBoulderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RouteOrBoulder'>
+    
+
+
+  /**
+   * Reference to a field of type 'RouteOrBoulder[]'
+   */
+  export type ListEnumRouteOrBoulderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RouteOrBoulder[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2022,17 +2061,17 @@ export namespace Prisma {
     topoGrade?: StringFilter<"ascents"> | string
     date?: DateTimeFilter<"ascents"> | Date | string
     tries?: IntFilter<"ascents"> | number
-    myGrade?: StringFilter<"ascents"> | string
-    height?: IntFilter<"ascents"> | number
-    holds?: StringFilter<"ascents"> | string
-    profile?: StringFilter<"ascents"> | string
-    rating?: IntFilter<"ascents"> | number
-    routeOrBoulder?: StringFilter<"ascents"> | string
+    myGrade?: StringNullableFilter<"ascents"> | string | null
+    height?: IntNullableFilter<"ascents"> | number | null
+    holds?: StringNullableFilter<"ascents"> | string | null
+    profile?: StringNullableFilter<"ascents"> | string | null
+    rating?: IntNullableFilter<"ascents"> | number | null
+    routeOrBoulder?: EnumRouteOrBoulderFilter<"ascents"> | $Enums.RouteOrBoulder
     crag?: StringFilter<"ascents"> | string
-    area?: StringFilter<"ascents"> | string
-    departement?: StringFilter<"ascents"> | string
+    area?: StringNullableFilter<"ascents"> | string | null
+    departement?: StringNullableFilter<"ascents"> | string | null
     climber?: StringFilter<"ascents"> | string
-    comments?: StringFilter<"ascents"> | string
+    comments?: StringNullableFilter<"ascents"> | string | null
   }
 
   export type ascentsOrderByWithRelationInput = {
@@ -2041,17 +2080,17 @@ export namespace Prisma {
     topoGrade?: SortOrder
     date?: SortOrder
     tries?: SortOrder
-    myGrade?: SortOrder
-    height?: SortOrder
-    holds?: SortOrder
-    profile?: SortOrder
-    rating?: SortOrder
+    myGrade?: SortOrderInput | SortOrder
+    height?: SortOrderInput | SortOrder
+    holds?: SortOrderInput | SortOrder
+    profile?: SortOrderInput | SortOrder
+    rating?: SortOrderInput | SortOrder
     routeOrBoulder?: SortOrder
     crag?: SortOrder
-    area?: SortOrder
-    departement?: SortOrder
+    area?: SortOrderInput | SortOrder
+    departement?: SortOrderInput | SortOrder
     climber?: SortOrder
-    comments?: SortOrder
+    comments?: SortOrderInput | SortOrder
   }
 
   export type ascentsWhereUniqueInput = Prisma.AtLeast<{
@@ -2063,17 +2102,17 @@ export namespace Prisma {
     topoGrade?: StringFilter<"ascents"> | string
     date?: DateTimeFilter<"ascents"> | Date | string
     tries?: IntFilter<"ascents"> | number
-    myGrade?: StringFilter<"ascents"> | string
-    height?: IntFilter<"ascents"> | number
-    holds?: StringFilter<"ascents"> | string
-    profile?: StringFilter<"ascents"> | string
-    rating?: IntFilter<"ascents"> | number
-    routeOrBoulder?: StringFilter<"ascents"> | string
+    myGrade?: StringNullableFilter<"ascents"> | string | null
+    height?: IntNullableFilter<"ascents"> | number | null
+    holds?: StringNullableFilter<"ascents"> | string | null
+    profile?: StringNullableFilter<"ascents"> | string | null
+    rating?: IntNullableFilter<"ascents"> | number | null
+    routeOrBoulder?: EnumRouteOrBoulderFilter<"ascents"> | $Enums.RouteOrBoulder
     crag?: StringFilter<"ascents"> | string
-    area?: StringFilter<"ascents"> | string
-    departement?: StringFilter<"ascents"> | string
+    area?: StringNullableFilter<"ascents"> | string | null
+    departement?: StringNullableFilter<"ascents"> | string | null
     climber?: StringFilter<"ascents"> | string
-    comments?: StringFilter<"ascents"> | string
+    comments?: StringNullableFilter<"ascents"> | string | null
   }, "id">
 
   export type ascentsOrderByWithAggregationInput = {
@@ -2082,17 +2121,17 @@ export namespace Prisma {
     topoGrade?: SortOrder
     date?: SortOrder
     tries?: SortOrder
-    myGrade?: SortOrder
-    height?: SortOrder
-    holds?: SortOrder
-    profile?: SortOrder
-    rating?: SortOrder
+    myGrade?: SortOrderInput | SortOrder
+    height?: SortOrderInput | SortOrder
+    holds?: SortOrderInput | SortOrder
+    profile?: SortOrderInput | SortOrder
+    rating?: SortOrderInput | SortOrder
     routeOrBoulder?: SortOrder
     crag?: SortOrder
-    area?: SortOrder
-    departement?: SortOrder
+    area?: SortOrderInput | SortOrder
+    departement?: SortOrderInput | SortOrder
     climber?: SortOrder
-    comments?: SortOrder
+    comments?: SortOrderInput | SortOrder
     _count?: ascentsCountOrderByAggregateInput
     _avg?: ascentsAvgOrderByAggregateInput
     _max?: ascentsMaxOrderByAggregateInput
@@ -2109,17 +2148,17 @@ export namespace Prisma {
     topoGrade?: StringWithAggregatesFilter<"ascents"> | string
     date?: DateTimeWithAggregatesFilter<"ascents"> | Date | string
     tries?: IntWithAggregatesFilter<"ascents"> | number
-    myGrade?: StringWithAggregatesFilter<"ascents"> | string
-    height?: IntWithAggregatesFilter<"ascents"> | number
-    holds?: StringWithAggregatesFilter<"ascents"> | string
-    profile?: StringWithAggregatesFilter<"ascents"> | string
-    rating?: IntWithAggregatesFilter<"ascents"> | number
-    routeOrBoulder?: StringWithAggregatesFilter<"ascents"> | string
+    myGrade?: StringNullableWithAggregatesFilter<"ascents"> | string | null
+    height?: IntNullableWithAggregatesFilter<"ascents"> | number | null
+    holds?: StringNullableWithAggregatesFilter<"ascents"> | string | null
+    profile?: StringNullableWithAggregatesFilter<"ascents"> | string | null
+    rating?: IntNullableWithAggregatesFilter<"ascents"> | number | null
+    routeOrBoulder?: EnumRouteOrBoulderWithAggregatesFilter<"ascents"> | $Enums.RouteOrBoulder
     crag?: StringWithAggregatesFilter<"ascents"> | string
-    area?: StringWithAggregatesFilter<"ascents"> | string
-    departement?: StringWithAggregatesFilter<"ascents"> | string
+    area?: StringNullableWithAggregatesFilter<"ascents"> | string | null
+    departement?: StringNullableWithAggregatesFilter<"ascents"> | string | null
     climber?: StringWithAggregatesFilter<"ascents"> | string
-    comments?: StringWithAggregatesFilter<"ascents"> | string
+    comments?: StringNullableWithAggregatesFilter<"ascents"> | string | null
   }
 
   export type ascentsCreateInput = {
@@ -2127,17 +2166,17 @@ export namespace Prisma {
     topoGrade: string
     date?: Date | string
     tries: number
-    myGrade: string
-    height: number
-    holds: string
-    profile: string
-    rating: number
-    routeOrBoulder: string
+    myGrade?: string | null
+    height?: number | null
+    holds?: string | null
+    profile?: string | null
+    rating?: number | null
+    routeOrBoulder?: $Enums.RouteOrBoulder
     crag: string
-    area: string
-    departement: string
-    climber: string
-    comments: string
+    area?: string | null
+    departement?: string | null
+    climber?: string
+    comments?: string | null
   }
 
   export type ascentsUncheckedCreateInput = {
@@ -2146,17 +2185,17 @@ export namespace Prisma {
     topoGrade: string
     date?: Date | string
     tries: number
-    myGrade: string
-    height: number
-    holds: string
-    profile: string
-    rating: number
-    routeOrBoulder: string
+    myGrade?: string | null
+    height?: number | null
+    holds?: string | null
+    profile?: string | null
+    rating?: number | null
+    routeOrBoulder?: $Enums.RouteOrBoulder
     crag: string
-    area: string
-    departement: string
-    climber: string
-    comments: string
+    area?: string | null
+    departement?: string | null
+    climber?: string
+    comments?: string | null
   }
 
   export type ascentsUpdateInput = {
@@ -2164,17 +2203,17 @@ export namespace Prisma {
     topoGrade?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     tries?: IntFieldUpdateOperationsInput | number
-    myGrade?: StringFieldUpdateOperationsInput | string
-    height?: IntFieldUpdateOperationsInput | number
-    holds?: StringFieldUpdateOperationsInput | string
-    profile?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    routeOrBoulder?: StringFieldUpdateOperationsInput | string
+    myGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    holds?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    routeOrBoulder?: EnumRouteOrBoulderFieldUpdateOperationsInput | $Enums.RouteOrBoulder
     crag?: StringFieldUpdateOperationsInput | string
-    area?: StringFieldUpdateOperationsInput | string
-    departement?: StringFieldUpdateOperationsInput | string
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    departement?: NullableStringFieldUpdateOperationsInput | string | null
     climber?: StringFieldUpdateOperationsInput | string
-    comments?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ascentsUncheckedUpdateInput = {
@@ -2183,17 +2222,17 @@ export namespace Prisma {
     topoGrade?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     tries?: IntFieldUpdateOperationsInput | number
-    myGrade?: StringFieldUpdateOperationsInput | string
-    height?: IntFieldUpdateOperationsInput | number
-    holds?: StringFieldUpdateOperationsInput | string
-    profile?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    routeOrBoulder?: StringFieldUpdateOperationsInput | string
+    myGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    holds?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    routeOrBoulder?: EnumRouteOrBoulderFieldUpdateOperationsInput | $Enums.RouteOrBoulder
     crag?: StringFieldUpdateOperationsInput | string
-    area?: StringFieldUpdateOperationsInput | string
-    departement?: StringFieldUpdateOperationsInput | string
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    departement?: NullableStringFieldUpdateOperationsInput | string | null
     climber?: StringFieldUpdateOperationsInput | string
-    comments?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ascentsCreateManyInput = {
@@ -2202,17 +2241,17 @@ export namespace Prisma {
     topoGrade: string
     date?: Date | string
     tries: number
-    myGrade: string
-    height: number
-    holds: string
-    profile: string
-    rating: number
-    routeOrBoulder: string
+    myGrade?: string | null
+    height?: number | null
+    holds?: string | null
+    profile?: string | null
+    rating?: number | null
+    routeOrBoulder?: $Enums.RouteOrBoulder
     crag: string
-    area: string
-    departement: string
-    climber: string
-    comments: string
+    area?: string | null
+    departement?: string | null
+    climber?: string
+    comments?: string | null
   }
 
   export type ascentsUpdateManyMutationInput = {
@@ -2220,17 +2259,17 @@ export namespace Prisma {
     topoGrade?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     tries?: IntFieldUpdateOperationsInput | number
-    myGrade?: StringFieldUpdateOperationsInput | string
-    height?: IntFieldUpdateOperationsInput | number
-    holds?: StringFieldUpdateOperationsInput | string
-    profile?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    routeOrBoulder?: StringFieldUpdateOperationsInput | string
+    myGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    holds?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    routeOrBoulder?: EnumRouteOrBoulderFieldUpdateOperationsInput | $Enums.RouteOrBoulder
     crag?: StringFieldUpdateOperationsInput | string
-    area?: StringFieldUpdateOperationsInput | string
-    departement?: StringFieldUpdateOperationsInput | string
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    departement?: NullableStringFieldUpdateOperationsInput | string | null
     climber?: StringFieldUpdateOperationsInput | string
-    comments?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ascentsUncheckedUpdateManyInput = {
@@ -2239,17 +2278,17 @@ export namespace Prisma {
     topoGrade?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     tries?: IntFieldUpdateOperationsInput | number
-    myGrade?: StringFieldUpdateOperationsInput | string
-    height?: IntFieldUpdateOperationsInput | number
-    holds?: StringFieldUpdateOperationsInput | string
-    profile?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    routeOrBoulder?: StringFieldUpdateOperationsInput | string
+    myGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    holds?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    routeOrBoulder?: EnumRouteOrBoulderFieldUpdateOperationsInput | $Enums.RouteOrBoulder
     crag?: StringFieldUpdateOperationsInput | string
-    area?: StringFieldUpdateOperationsInput | string
-    departement?: StringFieldUpdateOperationsInput | string
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    departement?: NullableStringFieldUpdateOperationsInput | string | null
     climber?: StringFieldUpdateOperationsInput | string
-    comments?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -2287,6 +2326,44 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type EnumRouteOrBoulderFilter<$PrismaModel = never> = {
+    equals?: $Enums.RouteOrBoulder | EnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    in?: $Enums.RouteOrBoulder[] | ListEnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RouteOrBoulder[] | ListEnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    not?: NestedEnumRouteOrBoulderFilter<$PrismaModel> | $Enums.RouteOrBoulder
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type ascentsCountOrderByAggregateInput = {
@@ -2408,6 +2485,50 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type EnumRouteOrBoulderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RouteOrBoulder | EnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    in?: $Enums.RouteOrBoulder[] | ListEnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RouteOrBoulder[] | ListEnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    not?: NestedEnumRouteOrBoulderWithAggregatesFilter<$PrismaModel> | $Enums.RouteOrBoulder
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRouteOrBoulderFilter<$PrismaModel>
+    _max?: NestedEnumRouteOrBoulderFilter<$PrismaModel>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2422,6 +2543,22 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumRouteOrBoulderFieldUpdateOperationsInput = {
+    set?: $Enums.RouteOrBoulder
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -2458,6 +2595,38 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumRouteOrBoulderFilter<$PrismaModel = never> = {
+    equals?: $Enums.RouteOrBoulder | EnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    in?: $Enums.RouteOrBoulder[] | ListEnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RouteOrBoulder[] | ListEnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    not?: NestedEnumRouteOrBoulderFilter<$PrismaModel> | $Enums.RouteOrBoulder
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -2516,6 +2685,60 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumRouteOrBoulderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RouteOrBoulder | EnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    in?: $Enums.RouteOrBoulder[] | ListEnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RouteOrBoulder[] | ListEnumRouteOrBoulderFieldRefInput<$PrismaModel>
+    not?: NestedEnumRouteOrBoulderWithAggregatesFilter<$PrismaModel> | $Enums.RouteOrBoulder
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRouteOrBoulderFilter<$PrismaModel>
+    _max?: NestedEnumRouteOrBoulderFilter<$PrismaModel>
   }
 
 

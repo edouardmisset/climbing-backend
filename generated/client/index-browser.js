@@ -148,6 +148,14 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.RouteOrBoulder = exports.$Enums.RouteOrBoulder = {
+  Route: 'Route',
+  Boulder: 'Boulder'
+};
 
 exports.Prisma.ModelName = {
   ascents: 'ascents'
