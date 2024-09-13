@@ -50,17 +50,6 @@ export const TRANSFORMED_TRAINING_HEADER_NAMES = {
 } as const
 
 /**
- * Reads a CSV file and parses its content.
- * @param {string} fileName - The name of the file.
- * @returns {Promise<{ headers: CSVHeaders, array: CSVData }>} - A promise that resolves to an object containing the headers and the parsed data.
- */
-async function readCsvFile(fileName: string): Promise<CSVParsedData> {
-  const csv = await Deno.readTextFile(`./src/data/${fileName}`)
-  const [headers, ...data] = parse(csv)
-  return { headers, data }
-}
-
-/**
  * Fetches data from a URL and parses it as CSV.
  *
  * @param {string} url - The URL to fetch data from.
