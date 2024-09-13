@@ -1,11 +1,14 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
-    "dev": "deno lint --watch & deno fmt --watch & deno run --allow-net --allow-env --allow-read --allow-write --watch src/dev.ts",
+    "lint": "deno lint --watch",
+    "fmt": "deno fmt --watch",
+    "dev": "deno run --allow-net --allow-env --allow-read --allow-write --watch --watch-exclude='src/data/*.json' src/dev.ts",
     "bench": "deno run --allow-net --allow-read --allow-env  --allow-run benchmark/mod.ts",
     "check": "deno check './**/*.ts*'",
-    "import": "deno run --allow-net --allow-read --allow-write src/scripts/sync.ts && deno fmt",
-    "test": "deno run --allow-net --allow-env src/test.ts "
+    "import": "deno run --allow-net --allow-read --allow-write src/scripts/sync.ts && deno fmt src/data",
+    "test": "deno run --allow-net --allow-env --allow-read src/test.ts",
+    "test:watch": "deno run --allow-net --allow-env --allow-read --watch src/test.ts"
   },
   "imports": {
     "@data/": "./src/data/",
