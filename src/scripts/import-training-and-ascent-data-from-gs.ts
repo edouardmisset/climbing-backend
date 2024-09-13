@@ -97,10 +97,10 @@ ${JSON.stringify(transformedHeaderNames)}`,
 
 /**
  * Transforms the csv data array based on the replaced headers.
- * 
+ *
  * Note: Here, it's implied that the strings contained in the CSVData are only
  * representing basic JS data types (strings or numbers)
- * 
+ *
  * @param {CSVData} csvData - The original data array.
  * @param {CSVHeaders} headers - The replaced headers.
  * @returns {Record<string, string | number>[]} - The transformed data array.
@@ -117,7 +117,9 @@ function transformData(
         return acc
       }
       const valueAsNumber = Number(valueAsString)
-      const typedValue = isValidNumber(valueAsNumber) ? valueAsNumber : valueAsString
+      const typedValue = isValidNumber(valueAsNumber)
+        ? valueAsNumber
+        : valueAsString
       acc[header] = typedValue
       return acc
     }, {} as Record<string, string | number>)
