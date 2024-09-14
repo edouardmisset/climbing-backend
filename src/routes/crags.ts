@@ -22,7 +22,9 @@ const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 const app = new Hono()
 app.use(etag())
 
-const validCrags = parsedAscents.map(({ crag }) => crag.trim()).filter(Boolean)
+const validCrags = parsedAscents.map(({ crag }) => crag.trim()).filter((crag) =>
+  crag !== undefined
+)
 
 // Get all known crags from the ascents
 app.get('/', (ctx) => {
