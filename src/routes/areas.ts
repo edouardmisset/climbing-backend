@@ -12,7 +12,7 @@ const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 const app = new Hono()
 app.use(etag())
 
-const validAreas = parsedAscents.map(({ area }) => area?.trim()).filter(Boolean)
+const validAreas = parsedAscents.map(({ area }) => area?.trim()).filter(area => area !== undefined)
 
 // Get all known areas from the ascents
 app.get('/', (ctx) => {
