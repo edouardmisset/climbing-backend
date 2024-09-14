@@ -24,7 +24,7 @@ export const TRANSFORMED_ASCENT_HEADER_NAMES = {
   'Topo Grade': 'topoGrade',
   'Date': 'date',
   '# Tries': 'tries',
-  'My Grade': 'myGrade',
+  'My Grade': 'personalGrade',
   'Height': 'height',
   'Profile': 'profile',
   'Holds': 'holds',
@@ -101,7 +101,7 @@ ${JSON.stringify(transformedHeaderNames)}`,
  * Note: Here, it's implied that the strings contained in the CSVData are only
  * representing basic JS data types (strings or numbers)
  *
- * @param {CSVData} csvData - The original data array.
+ * @param {CSVData} csvData - The 2D data array.
  * @param {CSVHeaders} headers - The replaced headers.
  * @returns {Record<string, string | number>[]} - The transformed data array.
  */
@@ -109,20 +109,61 @@ function transformData(
   csvData: CSVData,
   headers: CSVHeaders,
 ): Record<string, string | number>[] {
-  return csvData.map((item) =>
+  return csvData.map((rowOfStrings) =>
     headers.reduce((acc, header, index) => {
-      const valueAsString = item[index]
+      const valueAsString = rowOfStrings[index]
       if (valueAsString === '') {
         acc[header] = valueAsString
-        return acc
+      } // Naive approach:
+      // only have transforms for headers that need it
+      else if (header === 'area') {
+        // Ensure we keep the value as a string and we do not try to force it as
+        // a number
+        acc[header] = String(valueAsString)
+      } else if (header === 'date') {
+        // We assume the following date format "DD/MM/YYYY" and check it
+        try {
+          const datePattern = /\d{2}\/\d{2}\/\d{4}/
+          datePattern.test(valueAsString)
+          const [day, month, year] = valueAsString.split('/')
+          acc[header] = new Date(`${year}-${month}-${day}T12:00:00Z`)
+            .toISOString()
+        } catch (error) {
+          console.error(error)
+        }
+      } else if (header === 'height') {
+        // Extract the number value if possible. If there is no value set the
+        // value to 0
+        acc[header] = Number(valueAsString.replace('m', ''))
+      } else if (header === 'rating') {
+        // Extract the number value if possible. If there is no value set the
+        // value to 0
+        acc[header] = Number(valueAsString.replace('*', ''))
+      } else if (header === 'tries') {
+        // Extract the number value if possible. If there is no value set the
+        // value to 0
+
+        acc.style = valueAsString.includes('Onsight')
+          ? 'Onsight'
+          : valueAsString.includes('Flash')
+          ? 'Flash'
+          : 'Redpoint'
+
+        acc[header] = Number(
+          valueAsString.replace(' go', '').replace(' Onsight', '').replace(
+            ' Flash',
+            '',
+          ),
+        )
+      } else {
+        const valueAsNumber = Number(valueAsString)
+        const typedValue = isValidNumber(valueAsNumber)
+          ? valueAsNumber
+          : valueAsString
+        acc[header] = typedValue
       }
-      const valueAsNumber = Number(valueAsString)
-      const typedValue = isValidNumber(valueAsNumber)
-        ? valueAsNumber
-        : valueAsString
-      acc[header] = typedValue
       return acc
-    }, {} as Record<string, string | number>)
+    }, {} as Record<CSVHeaders[number], string | number | boolean>)
   )
     .map((item) => removeObjectExtendedNullishValues(item))
     .map((item) => sortKeys(item))

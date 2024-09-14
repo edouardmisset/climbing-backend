@@ -1,5 +1,4 @@
 import { number, string, z } from 'zod'
-import { frenchDateSchema } from './training.ts'
 
 const degrees = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] as const
 const degreeSchema = z.enum(degrees)
@@ -24,29 +23,21 @@ const routeFrenchGradeSchema = string().min(2).regex(/^\d{1}[a-c]\+?$/)
 const boulderingFrenchGradeSchema = routeFrenchGradeSchema.toUpperCase()
 
 export const ascentSchema = z.object({
-  date: frenchDateSchema.or(
-    string().regex(/^\d{2}-\d{2}-\d{4}$/).transform((date) => {
-      const [day, month, year] = date.split('-').map(Number)
-      return new Date(
-        year,
-        month - 1,
-        day,
-      ).toISOString()
-    }),
-  ),
+  date: string(),
   routeName: string().min(1).or(number()).transform(String),
-  topoGrade: (routeFrenchGradeSchema.or(boulderingFrenchGradeSchema)),
-  routeOrBoulder: z.enum(['Route', 'Boulder', 'Multi-Pitch']),
+  topoGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema),
+  routeOrBoulder: z.enum(['Route', 'Boulder']),
   comments: string().optional(),
-  myGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema).optional(),
-  height: string().optional(),
-  tries: string(),
+  personalGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema)
+    .optional(),
+  height: number().optional(),
+  tries: number(),
   profile: string(),
   holds: string(),
-  rating: string(),
+  rating: number().optional(),
   crag: string(),
-  area: string().or(number()).transform(String).optional(),
-  departement: string(),
+  area: string().optional(),
+  departement: string().optional(),
   climber: z.literal('Edouard Misset'),
 }).passthrough()
 export type Ascent = z.infer<typeof ascentSchema>
