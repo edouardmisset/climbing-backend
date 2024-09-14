@@ -36,8 +36,8 @@ api
       <a href="api/training" >Training</a>`,
     ))
 
-api.post('/sync', async (ctx) => {
-  let timestamp = 0
+let timestamp = 0
+api.all('/sync', async (ctx) => {
   try {
     const throttleTimeInMinutes = 5
     const throttleTimeInMs = 1000 * 60 * throttleTimeInMinutes

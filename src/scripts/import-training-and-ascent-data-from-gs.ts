@@ -1,6 +1,7 @@
 import { parse } from '@std/csv'
 import { removeObjectExtendedNullishValues } from '@helpers/remove-undefined-values.ts'
 import { sortKeys } from '@helpers/sort-keys.ts'
+import { isValidNumber } from '@edouardmisset/utils'
 
 export const ascentsURL =
   'https://docs.google.com/spreadsheets/d/e/2PACX-1vQu1B4frLAYYVXD9-lam59jV6gqYYu93GoGUlPiRzkmd_f9Z6Fegf6m7xCMuOYeZxbWvb3dXxYw5JS1/pub?gid=1693455229&single=true&output=csv'
@@ -50,17 +51,6 @@ export const TRANSFORMED_TRAINING_HEADER_NAMES = {
 } as const
 
 /**
- * Reads a CSV file and parses its content.
- * @param {string} fileName - The name of the file.
- * @returns {Promise<{ headers: CSVHeaders, array: CSVData }>} - A promise that resolves to an object containing the headers and the parsed data.
- */
-async function readCsvFile(fileName: string): Promise<CSVParsedData> {
-  const csv = await Deno.readTextFile(`./src/data/${fileName}`)
-  const [headers, ...data] = parse(csv)
-  return { headers, data }
-}
-
-/**
  * Fetches data from a URL and parses it as CSV.
  *
  * @param {string} url - The URL to fetch data from.
@@ -93,32 +83,44 @@ function replaceHeaders(
   transformedHeaderNames: Record<string, string>,
 ): string[] {
   return headers.map((header) => {
-    const cleanedHeader = transformedHeaderNames[header]
-    if (!cleanedHeader) {
+    const replacedHeader = transformedHeaderNames[header]
+    if (!replacedHeader) {
       throw new Error(
-        `Header (${header}) is not defined in "transformedHeaderNames"`,
+        `Header (${header}) is not defined in "transformedHeaderNames"
+${JSON.stringify(transformedHeaderNames)}`,
       )
     }
 
-    return cleanedHeader
+    return replacedHeader
   })
 }
 
 /**
- * Transforms the data array based on the replaced headers.
- * @param {CSVData} array - The original data array.
- * @param {CSVHeaders} replacedHeaders - The replaced headers.
+ * Transforms the csv data array based on the replaced headers.
+ *
+ * Note: Here, it's implied that the strings contained in the CSVData are only
+ * representing basic JS data types (strings or numbers)
+ *
+ * @param {CSVData} csvData - The original data array.
+ * @param {CSVHeaders} headers - The replaced headers.
  * @returns {Record<string, string | number>[]} - The transformed data array.
  */
 function transformData(
-  array: CSVData,
-  replacedHeaders: CSVHeaders,
+  csvData: CSVData,
+  headers: CSVHeaders,
 ): Record<string, string | number>[] {
-  return array.map((item) =>
-    replacedHeaders.reduce((acc, header, index) => {
-      const val = item[index]
-      const numberVal = Number(val)
-      acc[header] = val === '' ? '' : Number.isNaN(numberVal) ? val : numberVal
+  return csvData.map((item) =>
+    headers.reduce((acc, header, index) => {
+      const valueAsString = item[index]
+      if (valueAsString === '') {
+        acc[header] = valueAsString
+        return acc
+      }
+      const valueAsNumber = Number(valueAsString)
+      const typedValue = isValidNumber(valueAsNumber)
+        ? valueAsNumber
+        : valueAsString
+      acc[header] = typedValue
       return acc
     }, {} as Record<string, string | number>)
   )

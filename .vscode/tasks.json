@@ -1,0 +1,85 @@
+{
+  "version": "2.0.0",
+  "presentation": {
+    "echo": false,
+    "reveal": "always",
+    "focus": false,
+    "panel": "dedicated",
+    "showReuseMessage": true
+  },
+  "tasks": [
+    {
+      "label": "Lint, format, test and run dev scripts",
+      "dependsOn": [
+        "Format",
+        "Lint",
+        "Test",
+        "Dev"
+      ],
+      "dependsOrder": "parallel",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Lint",
+      "icon": {
+        "id": "wrench",
+        "color": "terminal.ansiGreen"
+      },
+      "type": "shell",
+      "command": "deno task lint",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "group": "deno"
+      }
+    },
+    {
+      "label": "Format",
+      "icon": {
+        "id": "pencil",
+        "color": "terminal.ansiGreen"
+      },
+      "type": "shell",
+      "command": "deno task fmt",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "group": "deno"
+      }
+    },
+    {
+      "label": "Test",
+      "icon": {
+        "id": "bug",
+        "color": "terminal.ansiYellow"
+      },
+      "type": "shell",
+      "command": "deno task test:watch",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "group": "deno"
+      }
+    },
+    {
+      "label": "Dev",
+      "icon": {
+        "id": "run",
+        "color": "terminal.ansiBlue"
+      },
+      "type": "shell",
+      "command": "deno task dev",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "group": "deno"
+      }
+    }
+  ]
+}
