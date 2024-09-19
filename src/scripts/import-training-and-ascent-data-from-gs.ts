@@ -116,7 +116,7 @@ function transformData(
         acc[header] = valueAsString
       } // Naive approach:
       // only have transforms for headers that need it
-        // Transform ascents
+      // Transform ascents
       else if (header === 'area') {
         // Ensure we keep the value as a string and we do not try to force it as
         // a number
@@ -156,12 +156,10 @@ function transformData(
             '',
           ).trim(),
         )
-      }
-      // Transform Training Sessions
+      } // Transform Training Sessions
       else if (header === 'sessionType') {
         acc[header] = valueAsString === 'Ex' ? 'Out' : valueAsString
-      }
-      else {
+      } else {
         const valueAsNumber = Number(valueAsString)
         const typedValue = isValidNumber(valueAsNumber)
           ? valueAsNumber
