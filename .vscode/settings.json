@@ -7,7 +7,8 @@
   "deno.cacheOnSave": true,
   "editor.formatOnSaveMode": "modifications",
   "cSpell.words": [
-    "departement"
+    "departement",
+    "Undercling"
   ],
   "deno.future": true,
   "deno.codeLens.test": true

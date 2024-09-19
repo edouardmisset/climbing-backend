@@ -29,10 +29,10 @@ export const TRANSFORMED_ASCENT_HEADER_NAMES = {
   'Profile': 'profile',
   'Holds': 'holds',
   'Rating': 'rating',
-  'Route / Boulder': 'routeOrBoulder',
+  'Route / Boulder': 'climbingDiscipline',
   'Crag': 'crag',
   'Area': 'area',
-  'Departement': 'departement',
+  'Departement': 'region',
   'Climber': 'climber',
   'Ascent Comments': 'comments',
 } as const
@@ -45,7 +45,7 @@ export const TRANSFORMED_TRAINING_HEADER_NAMES = {
   'Gym / Crag': 'gymCrag',
   Intensity: 'intensity',
   LOAD: 'load',
-  'Route / Bouldering': 'routeOrBouldering',
+  'Route / Bouldering': 'climbingDiscipline',
   'Type of Session': 'sessionType',
   Volume: 'volume',
 } as const
@@ -116,6 +116,7 @@ function transformData(
         acc[header] = valueAsString
       } // Naive approach:
       // only have transforms for headers that need it
+        // Transform ascents
       else if (header === 'area') {
         // Ensure we keep the value as a string and we do not try to force it as
         // a number
@@ -150,12 +151,17 @@ function transformData(
           : 'Redpoint'
 
         acc[header] = Number(
-          valueAsString.replace(' go', '').replace(' Onsight', '').replace(
-            ' Flash',
+          valueAsString.replace('go', '').replace('Onsight', '').replace(
+            'Flash',
             '',
-          ),
+          ).trim(),
         )
-      } else {
+      }
+      // Transform Training Sessions
+      else if (header === 'sessionType') {
+        acc[header] = valueAsString === 'Ex' ? 'Out' : valueAsString
+      }
+      else {
         const valueAsNumber = Number(valueAsString)
         const typedValue = isValidNumber(valueAsNumber)
           ? valueAsNumber
