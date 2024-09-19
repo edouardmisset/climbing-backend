@@ -19,13 +19,14 @@
  * const sortedObjDesc = sortKeys(obj, false);
  * console.log(sortedObjDesc); // { c: 3, b: 1, a: 2 }
  */
-export const sortKeys = <Obj extends Record<string, unknown>>(
+export function sortKeys<Obj extends Record<string, unknown>>(
   obj: Obj,
   ascending = true,
-): Obj =>
-  Object.fromEntries(
+): Obj {
+  return Object.fromEntries(
     Object.entries(obj).sort(
       ([leftKey], [rightKey]) =>
         leftKey.localeCompare(rightKey) * (ascending ? 1 : -1),
     ),
   ) as Obj
+}

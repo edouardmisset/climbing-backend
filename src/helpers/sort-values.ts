@@ -16,13 +16,14 @@
  * sortNumericalValues(obj)
  * // returns { b: 1, a: 2, c: 3 }
  */
-export const sortNumericalValues = <Obj extends Record<string, number>>(
+export function sortNumericalValues<Obj extends Record<string, number>>(
   obj: Obj,
   ascending = true,
-): Obj =>
-  Object.fromEntries(
+): Obj {
+  return Object.fromEntries(
     Object.entries(obj).sort(
       ([, leftValue], [, rightValue]) =>
         (leftValue - rightValue) * (ascending ? 1 : -1),
     ),
   ) as Obj
+}

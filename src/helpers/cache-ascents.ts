@@ -19,6 +19,7 @@ async function hashValue(object_: unknown): Promise<string> {
       return hexes.join('')
     })
 }
+
 export async function getPreparedCachedAscents(): Promise<Ascent[]> {
   const currentHash = await hashValue(parsedAscents)
 
