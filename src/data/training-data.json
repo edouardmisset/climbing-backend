@@ -6461,6 +6461,50 @@
       "load": 42,
       "sessionType": "Out",
       "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "date": "2024-09-21T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Magic Wood",
+      "intensity": 70,
+      "load": 56,
+      "sessionType": "Out",
+      "volume": 80
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "date": "2024-09-22T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Magic Wood",
+      "intensity": 60,
+      "load": 36,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "date": "2024-09-25T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Magic Wood",
+      "intensity": 80,
+      "load": 48,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-09-28T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Val di Mello",
+      "intensity": 60,
+      "load": 36,
+      "sessionType": "Out",
+      "volume": 60
     }
   ]
 }
