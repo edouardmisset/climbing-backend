@@ -7,14 +7,14 @@ import { normalizeData } from '../helpers/normalize-data.ts'
 import { zValidator } from 'zod-validator'
 import { z } from 'zod'
 
-const app = new Hono()
-app.use(etag())
+const training = new Hono()
+training.use(etag())
 
 const parsedTrainingSessions = trainingSessionSchema.array().parse(
   trainingJSON.data,
 )
 
-app.get(
+training.get(
   '/',
   zValidator(
     'query',
@@ -35,4 +35,4 @@ app.get(
   },
 )
 
-export default app
+export default training

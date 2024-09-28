@@ -24,10 +24,10 @@ import { groupSimilarStrings } from '@helpers/find-similar.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
-const app = new Hono()
-app.use(etag())
+const ascents = new Hono()
+ascents.use(etag())
 
-app.get(
+ascents.get(
   '/',
   zValidator(
     'query',
@@ -192,74 +192,71 @@ app.get(
     })
   },
 )
+  .get('/duplicates', (ctx) => {
+    const ascentMap = new Map()
 
-app.get('/duplicates', (ctx) => {
-  const ascentMap = new Map()
+    parsedAscents.forEach(({ routeName, crag, topoGrade }) => {
+      // We ignore the "+" in the topoGrade in case it was logged inconsistently
+      const key = [routeName, topoGrade.replace('+', ''), crag].map((string) =>
+        removeAccents(string.toLocaleLowerCase())
+      ).join('-')
+      ascentMap.set(key, (ascentMap.get(key) || 0) + 1)
+    })
 
-  parsedAscents.forEach(({ routeName, crag, topoGrade }) => {
-    // We ignore the "+" in the topoGrade in case it was logged inconsistently
-    const key = [routeName, topoGrade.replace('+', ''), crag].map((string) =>
-      removeAccents(string.toLocaleLowerCase())
-    ).join('-')
-    ascentMap.set(key, (ascentMap.get(key) || 0) + 1)
+    const duplicateRoutes = Array.from(ascentMap.entries())
+      .filter(([, count]) => count > 1)
+      .map(([key]) => key)
+
+    return ctx.json({ data: duplicateRoutes })
   })
-
-  const duplicateRoutes = Array.from(ascentMap.entries())
-    .filter(([, count]) => count > 1)
-    .map(([key]) => key)
-
-  return ctx.json({ data: duplicateRoutes })
-})
-
-// Similar crag names
-app.get('/similar', (ctx) => {
-  const similarAscents = Array.from(
-    groupSimilarStrings(parsedAscents.map((ascent) => ascent.routeName), 3)
-      .entries(),
-  )
-
-  return ctx.json({ data: similarAscents })
-})
-
-app.get(
-  '/search',
-  zValidator(
-    'query',
-    z.object({
-      query: string(),
-      limit: z.string().optional().transform((val) =>
-        validNumberWithFallback(val, 100)
-      ),
-    }),
-  ),
-  async (ctx) => {
-    const { query, limit } = ctx.req.valid('query')
-
-    const options = {
-      keys: ['routeName', 'crag'],
-      limit: validNumberWithFallback(limit, 100),
-      threshold: 0.5,
-    }
-    const results = fuzzySort.go(
-      removeAccents(query),
-      await getPreparedCachedAscents(),
-      options,
+  // Similar crag names
+  .get('/similar', (ctx) => {
+    const similarAscents = Array.from(
+      groupSimilarStrings(parsedAscents.map((ascent) => ascent.routeName), 3)
+        .entries(),
     )
 
-    return ctx.json({
-      data: results.map((result) => {
-        const firstResult = result.find((res) => res.target !== '')
-        return ({
-          highlight: firstResult?.highlight(),
-          target: firstResult?.target,
-          ...result.obj,
-        })
+    return ctx.json({ data: similarAscents })
+  })
+  .get(
+    '/search',
+    zValidator(
+      'query',
+      z.object({
+        query: string(),
+        limit: z.string().optional().transform((val) =>
+          validNumberWithFallback(val, 100)
+        ),
       }),
-      metadata: {
-        total: results.total,
-      },
-    })
-  },
-)
+    ),
+    async (ctx) => {
+      const { query, limit } = ctx.req.valid('query')
 
-export default app
+      const options = {
+        keys: ['routeName', 'crag'],
+        limit: validNumberWithFallback(limit, 100),
+        threshold: 0.5,
+      }
+      const results = fuzzySort.go(
+        removeAccents(query),
+        await getPreparedCachedAscents(),
+        options,
+      )
+
+      return ctx.json({
+        data: results.map((result) => {
+          const firstResult = result.find((res) => res.target !== '')
+          return ({
+            highlight: firstResult?.highlight(),
+            target: firstResult?.target,
+            ...result.obj,
+          })
+        }),
+        metadata: {
+          total: results.total,
+        },
+      })
+    },
+  )
+
+export default ascents
