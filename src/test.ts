@@ -11,8 +11,6 @@ Deno.serve({
   port,
 }, (req) => api.fetch(req, { ENV: Deno.env.get('ENV') }))
 
-console.log('TEST')
-
 Deno.test('GET /api is ok', async () => {
   const res = await api.request('/api')
   assert(res.status === 200)

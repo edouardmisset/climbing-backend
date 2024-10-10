@@ -4,7 +4,7 @@
     "lint": "deno lint --watch",
     "fmt": "deno fmt --watch",
     "dev": "deno run --allow-net --allow-env --allow-read --allow-write --watch --watch-exclude='src/data/*.json' src/dev.ts",
-    "bench": "deno run --allow-net --allow-read --allow-env  --allow-run benchmark/mod.ts",
+    "bench": "deno run --allow-net --allow-read --allow-env --allow-run benchmark/mod.ts",
     "check": "deno check './**/*.ts*'",
     "import": "deno run --allow-net --allow-read --allow-write src/scripts/sync.ts && deno fmt src/data",
     "test": "deno test --allow-net --allow-env --allow-read",
