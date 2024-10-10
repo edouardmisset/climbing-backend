@@ -56,7 +56,7 @@ api.all('/sync', async (ctx) => {
     return ctx.json({ status: success ? 'success' : 'failure' }, 200)
   } catch (error) {
     console.error(error)
-    return ctx.json(error, 500)
+    return ctx.json(JSON.stringify(error), 500)
   }
 })
 
