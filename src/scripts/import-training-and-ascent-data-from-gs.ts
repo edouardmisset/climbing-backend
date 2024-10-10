@@ -1,9 +1,7 @@
 import { parse } from '@std/csv'
-import { removeObjectExtendedNullishValues } from '@helpers/remove-undefined-values.ts'
-import { sortKeys } from '@helpers/sort-keys.ts'
+import { removeObjectExtendedNullishValues } from 'helpers/remove-undefined-values.ts'
+import { sortKeys } from 'helpers/sort-keys.ts'
 import { isValidNumber } from '@edouardmisset/utils'
-import { endTime, startTime } from 'hono/timing'
-import { Context } from 'hono'
 
 export const ascentsURL =
   'https://docs.google.com/spreadsheets/d/e/2PACX-1vQu1B4frLAYYVXD9-lam59jV6gqYYu93GoGUlPiRzkmd_f9Z6Fegf6m7xCMuOYeZxbWvb3dXxYw5JS1/pub?gid=1693455229&single=true&output=csv'
@@ -200,29 +198,20 @@ async function writeDataToFile(
  * @returns {Promise<void>} - A promise that resolves when the data has been written.
  */
 export async function processCsvDataFromUrl(
-  { uri, fileName, transformedHeaderNames, c }: {
+  { uri, fileName, transformedHeaderNames }: {
     uri: string
     fileName: string
     transformedHeaderNames: Record<string, string>
-    c: Context
   },
 ): Promise<void> {
   try {
-    startTime(c, 'fetch', 'Fetch and parse Data from GS')
     const { headers, data } = await fetchAndParseData(uri)
-    endTime(c, 'fetch')
 
-    startTime(c, 'replace-headers', 'Replace the headers to the new model')
     const replacedHeaders = replaceHeaders(headers, transformedHeaderNames)
-    endTime(c, 'replace-headers')
 
-    startTime(c, 'transform', 'Transform the received data to the new model')
     const transformedData = transformData(data, replacedHeaders)
-    endTime(c, 'transform')
 
-    startTime(c, 'write', 'Write Data to disk as json')
     await writeDataToFile(fileName, transformedData)
-    endTime(c, 'write')
   } catch (error) {
     console.error(error)
   }
@@ -232,33 +221,25 @@ export async function processCsvDataFromUrl(
  * Synchronizes ascent and training data from Google Sheets.
  * @returns {Promise<boolean>} - A promise that resolves to true if the synchronization was successful, and false otherwise.
  */
-export async function syncAscentsAndTrainingFromGoogleSheets(
-  c: Context,
-): Promise<
+export async function syncAscentsAndTrainingFromGoogleSheets(): Promise<
   boolean
 > {
   try {
-    startTime(c, 'ascents', 'Processing ascents')
     await processCsvDataFromUrl(
       {
         uri: ascentsURL,
         fileName: ascentFileName,
         transformedHeaderNames: TRANSFORMED_ASCENT_HEADER_NAMES,
-        c,
       },
     )
-    endTime(c, 'ascents')
 
-    startTime(c, 'training', 'Processing training')
     await processCsvDataFromUrl(
       {
         uri: trainingURL,
         fileName: trainingFileName,
         transformedHeaderNames: TRANSFORMED_TRAINING_HEADER_NAMES,
-        c,
       },
     )
-    endTime(c, 'training')
 
     return true
   } catch (_error) {

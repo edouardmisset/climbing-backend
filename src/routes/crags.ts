@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 
-import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
-import { ascentSchema, Grade } from '@schema/ascent.ts'
+import ascentJSON from 'data/ascent-data.json' with { type: 'json' }
+import { ascentSchema, Grade } from 'schema/ascent.ts'
 import { etag } from 'hono/etag'
 import {
   frequency,
@@ -11,9 +11,9 @@ import {
 import {
   convertGradeToNumber,
   ROUTE_GRADE_TO_NUMBER,
-} from '@helpers/converters.ts'
-import { findSimilar, groupSimilarStrings } from '@helpers/find-similar.ts'
-import { sortNumericalValues } from '@helpers/sort-values.ts'
+} from 'helpers/converters.ts'
+import { findSimilar, groupSimilarStrings } from 'helpers/find-similar.ts'
+import { sortNumericalValues } from 'helpers/sort-values.ts'
 import { zValidator } from 'zod-validator'
 import { z } from 'zod'
 

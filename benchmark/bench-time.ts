@@ -10,7 +10,7 @@ apiTestCases.forEach(({ name, normalize, endpoint }) => {
         `${baseURL}/${endpoint}${normalize ? '?normalize=true' : ''}`,
       )
     } catch (error) {
-      globalThis.console.error(`Failed to fetch ${name}: ${error.message}.
+      globalThis.console.error(`Failed to fetch ${name}: ${error}.
 Is the development server ("http://localhost:${TEST_PORT}") running?`)
     }
   })

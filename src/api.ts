@@ -9,10 +9,10 @@ import { logger } from 'hono/logger'
 import { endTime, startTime, timing } from 'hono/timing'
 import { trimTrailingSlash } from 'hono/trailing-slash'
 
-import areas from '@routes/areas.ts'
-import ascents from '@routes/ascents.ts'
-import crags from '@routes/crags.ts'
-import training from '@routes/training.ts'
+import areas from 'routes/areas.ts'
+import ascents from 'routes/ascents.ts'
+import crags from 'routes/crags.ts'
+import training from 'routes/training.ts'
 
 import { syncAscentsAndTrainingFromGoogleSheets } from './scripts/import-training-and-ascent-data-from-gs.ts'
 
@@ -50,7 +50,7 @@ api.all('/sync', async (ctx) => {
       })
     }
     startTime(ctx, 'sync', 'Synchronisation with Google Sheets')
-    const success = await syncAscentsAndTrainingFromGoogleSheets(ctx)
+    const success = await syncAscentsAndTrainingFromGoogleSheets()
     endTime(ctx, 'sync')
     timestamp = Date.now()
     return ctx.json({ status: success ? 'success' : 'failure' }, 200)

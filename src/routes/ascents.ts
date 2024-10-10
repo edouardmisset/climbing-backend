@@ -10,17 +10,17 @@ import {
   validNumberWithFallback,
 } from '@edouardmisset/utils'
 
-import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
-import { normalizeData } from '@helpers/normalize-data.ts'
-import { sortKeys } from '@helpers/sort-keys.ts'
-import { Ascent, ascentSchema } from '@schema/ascent.ts'
+import ascentJSON from 'data/ascent-data.json' with { type: 'json' }
+import { normalizeData } from 'helpers/normalize-data.ts'
+import { sortKeys } from 'helpers/sort-keys.ts'
+import { Ascent, ascentSchema } from 'schema/ascent.ts'
 import { etag } from 'hono/etag'
 import { zValidator } from 'zod-validator'
 
-import { getPreparedCachedAscents } from '@helpers/cache-ascents.ts'
+import { getPreparedCachedAscents } from 'helpers/cache-ascents.ts'
 import fuzzySort from 'fuzzysort'
 import { boolean, string, z } from 'zod'
-import { groupSimilarStrings } from '@helpers/find-similar.ts'
+import { groupSimilarStrings } from 'helpers/find-similar.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 

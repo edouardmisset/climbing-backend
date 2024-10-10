@@ -65,7 +65,7 @@ async function fetchJsonResponseSize(
     }
     throw new Error('Content-Length header not found.')
   } catch (err) {
-    error(`Failed to fetch size for ${url}: ${err.message}`)
+    error(`Failed to fetch size for ${url}: ${err}`)
     return 0
   }
 }

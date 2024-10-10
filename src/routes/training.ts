@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 
-import trainingJSON from '@data/training-data.json' with { type: 'json' }
-import { trainingSessionSchema } from '@schema/training.ts'
+import trainingJSON from 'data/training-data.json' with { type: 'json' }
+import { trainingSessionSchema } from 'schema/training.ts'
 import { etag } from 'hono/etag'
 import { normalizeData } from '../helpers/normalize-data.ts'
 import { zValidator } from 'zod-validator'

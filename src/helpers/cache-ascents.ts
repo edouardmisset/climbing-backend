@@ -1,6 +1,6 @@
-import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
+import ascentJSON from 'data/ascent-data.json' with { type: 'json' }
 import { removeAccents } from '@edouardmisset/utils'
-import { Ascent, ascentSchema } from '@schema/ascent.ts'
+import { Ascent, ascentSchema } from 'schema/ascent.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 

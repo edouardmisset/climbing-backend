@@ -1,11 +1,11 @@
 import { Hono } from 'hono'
 
-import ascentJSON from '@data/ascent-data.json' with { type: 'json' }
-import { ascentSchema } from '@schema/ascent.ts'
+import ascentJSON from 'data/ascent-data.json' with { type: 'json' }
+import { ascentSchema } from 'schema/ascent.ts'
 import { etag } from 'hono/etag'
 import { frequency } from '@edouardmisset/utils'
-import { findSimilar, groupSimilarStrings } from '@helpers/find-similar.ts'
-import { sortNumericalValues } from '@helpers/sort-values.ts'
+import { findSimilar, groupSimilarStrings } from 'helpers/find-similar.ts'
+import { sortNumericalValues } from 'helpers/sort-values.ts'
 
 const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
 
