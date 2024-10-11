@@ -6505,6 +6505,84 @@
       "load": 36,
       "sessionType": "Out",
       "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "date": "2024-09-29T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Val di Mello",
+      "intensity": 70,
+      "load": 49,
+      "sessionType": "Out",
+      "volume": 70
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "date": "2024-10-01T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Val di Mello",
+      "intensity": 80,
+      "load": 48,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "date": "2024-10-04T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Val di Mello",
+      "intensity": 80,
+      "load": 48,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "date": "2024-10-05T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Val di Mello",
+      "intensity": 80,
+      "load": 48,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Travailler un beau 7c sur arrête. Pluie. Grimpé comme une chèvre ",
+      "date": "2024-10-07T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Val di Mello",
+      "intensity": 70,
+      "load": 35,
+      "sessionType": "Out",
+      "volume": 50
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-10-09T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Arco",
+      "intensity": 60,
+      "load": 36,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2024-10-11T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Arco",
+      "intensity": 80,
+      "load": 64,
+      "sessionType": "Out",
+      "volume": 80
     }
   ]
 }
