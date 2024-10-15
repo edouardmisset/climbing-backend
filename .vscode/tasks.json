@@ -80,6 +80,17 @@
       "presentation": {
         "group": "deno"
       }
+    },
+    {
+      "label": "Sync",
+      "icon": {
+        "id": "sync",
+        "color": "terminal.ansiYellow"
+      },
+      "type": "shell",
+      "command": "deno task sync && exit",
+      "isBackground": true,
+      "problemMatcher": []
     }
   ]
 }
