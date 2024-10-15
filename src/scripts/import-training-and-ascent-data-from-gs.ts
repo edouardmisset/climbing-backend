@@ -210,6 +210,8 @@ function transformData(
     headers.reduce((acc, header, index) => {
       const valueAsString = rowOfStrings[index]
 
+      if (valueAsString === '') return acc
+
       if (header === 'tries') {
         acc.style = transformTries(valueAsString).style
         acc[header] = transformTries(valueAsString).tries
