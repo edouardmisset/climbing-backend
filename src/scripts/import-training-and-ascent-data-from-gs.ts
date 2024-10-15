@@ -19,6 +19,8 @@ type CSVParsedData = {
   data: CSVData
 }
 
+type TransformFunction = (value: string) => string | number
+
 export const TRANSFORMED_ASCENT_HEADER_NAMES = {
   'Route Name': 'routeName',
   'Topo Grade': 'topoGrade',
@@ -96,6 +98,101 @@ ${JSON.stringify(transformedHeaderNames)}`,
 }
 
 /**
+ * Transforms a value to a string.
+ * @param {string} value - The value to transform.
+ * @returns {string} - The transformed string value.
+ */
+const transformToString: TransformFunction = (value) => String(value)
+
+/**
+ * Transforms a date string from "DD/MM/YYYY" format to ISO string.
+ * @param {string} value - The date string to transform.
+ * @returns {string} - The transformed ISO date string.
+ */
+const transformDate: TransformFunction = (value) => {
+  const [day, month, year] = value.split('/')
+  return new Date(`${year}-${month}-${day}T12:00:00Z`).toISOString()
+}
+
+/**
+ * Transforms a height string by removing 'm' and converting to a number.
+ * @param {string} value - The height string to transform.
+ * @returns {number} - The transformed number value.
+ */
+const transformHeight: TransformFunction = (value) =>
+  Number(value.replace('m', ''))
+
+/**
+ * Transforms a rating string by removing '*' and converting to a number.
+ * @param {string} value - The rating string to transform.
+ * @returns {number} - The transformed number value.
+ */
+const transformRating: TransformFunction = (value) =>
+  Number(value.replace('*', ''))
+
+/**
+ * Transforms a tries string to extract style and number of tries.
+ * @param {string} value - The tries string to transform.
+ * @returns {{ style: string, tries: number }} - The transformed style and tries.
+ */
+const transformTries: (value: string) => { style: string; tries: number } = (
+  value,
+) => {
+  const style = value.includes('Onsight')
+    ? 'Onsight'
+    : value.includes('Flash')
+    ? 'Flash'
+    : 'Redpoint'
+
+  const tries = Number(
+    value.replace('go', '').replace('Onsight', '').replace('Flash', '').trim(),
+  )
+
+  return { style, tries }
+}
+
+/**
+ * Transforms a session type string.
+ * @param {string} value - The session type string to transform.
+ * @returns {string} - The transformed session type.
+ */
+const transformSessionType: TransformFunction = (
+  value,
+) => (value === 'Ex' ? 'Out' : value)
+
+/**
+ * Transforms a climbing discipline string.
+ * @param {string} value - The climbing discipline string to transform.
+ * @returns {string} - The transformed climbing discipline.
+ */
+const transformClimbingDiscipline: TransformFunction = (
+  value,
+) => (value === 'Bouldering' ? 'Boulder' : value)
+
+/**
+ * Default transformation function that attempts to convert a string to a number.
+ * @param {string} value - The value to transform.
+ * @returns {string | number} - The transformed value as a number or string.
+ */
+const defaultTransform: TransformFunction = (value) => {
+  const valueAsNumber = Number(value)
+  return isValidNumber(valueAsNumber) ? valueAsNumber : value
+}
+
+const transformFunctions: Record<
+  string,
+  TransformFunction
+> = {
+  area: transformToString,
+  date: transformDate,
+  height: transformHeight,
+  rating: transformRating,
+  sessionType: transformSessionType,
+  climbingDiscipline: transformClimbingDiscipline,
+  default: defaultTransform,
+}
+
+/**
  * Transforms the csv data array based on the replaced headers.
  *
  * Note: Here, it's implied that the strings contained in the CSVData are only
@@ -103,71 +200,25 @@ ${JSON.stringify(transformedHeaderNames)}`,
  *
  * @param {CSVData} csvData - The 2D data array.
  * @param {CSVHeaders} headers - The replaced headers.
- * @returns {Record<string, string | number>[]} - The transformed data array.
+ * @returns {Record<string, string | number | boolean>[]} - The transformed data array.
  */
 function transformData(
   csvData: CSVData,
   headers: CSVHeaders,
-): Record<string, string | number>[] {
+): Record<string, string | number | boolean>[] {
   return csvData.map((rowOfStrings) =>
     headers.reduce((acc, header, index) => {
       const valueAsString = rowOfStrings[index]
-      if (valueAsString === '') {
-        acc[header] = valueAsString
-      } // Naive approach:
-      // only have transforms for headers that need it
-      // Transform ascents
-      else if (header === 'area') {
-        // Ensure we keep the value as a string and we do not try to force it as
-        // a number
-        acc[header] = String(valueAsString)
-      } else if (header === 'date') {
-        // We assume the following date format "DD/MM/YYYY" and check it
-        try {
-          const datePattern = /\d{2}\/\d{2}\/\d{4}/
-          datePattern.test(valueAsString)
-          const [day, month, year] = valueAsString.split('/')
-          acc[header] = new Date(`${year}-${month}-${day}T12:00:00Z`)
-            .toISOString()
-        } catch (error) {
-          console.error(error)
-        }
-      } else if (header === 'height') {
-        // Extract the number value if possible. If there is no value set the
-        // value to 0
-        acc[header] = Number(valueAsString.replace('m', ''))
-      } else if (header === 'rating') {
-        // Extract the number value if possible. If there is no value set the
-        // value to 0
-        acc[header] = Number(valueAsString.replace('*', ''))
-      } else if (header === 'tries') {
-        // Extract the number value if possible. If there is no value set the
-        // value to 0
 
-        acc.style = valueAsString.includes('Onsight')
-          ? 'Onsight'
-          : valueAsString.includes('Flash')
-          ? 'Flash'
-          : 'Redpoint'
-
-        acc[header] = Number(
-          valueAsString.replace('go', '').replace('Onsight', '').replace(
-            'Flash',
-            '',
-          ).trim(),
-        )
-      } // Transform Training Sessions
-      else if (header === 'sessionType') {
-        acc[header] = valueAsString === 'Ex' ? 'Out' : valueAsString
-      } else if (header === 'climbingDiscipline') {
-        acc[header] = valueAsString === 'Bouldering' ? 'Boulder' : valueAsString
+      if (header === 'tries') {
+        acc.style = transformTries(valueAsString).style
+        acc[header] = transformTries(valueAsString).tries
       } else {
-        const valueAsNumber = Number(valueAsString)
-        const typedValue = isValidNumber(valueAsNumber)
-          ? valueAsNumber
-          : valueAsString
-        acc[header] = typedValue
+        const transform = transformFunctions[header] ??
+          transformFunctions.default
+        acc[header] = transform(valueAsString)
       }
+
       return acc
     }, {} as Record<CSVHeaders[number], string | number | boolean>)
   )
@@ -178,15 +229,15 @@ function transformData(
 /**
  * Writes the data to a file.
  * @param {string} fileName - The name of the file.
- * @param {Record<string, string | number>[]} data - The data to write.
+ * @param {Record<string, string | number | boolean>[]} data - The data to write.
  */
 async function writeDataToFile(
   fileName: string,
-  data: Record<string, string | number>[],
+  data: Record<string, string | number | boolean>[],
 ): Promise<void> {
   await Deno.writeTextFile(
     `./src/data/${fileName}`,
-    JSON.stringify({ data }),
+    JSON.stringify({ data }, null, 2),
     { create: true },
   )
 }
