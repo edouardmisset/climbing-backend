@@ -232,26 +232,22 @@ ascents.get(
     async (ctx) => {
       const { query, limit } = ctx.req.valid('query')
 
-      const options = {
-        keys: ['routeName', 'crag'],
-        limit: validNumberWithFallback(limit, 100),
-        threshold: 0.5,
-      }
       const results = fuzzySort.go(
         removeAccents(query),
         await getPreparedCachedAscents(),
-        options,
+        {
+          key: (ascent) => ascent.routeName,
+          limit: validNumberWithFallback(limit, 100),
+          threshold: 0.5,
+        },
       )
 
       return ctx.json({
-        data: results.map((result) => {
-          const firstResult = result.find((res) => res.target !== '')
-          return ({
-            highlight: firstResult?.highlight(),
-            target: firstResult?.target,
-            ...result.obj,
-          })
-        }),
+        data: results.map((result) => ({
+          highlight: result.highlight(),
+          target: result.target,
+          ...result.obj,
+        })),
         metadata: {
           total: results.total,
         },
