@@ -58,7 +58,7 @@ export const TRANSFORMED_TRAINING_HEADER_NAMES = {
  * @param {string} url - The URL to fetch data from.
  * @returns {Promise<CSVParsedData>} - A promise that resolves to an object containing the headers and the parsed data.
  */
-async function fetchAndParseData(url: string): Promise<CSVParsedData> {
+export async function fetchAndParseCSV(url: string): Promise<CSVParsedData> {
   try {
     const response = await fetch(url)
     if (!response.ok) {
@@ -80,7 +80,7 @@ async function fetchAndParseData(url: string): Promise<CSVParsedData> {
  * @param {Record<string, string>} transformedHeaderNames - The mapping of original headers to cleaned headers.
  * @returns {string[]} - The cleaned headers.
  */
-function replaceHeaders(
+export function replaceHeaders(
   headers: CSVHeaders,
   transformedHeaderNames: Record<string, string>,
 ): string[] {
@@ -202,7 +202,7 @@ const transformFunctions: Record<
  * @param {CSVHeaders} headers - The replaced headers.
  * @returns {Record<string, string | number | boolean>[]} - The transformed data array.
  */
-function transformData(
+export function transformClimbingData(
   csvData: CSVData,
   headers: CSVHeaders,
 ): Record<string, string | number | boolean>[] {
@@ -237,11 +237,15 @@ async function writeDataToFile(
   fileName: string,
   data: Record<string, string | number | boolean>[],
 ): Promise<void> {
-  await Deno.writeTextFile(
-    `./src/data/${fileName}`,
-    JSON.stringify({ data }, null, 2),
-    { create: true },
-  )
+  try {
+    await Deno.writeTextFile(
+      `./src/data/${fileName}`,
+      JSON.stringify({ data }, null, 2),
+      { create: true },
+    )
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 /**
@@ -258,11 +262,11 @@ export async function processCsvDataFromUrl(
   },
 ): Promise<void> {
   try {
-    const { headers, data } = await fetchAndParseData(uri)
+    const { headers, data } = await fetchAndParseCSV(uri)
 
     const replacedHeaders = replaceHeaders(headers, transformedHeaderNames)
 
-    const transformedData = transformData(data, replacedHeaders)
+    const transformedData = transformClimbingData(data, replacedHeaders)
 
     await writeDataToFile(fileName, transformedData)
   } catch (error) {
