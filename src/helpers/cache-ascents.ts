@@ -10,13 +10,16 @@ let ascentsHash: string | undefined
 async function hashValue(object_: unknown): Promise<string> {
   return await crypto.subtle
     .digest('SHA-256', new TextEncoder().encode(JSON.stringify(object_)))
-    .then((h) => {
+    .then((hashBuffer) => {
       const hexes = []
-      const view = new DataView(h)
+      const view = new DataView(hashBuffer)
       for (let i = 0; i < view.byteLength; i += 4) {
         hexes.push((`00000000${view.getUint32(i).toString(16)}`).slice(-8))
       }
       return hexes.join('')
+    }).catch((error) => {
+      console.error('Error hashing:', error)
+      return ''
     })
 }
 
