@@ -10,10 +10,9 @@ import {
   validNumberWithFallback,
 } from '@edouardmisset/utils'
 
-import ascentJSON from 'data/ascent-data.json' with { type: 'json' }
 import { normalizeData } from 'helpers/normalize-data.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
-import { Ascent, ascentSchema } from 'schema/ascent.ts'
+import { Ascent } from 'schema/ascent.ts'
 import { etag } from 'hono/etag'
 import { zValidator } from 'zod-validator'
 
@@ -21,8 +20,7 @@ import { getPreparedCachedAscents } from 'helpers/cache-ascents.ts'
 import fuzzySort from 'fuzzysort'
 import { boolean, string, z } from 'zod'
 import { groupSimilarStrings } from 'helpers/find-similar.ts'
-
-const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
+import { getAscents } from 'data/ascent-data.ts'
 
 const ascents = new Hono()
 ascents.use(etag())
@@ -47,7 +45,7 @@ ascents.get(
       fields: string().optional(),
     }),
   ),
-  (ctx) => {
+  async (ctx) => {
     /**
      * Data: validated ascents (from db or file)
      *
@@ -120,7 +118,8 @@ ascents.get(
       },
     ]
 
-    const filteredAscents = parsedAscents.filter((ascent) =>
+    const ascents = await getAscents()
+    const filteredAscents = ascents.filter((ascent) =>
       filters.every(({ value, compare, key }) =>
         value === undefined || compare(String(ascent[key]), value)
       )
@@ -192,16 +191,19 @@ ascents.get(
     })
   },
 )
-  .get('/duplicates', (ctx) => {
+  .get('/duplicates', async (ctx) => {
     const ascentMap = new Map()
+    const ascents = await getAscents()
 
-    parsedAscents.forEach(({ routeName, crag, topoGrade }) => {
-      // We ignore the "+" in the topoGrade in case it was logged inconsistently
-      const key = [routeName, topoGrade.replace('+', ''), crag].map((string) =>
-        removeAccents(string.toLocaleLowerCase())
-      ).join('-')
-      ascentMap.set(key, (ascentMap.get(key) || 0) + 1)
-    })
+    ascents.forEach(
+      ({ routeName, crag, topoGrade }) => {
+        // We ignore the "+" in the topoGrade in case it was logged inconsistently
+        const key = [routeName, topoGrade.replace('+', ''), crag].map((
+          string,
+        ) => removeAccents(string.toLocaleLowerCase())).join('-')
+        ascentMap.set(key, (ascentMap.get(key) || 0) + 1)
+      },
+    )
 
     const duplicateRoutes = Array.from(ascentMap.entries())
       .filter(([, count]) => count > 1)
@@ -210,9 +212,13 @@ ascents.get(
     return ctx.json({ data: duplicateRoutes })
   })
   // Similar crag names
-  .get('/similar', (ctx) => {
+  .get('/similar', async (ctx) => {
+    const ascents = await getAscents()
     const similarAscents = Array.from(
-      groupSimilarStrings(parsedAscents.map((ascent) => ascent.routeName), 3)
+      groupSimilarStrings(
+        ascents.map((ascent) => ascent.routeName),
+        2,
+      )
         .entries(),
     )
 

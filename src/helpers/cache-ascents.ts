@@ -1,8 +1,6 @@
-import ascentJSON from 'data/ascent-data.json' with { type: 'json' }
 import { removeAccents } from '@edouardmisset/utils'
-import { Ascent, ascentSchema } from 'schema/ascent.ts'
-
-const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
+import { Ascent } from 'schema/ascent.ts'
+import { getAscents } from 'data/ascent-data.ts'
 
 let preparedCachedAscents: Ascent[] | undefined
 let ascentsHash: string | undefined
@@ -24,11 +22,12 @@ async function hashValue(object_: unknown): Promise<string> {
 }
 
 export async function getPreparedCachedAscents(): Promise<Ascent[]> {
-  const currentHash = await hashValue(parsedAscents)
+  const ascents = await getAscents()
+  const currentHash = await hashValue(ascents)
 
   if (currentHash !== ascentsHash) {
     ascentsHash = currentHash
-    preparedCachedAscents = parsedAscents.map((
+    preparedCachedAscents = ascents.map((
       { routeName, crag, ...rest },
     ) => ({
       routeName: removeAccents(routeName),

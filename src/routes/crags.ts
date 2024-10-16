@@ -1,42 +1,39 @@
 import { Hono } from 'hono'
 
-import ascentJSON from 'data/ascent-data.json' with { type: 'json' }
-import { ascentSchema, Grade } from 'schema/ascent.ts'
-import { etag } from 'hono/etag'
 import {
   frequency,
   mapObject,
   stringEqualsCaseInsensitive,
 } from '@edouardmisset/utils'
+import { getAscents } from 'data/ascent-data.ts'
 import {
   convertGradeToNumber,
   ROUTE_GRADE_TO_NUMBER,
 } from 'helpers/converters.ts'
 import { findSimilar, groupSimilarStrings } from 'helpers/find-similar.ts'
 import { sortNumericalValues } from 'helpers/sort-values.ts'
-import { zValidator } from 'zod-validator'
+import { etag } from 'hono/etag'
+import { type Ascent, Grade } from 'schema/ascent.ts'
 import { z } from 'zod'
-
-const parsedAscents = ascentSchema.array().parse(ascentJSON.data)
+import { zValidator } from 'zod-validator'
 
 const crags = new Hono()
 crags.use(etag())
 
-const validCrags = parsedAscents.map(({ crag }) => crag.trim()).filter((crag) =>
-  crag !== undefined
-)
-
 const hightestGradeNumber = [...ROUTE_GRADE_TO_NUMBER.values()].at(-1) ?? 1
 
 // Get all known crags from the ascents
-crags.get('/', (ctx) => {
-  const crags = [...new Set(validCrags)]
-    .sort()
+crags.get('/', async (ctx) => {
+  const validCrags = await getValidCrags()
+
+  const crags = [...new Set(validCrags)].sort()
 
   return ctx.json({ data: crags })
 })
   // Get crags frequency
-  .get('/frequency', (ctx) => {
+  .get('/frequency', async (ctx) => {
+    const validCrags = await getValidCrags()
+
     const sortedCragsByFrequency = sortNumericalValues(
       frequency(validCrags),
       false,
@@ -54,12 +51,15 @@ crags.get('/', (ctx) => {
         ) => value === 'true'),
       }),
     ),
-    (ctx) => {
+    async (ctx) => {
       const weightedByGrade = ctx.req.valid('query')['weight-by-grade']
+
+      const ascents = await getAscents()
+      const validCrags = await getValidCrags()
 
       const weightedByGradeAndSortedCrags = [...new Set(validCrags)].reduce(
         (acc, crag) => {
-          const listOfAscentsInCrag = parsedAscents.filter((
+          const listOfAscentsInCrag = ascents.filter((
             { crag: ascentCrag },
           ) => stringEqualsCaseInsensitive(crag, ascentCrag.trim()))
 
@@ -89,7 +89,7 @@ crags.get('/', (ctx) => {
         Object.entries(sortedCragsByNumber).map<[string, number]>(
           ([crag, number]) => {
             const daysClimbedInCrag = new Set(
-              parsedAscents.filter(({ crag: ascentCrag }) =>
+              ascents.filter(({ crag: ascentCrag }) =>
                 stringEqualsCaseInsensitive(crag, ascentCrag)
               ).map(({ date }) => date),
             ).size
@@ -110,12 +110,15 @@ crags.get('/', (ctx) => {
       })
     },
   )
-  .get('/duplicates', (ctx) => {
+  .get('/duplicates', async (ctx) => {
+    const validCrags = await getValidCrags()
+
     const similarCrags = findSimilar(validCrags)
 
     return ctx.json({ data: similarCrags })
   })
-  .get('/similar', (ctx) => {
+  .get('/similar', async (ctx) => {
+    const validCrags = await getValidCrags()
     const similarCrags = Array.from(
       groupSimilarStrings(validCrags, 2).entries(),
     )
@@ -124,3 +127,10 @@ crags.get('/', (ctx) => {
   })
 
 export default crags
+
+async function getValidCrags(): Promise<Ascent['crag'][]> {
+  const ascents = await getAscents()
+  return ascents.map(({ crag }) => crag.trim()).filter((crag) =>
+    crag !== undefined
+  )
+}
