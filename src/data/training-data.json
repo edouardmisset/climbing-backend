@@ -6609,6 +6609,17 @@
       "load": 36,
       "sessionType": "Out",
       "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-10-16T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Arco",
+      "intensity": 80,
+      "load": 56,
+      "sessionType": "Out",
+      "volume": 70
     }
   ]
 }

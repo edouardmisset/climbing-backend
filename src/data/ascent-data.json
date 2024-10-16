@@ -12346,6 +12346,57 @@
       "style": "Redpoint",
       "topoGrade": "7b+",
       "tries": 2
+    },
+    {
+      "area": "Massone",
+      "climber": "Edouard Misset",
+      "climbingDiscipline": "Route",
+      "comments": "Très belle. Patinée. ",
+      "crag": "Arco",
+      "date": "2024-10-16T12:00:00.000Z",
+      "height": 30,
+      "holds": "Pinch",
+      "personalGrade": "7b+",
+      "profile": "Overhang",
+      "rating": 4,
+      "routeName": "Beach Boys",
+      "style": "Onsight",
+      "topoGrade": "7b",
+      "tries": 1
+    },
+    {
+      "area": "Massone",
+      "climber": "Edouard Misset",
+      "climbingDiscipline": "Route",
+      "comments": "Jolie, variée, section verticale sur crimp fume. ",
+      "crag": "Arco",
+      "date": "2024-10-16T12:00:00.000Z",
+      "height": 30,
+      "holds": "Crimp",
+      "personalGrade": "7b+",
+      "profile": "Vertical",
+      "rating": 4,
+      "routeName": "Only locals",
+      "style": "Onsight",
+      "topoGrade": "7b+",
+      "tries": 1
+    },
+    {
+      "area": "Massone",
+      "climber": "Edouard Misset",
+      "climbingDiscipline": "Route",
+      "comments": "Verticale technique. Difficile de voir la bonne séquence à vue. Mériterait d’être brossé",
+      "crag": "Arco",
+      "date": "2024-10-16T12:00:00.000Z",
+      "height": 25,
+      "holds": "Crimp",
+      "personalGrade": "7b",
+      "profile": "Vertical",
+      "rating": 4,
+      "routeName": "Gameboy",
+      "style": "Onsight",
+      "topoGrade": "7b",
+      "tries": 1
     }
   ]
 }
