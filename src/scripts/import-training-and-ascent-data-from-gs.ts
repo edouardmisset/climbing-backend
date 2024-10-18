@@ -135,7 +135,9 @@ const transformRating: TransformFunction = (value) =>
  * @param {string} value - The tries string to transform.
  * @returns {{ style: string, tries: number }} - The transformed style and tries.
  */
-const transformTries: (value: string) => { style: string; tries: number } = (
+export const transformTries: (
+  value: string,
+) => { style: string; tries: number } = (
   value,
 ) => {
   const style = value.includes('Onsight')
@@ -179,7 +181,7 @@ const defaultTransform: TransformFunction = (value) => {
   return isValidNumber(valueAsNumber) ? valueAsNumber : value
 }
 
-const transformFunctions: Record<
+export const TRANSFORM_FUNCTIONS: Record<
   string,
   TransformFunction
 > = {
@@ -187,10 +189,11 @@ const transformFunctions: Record<
   date: transformDate,
   height: transformHeight,
   rating: transformRating,
+  routeName: transformToString,
   sessionType: transformSessionType,
   climbingDiscipline: transformClimbingDiscipline,
   default: defaultTransform,
-}
+} as const
 
 /**
  * Transforms the csv data array based on the replaced headers.
@@ -216,8 +219,8 @@ export function transformClimbingData(
         acc.style = transformTries(valueAsString).style
         acc[header] = transformTries(valueAsString).tries
       } else {
-        const transform = transformFunctions[header] ??
-          transformFunctions.default
+        const transform = TRANSFORM_FUNCTIONS[header] ??
+          TRANSFORM_FUNCTIONS.default
         acc[header] = transform(valueAsString)
       }
 
