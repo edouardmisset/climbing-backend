@@ -23,7 +23,7 @@ export async function getAscents(): Promise<Ascent[]> {
     return cachedData
   }
 
-  // Fetch CSV data
+  // Fetch and parse CSV data
   const { data, headers } = await fetchAndParseCSV(ascentsURL)
   // Transform CSV data into Array of Ascents
   const transformedHeaders = replaceHeaders(

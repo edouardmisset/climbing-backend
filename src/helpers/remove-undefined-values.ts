@@ -1,4 +1,6 @@
-export function removeObjectExtendedNullishValues(obj: any): any {
+export function removeObjectExtendedNullishValues<
+  T extends Record<string, unknown>,
+>(obj: T): T {
   return Object.entries(obj).reduce((acc: any, [key, value]) => {
     if (value !== undefined && value !== null && value !== '') {
       acc[key] = value
