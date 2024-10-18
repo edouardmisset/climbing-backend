@@ -11,16 +11,19 @@
     "test:watch": "deno test --allow-net --allow-env --allow-read --watch"
   },
   "imports": {
-    "data/": "./src/data/",
     "@edouardmisset/utils": "jsr:@edouardmisset/utils@^3.3",
-    "helpers/": "./src/helpers/",
-    "routes/": "./src/routes/",
-    "schema/": "./src/schema/",
     "@std/csv": "jsr:@std/csv@^0.223.0",
     "@std/dotenv": "jsr:@std/dotenv@^0.225.2",
     "@total-typescript/ts-reset": "npm:@total-typescript/ts-reset@^0.5.1",
+    "data/": "./src/data/",
     "fuzzysort": "npm:fuzzysort@^3.0.1",
+    "google-auth-library": "npm:google-auth-library@^9.14.2",
+    "google-spreadsheet": "npm:google-spreadsheet@^4.1.4",
+    "helpers/": "./src/helpers/",
     "hono": "npm:hono@^4.4.3",
+    "routes/": "./src/routes/",
+    "schema/": "./src/schema/",
+    "scripts/": "./src/scripts/",
     "text": "jsr:@std/text@^1",
     "zod": "npm:zod@^3.23.8",
     "zod-validator": "npm:@hono/zod-validator@^0.2.2"
