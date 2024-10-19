@@ -39,6 +39,9 @@ export const TRANSFORMED_ASCENT_HEADER_NAMES = {
   'Ascent Comments': 'comments',
 } as const
 
+export type GSAscentKeys = keyof typeof TRANSFORMED_ASCENT_HEADER_NAMES
+export type JSAscentKeys = typeof TRANSFORMED_ASCENT_HEADER_NAMES[GSAscentKeys]
+
 export const TRANSFORMED_TRAINING_HEADER_NAMES = {
   'Anatomical Region': 'anatomicalRegion',
   Comments: 'comments',
@@ -51,6 +54,10 @@ export const TRANSFORMED_TRAINING_HEADER_NAMES = {
   'Type of Session': 'sessionType',
   Volume: 'volume',
 } as const
+
+export type GSTrainingKeys = keyof typeof TRANSFORMED_TRAINING_HEADER_NAMES
+export type JSTrainingKeys =
+  typeof TRANSFORMED_TRAINING_HEADER_NAMES[GSTrainingKeys]
 
 /**
  * Fetches data from a URL and parses it as CSV.

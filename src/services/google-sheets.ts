@@ -1,8 +1,22 @@
-import { GoogleSpreadsheet } from 'google-spreadsheet'
+import {
+  GoogleSpreadsheet,
+  GoogleSpreadsheetWorksheet,
+} from 'google-spreadsheet'
 import { JWT } from 'google-auth-library'
 import { load } from '@std/dotenv'
 
 const env = await load()
+
+const SHEETS_INFO = {
+  ascents: {
+    id: env.GOOGLE_SHEET_ID_ASCENTS,
+    sheetTitle: env.GOOGLE_SHEET_ASCENTS_SHEET_TITLE,
+  },
+  training: {
+    id: env.GOOGLE_SHEET_ID_TRAINING,
+    sheetTitle: env.GOOGLE_SHEET_TRAINING_SHEET_TITLE,
+  },
+} as const
 
 const serviceAccountAuth = new JWT({
   email: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -10,7 +24,19 @@ const serviceAccountAuth = new JWT({
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 })
 
-export const doc = new GoogleSpreadsheet(
-  env.GOOGLE_SHEET_ID,
-  serviceAccountAuth,
-)
+export const loadWorksheet = async (
+  climbingDataType: keyof typeof SHEETS_INFO,
+): Promise<GoogleSpreadsheetWorksheet> => {
+  const { id, sheetTitle } = SHEETS_INFO[climbingDataType]
+
+  const sheet = new GoogleSpreadsheet(id, serviceAccountAuth)
+  await sheet.loadInfo()
+
+  const worksheet = sheet.sheetsByTitle?.[sheetTitle]
+
+  if (!worksheet) {
+    throw new Error(`Sheet "${sheetTitle}" not found`)
+  }
+
+  return worksheet
+}

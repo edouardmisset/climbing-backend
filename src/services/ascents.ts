@@ -1,82 +1,68 @@
 import { removeObjectExtendedNullishValues } from 'helpers/remove-undefined-values.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
+import { type Ascent, ascentSchema } from 'schema/ascent.ts'
 import {
+  type GSAscentKeys,
   TRANSFORM_FUNCTIONS,
   TRANSFORMED_ASCENT_HEADER_NAMES,
   transformTries,
 } from 'scripts/import-training-and-ascent-data-from-gs.ts'
-import { doc } from './google-sheets.ts'
-import { type Ascent, ascentSchema } from 'schema/ascent.ts'
+import { loadWorksheet } from './google-sheets.ts'
 
 // CRUD operations
 
 // READ
 
+/**
+ * Transforms a raw ascent record from Google Sheets format to a JavaScript
+ * object format.
+ *
+ * @param rawAscent - A record representing a single ascent with keys and values
+ * as strings from Google Sheets.
+ * @returns A transformed record with keys as strings and values as strings,
+ * numbers, or booleans, representing the ascent in JavaScript format.
+ */
+function transformAscentFromGSToJS(
+  rawAscent: Record<string, string>,
+): Record<string, string | number | boolean> {
+  const transformedAscent = Object.entries(rawAscent).reduce(
+    (acc, [key, value]) => {
+      if (value === '') return acc
+
+      const transformedKey =
+        TRANSFORMED_ASCENT_HEADER_NAMES[key as GSAscentKeys]
+
+      if (key === 'tries') {
+        acc[transformedKey] = transformTries(value).tries
+        acc.style = transformTries(value).style
+      } else {
+        const transform = TRANSFORM_FUNCTIONS[key] ??
+          TRANSFORM_FUNCTIONS.default
+        acc[transformedKey] = transform(value)
+      }
+      return acc
+    },
+    {} as Record<string, string | number | boolean>,
+  )
+
+  return sortKeys(removeObjectExtendedNullishValues(transformedAscent))
+}
+
+// Main function to get all ascents
 export async function getAllAscents(): Promise<Ascent[]> {
-  await doc.loadInfo()
-
-  const ascentSheetTitle = 'AllSuccesses'
-  const allAscentsSheet = doc.sheetsByTitle[ascentSheetTitle]
-
-  if (!allAscentsSheet) {
-    throw new Error(`Sheet "${ascentSheetTitle}" not found`)
-  }
+  const allAscentsSheet = await loadWorksheet('ascents')
   const rows = await allAscentsSheet.getRows()
 
   const rawAscents = rows
-    // Transform to Objects
-    .map((row) => row.toObject())
-    // Transform keys to new keys
-    .map((rawAscent: Record<string, string>) =>
-      Object.fromEntries(
-        Object.entries(rawAscent).map((
-          [key, value],
-        ) => {
-          return [
-            TRANSFORMED_ASCENT_HEADER_NAMES[
-              key as keyof typeof TRANSFORMED_ASCENT_HEADER_NAMES
-            ],
-            value,
-          ]
-        }),
-      )
-    )
-    // Transform values to new types
-    .map((rawAscent) =>
-      Object.entries(rawAscent).reduce((acc, [key, value]) => {
-        if (value === '') return acc
-        if (key === 'tries') {
-          acc[key] = transformTries(value).tries
-          acc.style = transformTries(value).style
-        } else {
-          const transform = TRANSFORM_FUNCTIONS[key] ??
-            TRANSFORM_FUNCTIONS.default
-          acc[key] = transform(value)
-        }
-        return acc
-      }, {} as Record<string, string | number | boolean>)
-    )
-    // Remove empty objects
-    .map((item) => removeObjectExtendedNullishValues(item))
-    // Sort keys
-    .map((item) => sortKeys(item))
+    .map((row) => transformAscentFromGSToJS(row.toObject()))
 
-  const parsedAscents = ascentSchema.array().parse(rawAscents)
-
-  return parsedAscents
+  return ascentSchema.array().parse(rawAscents)
 }
 
 // WRITE
 
 export async function addAscent(ascent: Ascent): Promise<void> {
-  await doc.loadInfo()
-
-  const ascentSheetTitle = 'AllSuccesses'
-  const allAscentsSheet = doc.sheetsByTitle[ascentSheetTitle]
-
-  if (!allAscentsSheet) {
-    throw new Error(`Sheet "${ascentSheetTitle}" not found`)
-  }
+  const allAscentsSheet = await loadWorksheet('ascents')
 
   await allAscentsSheet.addRow(
     Object.values(ascentSchema.parse(ascent)).map(String),
