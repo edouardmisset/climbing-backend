@@ -11,10 +11,12 @@ const SHEETS_INFO = {
   ascents: {
     id: env.GOOGLE_SHEET_ID_ASCENTS,
     sheetTitle: env.GOOGLE_SHEET_ASCENTS_SHEET_TITLE,
+    editSheetTitle: env.GOOGLE_SHEET_ASCENTS_EDIT_SHEET_TITLE,
   },
   training: {
     id: env.GOOGLE_SHEET_ID_TRAINING,
     sheetTitle: env.GOOGLE_SHEET_TRAINING_SHEET_TITLE,
+    editSheetTitle: env.GOOGLE_SHEET_TRAINING_EDIT_SHEET_TITLE,
   },
 } as const
 
@@ -26,16 +28,19 @@ const serviceAccountAuth = new JWT({
 
 export const loadWorksheet = async (
   climbingDataType: keyof typeof SHEETS_INFO,
+  options?: { edit?: boolean },
 ): Promise<GoogleSpreadsheetWorksheet> => {
-  const { id, sheetTitle } = SHEETS_INFO[climbingDataType]
+  const { id, sheetTitle, editSheetTitle } = SHEETS_INFO[climbingDataType]
+  const { edit = false } = options ?? {}
 
   const sheet = new GoogleSpreadsheet(id, serviceAccountAuth)
   await sheet.loadInfo()
 
-  const worksheet = sheet.sheetsByTitle?.[sheetTitle]
+  const title = edit ? editSheetTitle : sheetTitle
+  const worksheet = sheet.sheetsByTitle?.[title]
 
   if (!worksheet) {
-    throw new Error(`Sheet "${sheetTitle}" not found`)
+    throw new Error(`Sheet "${title}" not found`)
   }
 
   return worksheet
