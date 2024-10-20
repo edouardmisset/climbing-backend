@@ -63,7 +63,6 @@ export async function getAllAscents(): Promise<Ascent[]> {
 }
 
 // WRITE
-
 export async function addAscent(ascent: Ascent): Promise<void> {
   const manualAscentsSheet = await loadWorksheet('ascents', { edit: true })
 

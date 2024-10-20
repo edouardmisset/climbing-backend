@@ -1,4 +1,4 @@
-import { syncAscentsAndTrainingFromGoogleSheets } from './scripts/import-training-and-ascent-data-from-gs.ts'
+import { backupAscentsAndTrainingFromGoogleSheets } from './scripts/import-training-and-ascent-data-from-gs.ts'
 import api, { FALLBACK_PORT } from './api.ts'
 
 Deno.env.set('ENV', 'production')
@@ -14,6 +14,6 @@ Deno.cron(
     hour: { every: 6 },
   },
   async () => {
-    await syncAscentsAndTrainingFromGoogleSheets()
+    await backupAscentsAndTrainingFromGoogleSheets()
   },
 )

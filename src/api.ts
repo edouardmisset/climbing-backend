@@ -14,7 +14,7 @@ import ascents from 'routes/ascents.ts'
 import crags from 'routes/crags.ts'
 import training from 'routes/training.ts'
 
-import { syncAscentsAndTrainingFromGoogleSheets } from './scripts/import-training-and-ascent-data-from-gs.ts'
+import { backupAscentsAndTrainingFromGoogleSheets } from './scripts/import-training-and-ascent-data-from-gs.ts'
 
 const { ENV } = await load()
 export const FALLBACK_PORT = 8000
@@ -37,7 +37,7 @@ api
     ))
 
 let timestamp = 0
-api.all('/sync', async (ctx) => {
+api.all('/backup', async (ctx) => {
   try {
     const throttleTimeInMinutes = 5
     const throttleTimeInMs = 1000 * 60 * throttleTimeInMinutes
@@ -46,12 +46,16 @@ api.all('/sync', async (ctx) => {
       return ctx.json({
         status: 'failure',
         message:
-          `Sync was triggered less than ${throttleTimeInMinutes} min ago.`,
+          `Backup was triggered less than ${throttleTimeInMinutes} min ago.`,
       })
     }
-    startTime(ctx, 'sync', 'Synchronisation with Google Sheets')
-    const success = await syncAscentsAndTrainingFromGoogleSheets()
-    endTime(ctx, 'sync')
+    startTime(
+      ctx,
+      'backup',
+      'Backing up ascents and training from Google Sheets',
+    )
+    const success = await backupAscentsAndTrainingFromGoogleSheets()
+    endTime(ctx, 'backup')
     timestamp = Date.now()
     return ctx.json({ status: success ? 'success' : 'failure' }, 200)
   } catch (error) {

@@ -283,10 +283,10 @@ export async function processCsvDataFromUrl(
 }
 
 /**
- * Synchronizes ascent and training data from Google Sheets.
- * @returns {Promise<boolean>} - A promise that resolves to true if the synchronization was successful, and false otherwise.
+ * Backup ascent and training data from Google Sheets.
+ * @returns {Promise<boolean>} - A promise that resolves to true if the backup was successful, and false otherwise.
  */
-export async function syncAscentsAndTrainingFromGoogleSheets(): Promise<
+export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
   boolean
 > {
   try {
@@ -309,7 +309,7 @@ export async function syncAscentsAndTrainingFromGoogleSheets(): Promise<
     return true
   } catch (_error) {
     console.error(
-      'An error occurred while syncing data from Google Sheets',
+      'An error occurred while backing up data from Google Sheets',
       _error,
     )
     return false
