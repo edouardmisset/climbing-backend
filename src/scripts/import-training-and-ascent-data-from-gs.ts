@@ -140,13 +140,11 @@ const transformRating: TransformFunction = (value) =>
 /**
  * Transforms a tries string to extract style and number of tries.
  * @param {string} value - The tries string to transform.
- * @returns {{ style: string, tries: number }} - The transformed style and tries.
+ * @returns {{ style: 'Onsight' | 'Flash' | 'Redpoint', tries: number }} - The transformed style and tries.
  */
 export const transformTries: (
   value: string,
-) => { style: string; tries: number } = (
-  value,
-) => {
+) => { style: 'Onsight' | 'Flash' | 'Redpoint'; tries: number } = (value) => {
   const style = value.includes('Onsight')
     ? 'Onsight'
     : value.includes('Flash')

@@ -28,11 +28,11 @@ function transformAscentFromGSToJS(
       const transformedKey =
         TRANSFORMED_ASCENT_HEADER_NAMES[key as GSAscentKeys]
 
-      if (key === 'tries') {
+      if (transformedKey === 'tries') {
         acc[transformedKey] = transformTries(value).tries
         acc.style = transformTries(value).style
       } else {
-        const transform = TRANSFORM_FUNCTIONS[key] ??
+        const transform = TRANSFORM_FUNCTIONS[transformedKey] ??
           TRANSFORM_FUNCTIONS.default
         acc[transformedKey] = transform(value)
       }
@@ -44,7 +44,14 @@ function transformAscentFromGSToJS(
   return sortKeys(removeObjectExtendedNullishValues(transformedAscent))
 }
 
-// Main function to get all ascents
+/**
+ * Retrieves all ascent records from the Google Sheets 'ascents' worksheet,
+ * transforms them from Google Sheets format to JavaScript object format,
+ * and validates them against the ascent schema.
+ *
+ * @returns A promise that resolves to an array of Ascent objects, each
+ * representing a validated ascent record.
+ */
 export async function getAllAscents(): Promise<Ascent[]> {
   const allAscentsSheet = await loadWorksheet('ascents')
   const rows = await allAscentsSheet.getRows()
