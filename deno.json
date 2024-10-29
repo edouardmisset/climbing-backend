@@ -5,6 +5,7 @@
     "fmt": "deno fmt --watch",
     "dev": "deno run --allow-net --allow-env --allow-read --allow-write --watch --watch-exclude='src/data/*.json' src/mod.ts",
     "bench": "deno run --allow-net --allow-read --allow-env --allow-run benchmark/mod.ts",
+    "cache": "deno install --entrypoint src/mod.ts benchmark/mod.ts src/test.ts",
     "check": "deno check './**/*.ts*'",
     "backup": "deno run --allow-net --allow-read --allow-write src/scripts/backup.ts && deno fmt src/data",
     "test": "deno test --allow-net --allow-env --allow-read",
