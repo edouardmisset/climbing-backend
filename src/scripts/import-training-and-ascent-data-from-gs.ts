@@ -39,6 +39,9 @@ export const TRANSFORMED_ASCENT_HEADER_NAMES = {
   'Ascent Comments': 'comments',
 } as const
 
+export type GSAscentKeys = keyof typeof TRANSFORMED_ASCENT_HEADER_NAMES
+export type JSAscentKeys = typeof TRANSFORMED_ASCENT_HEADER_NAMES[GSAscentKeys]
+
 export const TRANSFORMED_TRAINING_HEADER_NAMES = {
   'Anatomical Region': 'anatomicalRegion',
   Comments: 'comments',
@@ -51,6 +54,10 @@ export const TRANSFORMED_TRAINING_HEADER_NAMES = {
   'Type of Session': 'sessionType',
   Volume: 'volume',
 } as const
+
+export type GSTrainingKeys = keyof typeof TRANSFORMED_TRAINING_HEADER_NAMES
+export type JSTrainingKeys =
+  typeof TRANSFORMED_TRAINING_HEADER_NAMES[GSTrainingKeys]
 
 /**
  * Fetches data from a URL and parses it as CSV.
@@ -133,11 +140,11 @@ const transformRating: TransformFunction = (value) =>
 /**
  * Transforms a tries string to extract style and number of tries.
  * @param {string} value - The tries string to transform.
- * @returns {{ style: string, tries: number }} - The transformed style and tries.
+ * @returns {{ style: 'Onsight' | 'Flash' | 'Redpoint', tries: number }} - The transformed style and tries.
  */
-const transformTries: (value: string) => { style: string; tries: number } = (
-  value,
-) => {
+export const transformTries: (
+  value: string,
+) => { style: 'Onsight' | 'Flash' | 'Redpoint'; tries: number } = (value) => {
   const style = value.includes('Onsight')
     ? 'Onsight'
     : value.includes('Flash')
@@ -179,7 +186,7 @@ const defaultTransform: TransformFunction = (value) => {
   return isValidNumber(valueAsNumber) ? valueAsNumber : value
 }
 
-const transformFunctions: Record<
+export const TRANSFORM_FUNCTIONS: Record<
   string,
   TransformFunction
 > = {
@@ -187,10 +194,11 @@ const transformFunctions: Record<
   date: transformDate,
   height: transformHeight,
   rating: transformRating,
+  routeName: transformToString,
   sessionType: transformSessionType,
   climbingDiscipline: transformClimbingDiscipline,
   default: defaultTransform,
-}
+} as const
 
 /**
  * Transforms the csv data array based on the replaced headers.
@@ -216,8 +224,8 @@ export function transformClimbingData(
         acc.style = transformTries(valueAsString).style
         acc[header] = transformTries(valueAsString).tries
       } else {
-        const transform = transformFunctions[header] ??
-          transformFunctions.default
+        const transform = TRANSFORM_FUNCTIONS[header] ??
+          TRANSFORM_FUNCTIONS.default
         acc[header] = transform(valueAsString)
       }
 
@@ -275,10 +283,10 @@ export async function processCsvDataFromUrl(
 }
 
 /**
- * Synchronizes ascent and training data from Google Sheets.
- * @returns {Promise<boolean>} - A promise that resolves to true if the synchronization was successful, and false otherwise.
+ * Backup ascent and training data from Google Sheets.
+ * @returns {Promise<boolean>} - A promise that resolves to true if the backup was successful, and false otherwise.
  */
-export async function syncAscentsAndTrainingFromGoogleSheets(): Promise<
+export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
   boolean
 > {
   try {
@@ -301,7 +309,7 @@ export async function syncAscentsAndTrainingFromGoogleSheets(): Promise<
     return true
   } catch (_error) {
     console.error(
-      'An error occurred while syncing data from Google Sheets',
+      'An error occurred while backing up data from Google Sheets',
       _error,
     )
     return false

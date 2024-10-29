@@ -6620,6 +6620,51 @@
       "load": 56,
       "sessionType": "Out",
       "volume": 70
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2024-10-24T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Martinswand",
+      "intensity": 60,
+      "load": 48,
+      "sessionType": "Out",
+      "volume": 80
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-10-26T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Zillertal",
+      "intensity": 80,
+      "load": 48,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-10-27T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Ewige Jagdgründe",
+      "intensity": 70,
+      "load": 42,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Trop fatigué",
+      "date": "2024-10-28T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Ewige Jagdgründe",
+      "intensity": 50,
+      "load": 25,
+      "sessionType": "Out",
+      "volume": 50
     }
   ]
 }

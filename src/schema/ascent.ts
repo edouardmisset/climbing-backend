@@ -75,5 +75,5 @@ export const ascentSchema = z.object({
   style: z.enum(ascentStyle),
   topoGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema),
   tries: number().min(1),
-}).passthrough()
+})
 export type Ascent = z.infer<typeof ascentSchema>

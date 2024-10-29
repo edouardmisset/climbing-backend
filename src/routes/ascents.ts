@@ -12,7 +12,7 @@ import {
 
 import { normalizeData } from 'helpers/normalize-data.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
-import { Ascent } from 'schema/ascent.ts'
+import { Ascent, ascentSchema } from 'schema/ascent.ts'
 import { etag } from 'hono/etag'
 import { zValidator } from 'zod-validator'
 
@@ -35,9 +35,9 @@ ascents.get(
       year: string().optional(),
       tries: string().optional(),
       crag: string().optional(),
-      'group-by': string().optional(),
+      'group-by': ascentSchema.keyof().optional(),
       descending: boolean().optional(),
-      'route-or-boulder': string().optional(),
+      climbingDiscipline: string().optional(),
       normalize: z.enum(['true', 'false']).optional().transform((value) =>
         value === 'true'
       ),
@@ -70,7 +70,7 @@ ascents.get(
       crag: cragFilter,
       'group-by': group,
       descending: dateIsDescending,
-      'route-or-boulder': disciplineFilter,
+      climbingDiscipline: disciplineFilter,
       normalize = false,
       sort,
       fields,
@@ -78,8 +78,10 @@ ascents.get(
 
     const transformFields = (
       fields: string | undefined,
-    ): string[] | undefined =>
-      fields === undefined ? undefined : fields.split(',').reverse()
+    ): (keyof Ascent)[] | undefined =>
+      fields === undefined
+        ? undefined
+        : fields.split(',').reverse() as (keyof Ascent)[]
 
     const sortFields = transformFields(sort)
     const selectedFields = transformFields(fields)
@@ -102,12 +104,14 @@ ascents.get(
       {
         value: disciplineFilter,
         compare: stringEqualsCaseInsensitive,
-        key: 'routeOrBoulder',
+        key: 'climbingDiscipline',
       },
       {
         value: yearFilter,
-        compare: (left: string, right: string) =>
-          new Date(left).getFullYear() === Number(right),
+        compare: (left: string, right: string) => {
+          if (right === '') return true
+          return new Date(left).getFullYear() === Number(right)
+        },
         key: 'date',
       },
       { value: cragFilter, compare: stringEqualsCaseInsensitive, key: 'crag' },
@@ -162,7 +166,9 @@ ascents.get(
       : sortFields.reduce(
         (previouslySortedAscents, sortField) => {
           const ascending = sortField.startsWith('-') ? false : true
-          const field = ascending ? sortField : sortField.slice(1)
+          const field = ascending
+            ? sortField
+            : sortField.slice(1) as keyof Ascent
 
           return sortBy(
             previouslySortedAscents,
