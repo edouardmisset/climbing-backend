@@ -1,4 +1,4 @@
-import api from '../src/api.ts'
+import app from '../src/app.ts'
 import { runSpaceBench } from './bench-space.ts'
 import { TEST_PORT } from './test-data.ts'
 const { log, clear } = globalThis.console
@@ -10,7 +10,7 @@ clear()
 log('\x1b[36m%s\x1b[0m', '\n 🚀 Starting server... \n')
 const httpServer = Deno.serve(
   { port: TEST_PORT },
-  (req) => api.fetch(req, { ENV: Deno.env.get('ENV') }),
+  app.fetch,
 )
 
 log('\x1b[33m%s\x1b[0m', '\n ⏱️  Benchmarking time... \n')

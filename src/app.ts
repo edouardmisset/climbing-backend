@@ -14,21 +14,20 @@ import ascents from 'routes/ascents.ts'
 import crags from 'routes/crags.ts'
 import training from 'routes/training.ts'
 
-import { backupAscentsAndTrainingFromGoogleSheets } from './scripts/import-training-and-ascent-data-from-gs.ts'
+import { backupAscentsAndTrainingFromGoogleSheets } from 'scripts/import-training-and-ascent-data-from-gs.ts'
 
 const { ENV } = await load()
 export const FALLBACK_PORT = 8000
 
-const api = new Hono().basePath('/api')
+const app = new Hono().basePath('/api')
 
-ENV === 'production' && api.use(etag({ weak: true }))
-ENV === 'dev' && api.use(timing())
-api.use(cors()).use(trimTrailingSlash())
-ENV === 'production' && api.use(csrf()).use(compress())
-ENV === 'dev' && api.use(logger())
-api.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
+if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
+if (ENV === 'dev') app.use(timing(), logger())
 
-api
+app.use(cors(), trimTrailingSlash())
+app.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
+
+app
   .get('/', (ctx) =>
     ctx.html(
       `<h1>Hello API!</h1></br>
@@ -37,7 +36,7 @@ api
     ))
 
 let timestamp = 0
-api.all('/backup', async (ctx) => {
+app.all('/backup', async (ctx) => {
   try {
     const throttleTimeInMinutes = 5
     const throttleTimeInMs = 1000 * 60 * throttleTimeInMinutes
@@ -64,11 +63,11 @@ api.all('/backup', async (ctx) => {
   }
 })
 
-api.route('/areas', areas)
+app.route('/areas', areas)
   .route('/ascents', ascents)
   .route('/crags', crags)
   .route('/training', training)
 
-api.notFound((ctx) => ctx.json({ message: 'Not Found' }, 404))
+app.notFound((ctx) => ctx.json({ message: 'Not Found' }, 404))
 
-export default api
+export default app

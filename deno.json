@@ -3,7 +3,7 @@
   "tasks": {
     "lint": "deno lint --watch",
     "fmt": "deno fmt --watch",
-    "dev": "deno run --allow-net --allow-env --allow-read --allow-write --watch --watch-exclude='src/data/*.json' src/dev.ts",
+    "dev": "deno run --allow-net --allow-env --allow-read --allow-write --watch --watch-exclude='src/data/*.json' src/mod.ts",
     "bench": "deno run --allow-net --allow-read --allow-env --allow-run benchmark/mod.ts",
     "check": "deno check './**/*.ts*'",
     "backup": "deno run --allow-net --allow-read --allow-write src/scripts/backup.ts && deno fmt src/data",
