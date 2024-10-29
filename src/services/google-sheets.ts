@@ -5,7 +5,9 @@ import {
 import { JWT } from 'google-auth-library'
 import { load } from '@std/dotenv'
 
-const env = await load()
+await load({ export: true })
+
+const env = Deno.env.toObject()
 
 const SHEETS_INFO = {
   ascents: {
@@ -25,8 +27,6 @@ const serviceAccountAuth = new JWT({
   key: env.GOOGLE_PRIVATE_KEY?.split(String.raw`\n`)?.join('\n'),
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 })
-
-console.log(SHEETS_INFO)
 
 export const loadWorksheet = async (
   climbingDataType: keyof typeof SHEETS_INFO,
