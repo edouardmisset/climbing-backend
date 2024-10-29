@@ -22,7 +22,7 @@ const SHEETS_INFO = {
 
 const serviceAccountAuth = new JWT({
   email: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-  key: env.GOOGLE_PRIVATE_KEY.split(String.raw`\n`).join('\n'),
+  key: env.GOOGLE_PRIVATE_KEY?.split(String.raw`\n`)?.join('\n'),
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 })
 
