@@ -15,12 +15,8 @@ export async function getAscents(): Promise<Ascent[]> {
   const cachedData = getCache()
   if (cachedData !== undefined) return cachedData
 
-  try {
-    const ascents = await getAllAscents()
-    // Cache the transformed data
-    setCache(ascents)
-    return ascents
-  } catch (_error) {
-    throw new Error('The data could not be parsed')
-  }
+  const ascents = await getAllAscents()
+  // Cache the transformed data
+  setCache(ascents)
+  return ascents
 }

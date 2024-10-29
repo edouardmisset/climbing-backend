@@ -26,6 +26,8 @@ const serviceAccountAuth = new JWT({
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 })
 
+console.log(SHEETS_INFO)
+
 export const loadWorksheet = async (
   climbingDataType: keyof typeof SHEETS_INFO,
   options?: { edit?: boolean },
