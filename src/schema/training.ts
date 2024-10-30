@@ -1,5 +1,5 @@
 import { number, string, z } from 'zod'
-import { climbingDisciplineSchema } from 'schema/ascent.ts'
+import { climbingDisciplineSchema } from './ascent.ts'
 
 const sessionTypeSchema = z.enum([
   'En',

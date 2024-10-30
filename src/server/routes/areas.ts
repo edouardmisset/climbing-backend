@@ -1,50 +1,44 @@
 import { Hono } from 'hono'
 
 import { frequency } from '@edouardmisset/utils'
-import { getAscents } from 'data/ascent-data.ts'
 import { findSimilar, groupSimilarStrings } from 'helpers/find-similar.ts'
 import { sortNumericalValues } from 'helpers/sort-values.ts'
-import { etag } from 'hono/etag'
 import type { Ascent } from 'schema/ascent.ts'
-
-const areas = new Hono()
-areas.use(etag())
+import { getAllAscents } from 'services/ascents.ts'
 
 async function getValidAreas(): Promise<Exclude<Ascent['area'], undefined>[]> {
-  const ascents = await getAscents()
+  const ascents = await getAllAscents()
   return ascents.map(({ area }) => area?.trim()).filter(
     (area) => area !== undefined,
   )
 }
 
 // Get all known areas from the ascents
-areas.get('/', async (ctx) => {
+export const areas = new Hono().get('/', async (c) => {
   const validAreas = await getValidAreas()
-  const areas = [...new Set(validAreas)].sort()
+  const a = [...new Set(validAreas)].sort()
 
-  return ctx.json({ data: areas })
+  return c.json({ data: a })
 })
-  .get('/frequency', async (ctx) => {
+  .get('/frequency', async (c) => {
     const validAreas = await getValidAreas()
     const sortedAreasByFrequency = sortNumericalValues(
       frequency(validAreas),
       false,
     )
-    return ctx.json({ data: sortedAreasByFrequency })
+    return c.json({ data: sortedAreasByFrequency })
   })
-  .get('/duplicates', async (ctx) => {
+  .get('/duplicates', async (c) => {
     const validAreas = await getValidAreas()
     const duplicateAreas = findSimilar(validAreas)
 
-    return ctx.json({ data: duplicateAreas })
+    return c.json({ data: duplicateAreas })
   })
-  .get('/similar', async (ctx) => {
+  .get('/similar', async (c) => {
     const validAreas = await getValidAreas()
     const similarAreas = Array.from(
       groupSimilarStrings(validAreas, 3).entries(),
     )
 
-    return ctx.json({ data: similarAreas })
+    return c.json({ data: similarAreas })
   })
-
-export default areas

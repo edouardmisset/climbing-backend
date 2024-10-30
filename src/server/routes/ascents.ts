@@ -10,22 +10,17 @@ import {
   validNumberWithFallback,
 } from '@edouardmisset/utils'
 
-import { normalizeData } from 'helpers/normalize-data.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
-import { Ascent, ascentSchema } from 'schema/ascent.ts'
-import { etag } from 'hono/etag'
 import { zValidator } from 'zod-validator'
+import { Ascent, ascentSchema } from 'schema/ascent.ts'
 
-import { getPreparedCachedAscents } from 'helpers/cache-ascents.ts'
 import fuzzySort from 'fuzzysort'
-import { boolean, string, z } from 'zod'
+import { getPreparedCachedAscents } from 'helpers/cache-ascents.ts'
 import { groupSimilarStrings } from 'helpers/find-similar.ts'
-import { getAscents } from 'data/ascent-data.ts'
+import { boolean, string, z } from 'zod'
+import { getAllAscents } from 'services/ascents.ts'
 
-const ascents = new Hono()
-ascents.use(etag())
-
-ascents.get(
+export const ascents = new Hono().get(
   '/',
   zValidator(
     'query',
@@ -38,14 +33,11 @@ ascents.get(
       'group-by': ascentSchema.keyof().optional(),
       descending: boolean().optional(),
       climbingDiscipline: string().optional(),
-      normalize: z.enum(['true', 'false']).optional().transform((value) =>
-        value === 'true'
-      ),
       sort: string().optional(),
       fields: string().optional(),
     }),
   ),
-  async (ctx) => {
+  async (c) => {
     /**
      * Data: validated ascents (from db or file)
      *
@@ -61,7 +53,7 @@ ascents.get(
      * Return result
      */
 
-    const validatedQuery = ctx.req.valid('query')
+    const validatedQuery = c.req.valid('query')
     const {
       routeName: routeNameFilter,
       'topo-grade': gradeFilter,
@@ -71,7 +63,6 @@ ascents.get(
       'group-by': group,
       descending: dateIsDescending,
       climbingDiscipline: disciplineFilter,
-      normalize = false,
       sort,
       fields,
     } = validatedQuery
@@ -122,7 +113,7 @@ ascents.get(
       },
     ]
 
-    const ascents = await getAscents()
+    const ascents = await getAllAscents()
     const filteredAscents = ascents.filter((ascent) =>
       filters.every(({ value, compare, key }) =>
         value === undefined || compare(String(ascent[key]), value)
@@ -190,16 +181,14 @@ ascents.get(
       ? sortedByClosestRouteName
       : sortKeys(groupBy(sortedByClosestRouteName, group))
 
-    return ctx.json({
-      data: normalize
-        ? normalizeData(sortedByClosestRouteName)
-        : groupedAscents,
+    return c.json({
+      data: groupedAscents,
     })
   },
 )
-  .get('/duplicates', async (ctx) => {
+  .get('/duplicates', async (c) => {
     const ascentMap = new Map()
-    const ascents = await getAscents()
+    const ascents = await getAllAscents()
 
     ascents.forEach(
       ({ routeName, crag, topoGrade }) => {
@@ -215,20 +204,19 @@ ascents.get(
       .filter(([, count]) => count > 1)
       .map(([key]) => key)
 
-    return ctx.json({ data: duplicateRoutes })
+    return c.json({ data: duplicateRoutes })
   })
-  // Similar crag names
-  .get('/similar', async (ctx) => {
-    const ascents = await getAscents()
+  .get('/similar', async (c) => {
+    const ascents = await getAllAscents()
     const similarAscents = Array.from(
       groupSimilarStrings(
-        ascents.map((ascent) => ascent.routeName),
+        ascents.map(({ routeName }) => routeName),
         2,
       )
         .entries(),
     )
 
-    return ctx.json({ data: similarAscents })
+    return c.json({ data: similarAscents })
   })
   .get(
     '/search',
@@ -241,20 +229,20 @@ ascents.get(
         ),
       }),
     ),
-    async (ctx) => {
-      const { query, limit } = ctx.req.valid('query')
+    async (c) => {
+      const { query, limit } = c.req.valid('query')
 
       const results = fuzzySort.go(
         removeAccents(query),
         await getPreparedCachedAscents(),
         {
-          key: (ascent) => ascent.routeName,
+          key: ({ routeName }) => routeName,
           limit: validNumberWithFallback(limit, 100),
           threshold: 0.5,
         },
       )
 
-      return ctx.json({
+      return c.json({
         data: results.map((result) => ({
           highlight: result.highlight(),
           target: result.target,
@@ -266,5 +254,3 @@ ascents.get(
       })
     },
   )
-
-export default ascents

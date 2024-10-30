@@ -5,10 +5,10 @@ import {
   trainingURL,
   transformClimbingData,
   TRANSFORMED_TRAINING_HEADER_NAMES,
-} from '../scripts/import-training-and-ascent-data-from-gs.ts'
+} from 'scripts/import-training-and-ascent-data-from-gs.ts'
 
 import { createCache } from 'helpers/cache.ts'
-import { defaultCacheExpiryDurationInMs } from 'data/ascent-data.ts'
+import { defaultCacheExpiryDurationInMs } from './ascents.ts'
 
 const { getCache, setCache } = createCache<TrainingSession[]>(
   defaultCacheExpiryDurationInMs,

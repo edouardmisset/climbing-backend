@@ -11,6 +11,8 @@ export const trainingURL =
   'https://docs.google.com/spreadsheets/d/e/2PACX-1vR60aQqhO9PL0072_4d78EPuHnbl4BncjNiDX3NmSMM3aOVPhLEkQaFjKqFqquT2fFTwYj0QtsRyFvc/pub?gid=277284868&single=true&output=csv'
 export const trainingFileName = 'training-data.json'
 
+const backupFilePath = './src/server/backup/'
+
 type CSVHeaders = string[]
 type CSVData = string[][]
 
@@ -142,9 +144,9 @@ const transformRating: TransformFunction = (value) =>
  * @param {string} value - The tries string to transform.
  * @returns {{ style: 'Onsight' | 'Flash' | 'Redpoint', tries: number }} - The transformed style and tries.
  */
-export const transformTries: (
+export function transformTries(
   value: string,
-) => { style: 'Onsight' | 'Flash' | 'Redpoint'; tries: number } = (value) => {
+): { style: 'Onsight' | 'Flash' | 'Redpoint'; tries: number } {
   const style = value.includes('Onsight')
     ? 'Onsight'
     : value.includes('Flash')
@@ -247,7 +249,7 @@ async function writeDataToFile(
 ): Promise<void> {
   try {
     await Deno.writeTextFile(
-      `./src/data/${fileName}`,
+      `${backupFilePath}${fileName}`,
       JSON.stringify({ data }, null, 2),
       { create: true },
     )

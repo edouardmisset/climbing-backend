@@ -1,6 +1,6 @@
 import { removeAccents } from '@edouardmisset/utils'
 import { Ascent } from 'schema/ascent.ts'
-import { getAscents } from 'data/ascent-data.ts'
+import { getAllAscents } from 'services/ascents.ts'
 
 let preparedCachedAscents: Ascent[] | undefined
 let ascentsHash: string | undefined
@@ -22,7 +22,7 @@ async function hashValue(object_: unknown): Promise<string> {
 }
 
 export async function getPreparedCachedAscents(): Promise<Ascent[]> {
-  const ascents = await getAscents()
+  const ascents = await getAllAscents()
   const currentHash = await hashValue(ascents)
 
   if (currentHash !== ascentsHash) {

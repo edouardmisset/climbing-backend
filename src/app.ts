@@ -9,65 +9,47 @@ import { logger } from 'hono/logger'
 import { endTime, startTime, timing } from 'hono/timing'
 import { trimTrailingSlash } from 'hono/trailing-slash'
 
-import areas from 'routes/areas.ts'
-import ascents from 'routes/ascents.ts'
-import crags from 'routes/crags.ts'
-import training from 'routes/training.ts'
-
+import { api } from 'routes/mod.ts'
 import { backupAscentsAndTrainingFromGoogleSheets } from 'scripts/import-training-and-ascent-data-from-gs.ts'
+import { pages } from './client/pages/index.tsx'
 
 const { ENV } = await load()
 export const FALLBACK_PORT = 8000
+let timestamp = 0
 
-const app = new Hono().basePath('/api')
+const app = new Hono().use(cors(), trimTrailingSlash())
+  .use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
+  .all('api/backup', async (c) => {
+    try {
+      const throttleTimeInMinutes = 5
+      const throttleTimeInMs = 1000 * 60 * throttleTimeInMinutes
+      if (Date.now() - timestamp < throttleTimeInMs) {
+        c.status(200)
+        return c.json({
+          status: 'failure',
+          message:
+            `Backup was triggered less than ${throttleTimeInMinutes} min ago.`,
+        })
+      }
+      startTime(
+        c,
+        'backup',
+        'Backing up ascents and training from Google Sheets',
+      )
+      const success = await backupAscentsAndTrainingFromGoogleSheets()
+      endTime(c, 'backup')
+      timestamp = Date.now()
+      return c.json({ status: success ? 'success' : 'failure' }, 200)
+    } catch (error) {
+      console.error(error)
+      return c.json(JSON.stringify(error), 500)
+    }
+  })
+  .route('/api', api)
+  .route('/', pages)
+  .notFound((c) => c.html('<h1>404 Not Found</h1>'))
 
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
 if (ENV === 'dev') app.use(timing(), logger())
 
-app.use(cors(), trimTrailingSlash())
-app.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
-
-app
-  .get('/', (ctx) =>
-    ctx.html(
-      `<h1>Hello API!</h1></br>
-      <a href="api/ascents" >Ascents</a></br>
-      <a href="api/training" >Training</a>`,
-    ))
-
-let timestamp = 0
-app.all('/backup', async (ctx) => {
-  try {
-    const throttleTimeInMinutes = 5
-    const throttleTimeInMs = 1000 * 60 * throttleTimeInMinutes
-    if (Date.now() - timestamp < throttleTimeInMs) {
-      ctx.status(200)
-      return ctx.json({
-        status: 'failure',
-        message:
-          `Backup was triggered less than ${throttleTimeInMinutes} min ago.`,
-      })
-    }
-    startTime(
-      ctx,
-      'backup',
-      'Backing up ascents and training from Google Sheets',
-    )
-    const success = await backupAscentsAndTrainingFromGoogleSheets()
-    endTime(ctx, 'backup')
-    timestamp = Date.now()
-    return ctx.json({ status: success ? 'success' : 'failure' }, 200)
-  } catch (error) {
-    console.error(error)
-    return ctx.json(JSON.stringify(error), 500)
-  }
-})
-
-app.route('/areas', areas)
-  .route('/ascents', ascents)
-  .route('/crags', crags)
-  .route('/training', training)
-
-app.notFound((ctx) => ctx.json({ message: 'Not Found' }, 404))
-
-export default app
+export { app }

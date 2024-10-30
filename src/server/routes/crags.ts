@@ -5,33 +5,27 @@ import {
   mapObject,
   stringEqualsCaseInsensitive,
 } from '@edouardmisset/utils'
-import { getAscents } from 'data/ascent-data.ts'
 import {
   convertGradeToNumber,
   ROUTE_GRADE_TO_NUMBER,
 } from 'helpers/converters.ts'
 import { findSimilar, groupSimilarStrings } from 'helpers/find-similar.ts'
 import { sortNumericalValues } from 'helpers/sort-values.ts'
-import { etag } from 'hono/etag'
 import { type Ascent, Grade } from 'schema/ascent.ts'
+import { getAllAscents } from 'services/ascents.ts'
 import { z } from 'zod'
 import { zValidator } from 'zod-validator'
 
-const crags = new Hono()
-crags.use(etag())
-
 const hightestGradeNumber = [...ROUTE_GRADE_TO_NUMBER.values()].at(-1) ?? 1
 
-// Get all known crags from the ascents
-crags.get('/', async (ctx) => {
+export const crags = new Hono().get('/', async (c) => {
   const validCrags = await getValidCrags()
 
-  const crags = [...new Set(validCrags)].sort()
+  const sortedCrags = [...new Set(validCrags)].sort()
 
-  return ctx.json({ data: crags })
+  return c.json({ data: sortedCrags })
 })
-  // Get crags frequency
-  .get('/frequency', async (ctx) => {
+  .get('/frequency', async (c) => {
     const validCrags = await getValidCrags()
 
     const sortedCragsByFrequency = sortNumericalValues(
@@ -39,7 +33,7 @@ crags.get('/', async (ctx) => {
       false,
     )
 
-    return ctx.json({ data: sortedCragsByFrequency })
+    return c.json({ data: sortedCragsByFrequency })
   })
   .get(
     '/most-successful',
@@ -51,10 +45,10 @@ crags.get('/', async (ctx) => {
         ) => value === 'true'),
       }),
     ),
-    async (ctx) => {
-      const weightedByGrade = ctx.req.valid('query')['weight-by-grade']
+    async (c) => {
+      const weightedByGrade = c.req.valid('query')['weight-by-grade']
 
-      const ascents = await getAscents()
+      const ascents = await getAllAscents()
       const validCrags = await getValidCrags()
 
       const weightedByGradeAndSortedCrags = [...new Set(validCrags)].reduce(
@@ -102,7 +96,7 @@ crags.get('/', async (ctx) => {
       const highestScore =
         mostSuccessfulCrags[Object.keys(mostSuccessfulCrags)[0]]
 
-      return ctx.json({
+      return c.json({
         data: mapObject(
           mostSuccessfulCrags,
           (val) => Number((val / highestScore).toFixed(1)),
@@ -110,26 +104,24 @@ crags.get('/', async (ctx) => {
       })
     },
   )
-  .get('/duplicates', async (ctx) => {
+  .get('/duplicates', async (c) => {
     const validCrags = await getValidCrags()
 
     const similarCrags = findSimilar(validCrags)
 
-    return ctx.json({ data: similarCrags })
+    return c.json({ data: similarCrags })
   })
-  .get('/similar', async (ctx) => {
+  .get('/similar', async (c) => {
     const validCrags = await getValidCrags()
     const similarCrags = Array.from(
       groupSimilarStrings(validCrags, 2).entries(),
     )
 
-    return ctx.json({ data: similarCrags })
+    return c.json({ data: similarCrags })
   })
 
-export default crags
-
 async function getValidCrags(): Promise<Ascent['crag'][]> {
-  const ascents = await getAscents()
+  const ascents = await getAllAscents()
   return ascents.map(({ crag }) => crag.trim()).filter((crag) =>
     crag !== undefined
   )

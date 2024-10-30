@@ -1,3 +1,4 @@
+import { createCache } from 'helpers/cache.ts'
 import { removeObjectExtendedNullishValues } from 'helpers/remove-undefined-values.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
 import { type Ascent, ascentSchema } from 'schema/ascent.ts'
@@ -52,7 +53,7 @@ function transformAscentFromGSToJS(
  * @returns A promise that resolves to an array of Ascent objects, each
  * representing a validated ascent record.
  */
-export async function getAllAscents(): Promise<Ascent[]> {
+export async function getAscentsFromDB(): Promise<Ascent[]> {
   const allAscentsSheet = await loadWorksheet('ascents')
   const rows = await allAscentsSheet.getRows()
 
@@ -70,4 +71,22 @@ export async function addAscent(ascent: Ascent): Promise<void> {
     Object.values(ascentSchema.parse(ascent)).map(String),
     {},
   )
+}
+
+// Create cache expiry duration
+const tenMinutesInMs = 10 * 60 * 1000
+export const defaultCacheExpiryDurationInMs = tenMinutesInMs
+
+const { getCache, setCache } = createCache<Ascent[]>(
+  defaultCacheExpiryDurationInMs,
+)
+
+export async function getAllAscents(): Promise<Ascent[]> {
+  const cachedData = getCache()
+  if (cachedData !== undefined) return cachedData
+
+  const ascents = await getAscentsFromDB()
+  // Cache the transformed data
+  setCache(ascents)
+  return ascents
 }

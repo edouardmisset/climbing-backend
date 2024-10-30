@@ -7,7 +7,7 @@
     "bench": "deno run --allow-net --allow-read --allow-env --allow-run benchmark/mod.ts",
     "cache": "deno install --entrypoint src/mod.ts benchmark/mod.ts src/test.ts",
     "check": "deno check './**/*.ts*'",
-    "backup": "deno run --allow-net --allow-read --allow-write src/scripts/backup.ts && deno fmt src/data",
+    "backup": "deno run --allow-net --allow-read --allow-write src/server/scripts/backup.ts && deno fmt src/server/backup",
     "test": "deno test --allow-net --allow-env --allow-read",
     "test:watch": "deno test --allow-net --allow-env --allow-read --watch"
   },
@@ -16,18 +16,24 @@
     "@std/csv": "jsr:@std/csv@^0.223.0",
     "@std/dotenv": "jsr:@std/dotenv@^0.225.2",
     "@total-typescript/ts-reset": "npm:@total-typescript/ts-reset@^0.5.1",
-    "data/": "./src/data/",
     "fuzzysort": "npm:fuzzysort@^3.0.1",
     "google-auth-library": "npm:google-auth-library@^9.14.2",
     "google-spreadsheet": "npm:google-spreadsheet@^4.1.4",
-    "helpers/": "./src/helpers/",
-    "hono": "npm:hono@^4.4.3",
-    "routes/": "./src/routes/",
-    "schema/": "./src/schema/",
-    "scripts/": "./src/scripts/",
+    "hono": "npm:hono@^4.6.8",
     "text": "jsr:@std/text@^1",
     "zod": "npm:zod@^3.23.8",
-    "zod-validator": "npm:@hono/zod-validator@^0.2.2"
+    "zod-validator": "npm:@hono/zod-validator@^0.4.1",
+    "schema/": "./src/schema/",
+    "helpers/": "./src/server/helpers/",
+    "services/": "./src/server/services/",
+    "backup/": "./src/server/backup/",
+    "routes/": "./src/server/routes/",
+    "scripts/": "./src/server/scripts/"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "strict": true
   },
   "lint": {
     "rules": {
