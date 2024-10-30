@@ -9,6 +9,7 @@
     "jsr:@std/dotenv@0.219.1": "0.219.1",
     "jsr:@std/dotenv@~0.219.1": "0.219.1",
     "jsr:@std/dotenv@~0.225.2": "0.225.2",
+    "jsr:@std/fmt@0.223": "0.223.0",
     "jsr:@std/streams@0.223": "0.223.0",
     "jsr:@std/text@1": "1.0.7",
     "npm:@hono/zod-validator@~0.4.1": "0.4.1_hono@4.6.8_zod@3.23.8",
@@ -31,7 +32,10 @@
       ]
     },
     "@std/assert@0.223.0": {
-      "integrity": "eb8d6d879d76e1cc431205bd346ed4d88dc051c6366365b1af47034b0670be24"
+      "integrity": "eb8d6d879d76e1cc431205bd346ed4d88dc051c6366365b1af47034b0670be24",
+      "dependencies": [
+        "jsr:@std/fmt"
+      ]
     },
     "@std/bytes@0.223.0": {
       "integrity": "84b75052cd8680942c397c2631318772b295019098f40aac5c36cead4cba51a8"
@@ -51,6 +55,9 @@
     },
     "@std/dotenv@0.225.2": {
       "integrity": "e2025dce4de6c7bca21dece8baddd4262b09d5187217e231b033e088e0c4dd23"
+    },
+    "@std/fmt@0.223.0": {
+      "integrity": "6deb37794127dfc7d7bded2586b9fc6f5d50e62a8134846608baf71ffc1a5208"
     },
     "@std/streams@0.223.0": {
       "integrity": "d6b28e498ced3960b04dc5d251f2dcfc1df244b5ec5a48dc23a8f9b490be3b99",

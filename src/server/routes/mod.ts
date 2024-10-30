@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { areas } from './areas.ts'
-import { ascents } from './ascents.ts'
+import { createAscentRoute } from './ascents.ts'
 import { crags } from './crags.ts'
 import { training } from './training.ts'
 
@@ -12,6 +12,6 @@ export const api = new Hono()
       <a href="api/training" >Training</a>`,
     ))
   .route('/areas', areas)
-  .route('/ascents', ascents)
+  .route('/ascents', createAscentRoute())
   .route('/crags', crags)
   .route('/training', training)

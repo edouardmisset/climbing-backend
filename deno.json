@@ -59,8 +59,9 @@
       "."
     ],
     "exclude": [
-      "src/scripts/*",
-      "src/helpers/remove-undefined-values.ts"
+      "src/server/scripts/*",
+      "src/server/helpers/remove-undefined-values.ts",
+      "src/server/backup/sample.ts"
     ]
   },
   "fmt": {
