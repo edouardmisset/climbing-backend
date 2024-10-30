@@ -17,7 +17,7 @@ import { Ascent, ascentSchema } from 'schema/ascent.ts'
 import fuzzySort from 'fuzzysort'
 import { getPreparedCachedAscents } from 'helpers/cache-ascents.ts'
 import { groupSimilarStrings } from 'helpers/find-similar.ts'
-import { boolean, string, z } from 'zod'
+import { string, z } from 'zod'
 import { getAllAscents } from 'services/ascents.ts'
 
 // deno-lint-ignore explicit-module-boundary-types
@@ -33,7 +33,7 @@ export const createAscentRoute = (fetchAscents = getAllAscents) =>
         tries: string().optional(),
         crag: string().optional(),
         'group-by': ascentSchema.keyof().optional(),
-        descending: boolean().optional(),
+        descending: string().transform((s) => s === 'true').optional(),
         climbingDiscipline: string().optional(),
         sort: string().optional(),
         fields: string().optional(),
