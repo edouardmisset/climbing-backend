@@ -8,11 +8,8 @@ import {
 } from 'scripts/import-training-and-ascent-data-from-gs.ts'
 
 import { createCache } from 'helpers/cache.ts'
-import { defaultCacheExpiryDurationInMs } from './ascents.ts'
 
-const { getCache, setCache } = createCache<TrainingSession[]>(
-  defaultCacheExpiryDurationInMs,
-)
+const { getCache, setCache } = createCache<TrainingSession[]>()
 
 export async function getTrainingSessions(): Promise<TrainingSession[]> {
   const cachedData = getCache()

@@ -73,13 +73,7 @@ export async function addAscent(ascent: Ascent): Promise<void> {
   )
 }
 
-// Create cache expiry duration
-const tenMinutesInMs = 10 * 60 * 1000
-export const defaultCacheExpiryDurationInMs = tenMinutesInMs
-
-const { getCache, setCache } = createCache<Ascent[]>(
-  defaultCacheExpiryDurationInMs,
-)
+const { getCache, setCache } = createCache<Ascent[]>()
 
 export async function getAllAscents(): Promise<Ascent[]> {
   const cachedData = getCache()
