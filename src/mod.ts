@@ -2,7 +2,9 @@ import { blue, bold, green } from '@std/fmt/colors'
 import { inspectRoutes } from 'hono/dev'
 import { getAllAscents } from 'services/ascents.ts'
 import { getAllTrainingSessions } from 'services/training.ts'
-import { app, FALLBACK_PORT } from './app.ts'
+import { app } from './app.ts'
+
+const FALLBACK_PORT = 8000
 
 const port = Number(Deno.env.get('PORT')) || FALLBACK_PORT
 Deno.serve({ port }, app.fetch)

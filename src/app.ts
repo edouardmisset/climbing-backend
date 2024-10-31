@@ -14,7 +14,6 @@ import { backupAscentsAndTrainingFromGoogleSheets } from 'scripts/import-trainin
 import { pages } from './client/pages/index.tsx'
 
 const { ENV } = await load()
-export const FALLBACK_PORT = 8000
 let timestamp = 0
 
 const app = new Hono().use(cors(), trimTrailingSlash())
