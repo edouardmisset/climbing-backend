@@ -11,7 +11,7 @@ import { SHEETS_INFO } from 'services/google-sheets.ts'
 
 const { getCache, setCache } = createCache<TrainingSession[]>()
 
-export async function getTrainingSessions(): Promise<TrainingSession[]> {
+export async function getAllTrainingSessions(): Promise<TrainingSession[]> {
   const cachedData = getCache()
   if (cachedData !== undefined) {
     return cachedData
@@ -21,7 +21,7 @@ export async function getTrainingSessions(): Promise<TrainingSession[]> {
   const { data, headers } = await fetchAndParseCSV(
     SHEETS_INFO.training.csvExportURL,
   )
-  // Transform CSV data into Array of Trs
+  // Transform CSV data into Array of Training Sessions
   const transformedHeaders = replaceHeaders(
     headers,
     TRANSFORMED_TRAINING_HEADER_NAMES,

@@ -1,7 +1,7 @@
 import { blue, bold, green } from '@std/fmt/colors'
 import { inspectRoutes } from 'hono/dev'
 import { getAllAscents } from 'services/ascents.ts'
-import { getTrainingSessions } from 'services/training.ts'
+import { getAllTrainingSessions } from 'services/training.ts'
 import { app, FALLBACK_PORT } from './app.ts'
 
 const port = Number(Deno.env.get('PORT')) || FALLBACK_PORT
@@ -17,7 +17,7 @@ if (Deno.env.get('ENV') === 'dev') {
   // query within the `expiryDuration` period.
   // See @createCache in `src/server/helpers/cache.ts`.
   await getAllAscents()
-  await getTrainingSessions()
+  await getAllTrainingSessions()
 }
 
 function displayRoutes(): void {
