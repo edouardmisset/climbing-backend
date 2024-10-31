@@ -2,12 +2,12 @@ import { type TrainingSession, trainingSessionSchema } from 'schema/training.ts'
 import {
   fetchAndParseCSV,
   replaceHeaders,
-  trainingURL,
   transformClimbingData,
   TRANSFORMED_TRAINING_HEADER_NAMES,
 } from 'scripts/import-training-and-ascent-data-from-gs.ts'
 
 import { createCache } from 'helpers/cache.ts'
+import { SHEETS_INFO } from 'services/google-sheets.ts'
 
 const { getCache, setCache } = createCache<TrainingSession[]>()
 
@@ -17,14 +17,10 @@ export async function getTrainingSessions(): Promise<TrainingSession[]> {
     return cachedData
   }
 
-  if (!trainingURL) {
-    throw new Error(
-      'Missing URL for the google sheet storing the training sessions (exported as CSV)',
-    )
-  }
-
   // Fetch CSV data
-  const { data, headers } = await fetchAndParseCSV(trainingURL)
+  const { data, headers } = await fetchAndParseCSV(
+    SHEETS_INFO.training.csvExportURL,
+  )
   // Transform CSV data into Array of Trs
   const transformedHeaders = replaceHeaders(
     headers,

@@ -2,15 +2,11 @@ import { parse } from '@std/csv'
 import { removeObjectExtendedNullishValues } from 'helpers/remove-undefined-values.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
 import { isValidNumber } from '@edouardmisset/utils'
-
-export const ascentsURL = Deno.env.get('GOOGLE_SHEET_ASCENTS_URL_CSV')
-export const ascentFileName = 'ascent-data.json'
-
-export const trainingURL = Deno.env.get('GOOGLE_SHEET_TRAINING_URL_CSV')
-
-export const trainingFileName = 'training-data.json'
+import { SHEETS_INFO } from 'services/google-sheets.ts'
 
 const backupFilePath = './src/server/backup/'
+export const trainingFileName = 'training-data.json'
+export const ascentFileName = 'ascent-data.json'
 
 type CSVHeaders = string[]
 type CSVData = string[][]
@@ -291,29 +287,17 @@ export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
   boolean
 > {
   try {
-    if (!ascentsURL) {
-      throw new Error(
-        'Missing URL for the google sheet storing the ascents (exported as CSV)',
-      )
-    }
-
     await processCsvDataFromUrl(
       {
-        uri: ascentsURL,
+        uri: SHEETS_INFO.ascents.csvExportURL,
         fileName: ascentFileName,
         transformedHeaderNames: TRANSFORMED_ASCENT_HEADER_NAMES,
       },
     )
 
-    if (!trainingURL) {
-      throw new Error(
-        'Missing URL for the google sheet storing the training sessions (exported as CSV)',
-      )
-    }
-
     await processCsvDataFromUrl(
       {
-        uri: trainingURL,
+        uri: SHEETS_INFO.ascents.csvExportURL,
         fileName: trainingFileName,
         transformedHeaderNames: TRANSFORMED_TRAINING_HEADER_NAMES,
       },
