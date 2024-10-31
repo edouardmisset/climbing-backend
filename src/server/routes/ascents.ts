@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { compareSimilarity } from 'text'
+import { compareSimilarity } from '@std/text'
 
 import {
   groupBy,
@@ -15,7 +15,6 @@ import { zValidator } from 'zod-validator'
 import { Ascent, ascentSchema } from 'schema/ascent.ts'
 
 import fuzzySort from 'fuzzysort'
-import { getPreparedCachedAscents } from 'helpers/cache-ascents.ts'
 import { groupSimilarStrings } from 'helpers/find-similar.ts'
 import { string, z } from 'zod'
 import { getAllAscents } from 'services/ascents.ts'
@@ -202,6 +201,7 @@ export const createAscentRoute = (fetchAscents = getAllAscents) =>
           const key = [routeName, topoGrade.replace('+', ''), crag].map((
             string,
           ) => removeAccents(string.toLocaleLowerCase())).join('-')
+
           ascentMap.set(key, (ascentMap.get(key) || 0) + 1)
         },
       )
@@ -240,11 +240,11 @@ export const createAscentRoute = (fetchAscents = getAllAscents) =>
 
         const results = fuzzySort.go(
           removeAccents(query),
-          await getPreparedCachedAscents(),
+          await getAllAscents(),
           {
             key: ({ routeName }) => routeName,
-            limit: validNumberWithFallback(limit, 100),
-            threshold: 0.5,
+            limit,
+            threshold: 0.7,
           },
         )
 
@@ -255,7 +255,9 @@ export const createAscentRoute = (fetchAscents = getAllAscents) =>
             ...result.obj,
           })),
           metadata: {
-            total: results.total,
+            query,
+            limit,
+            results: results.total,
           },
         })
       },

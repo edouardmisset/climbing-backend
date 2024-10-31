@@ -80,7 +80,6 @@ export async function getAllAscents(): Promise<Ascent[]> {
   if (cachedData !== undefined) return cachedData
 
   const ascents = await getAscentsFromDB()
-  // Cache the transformed data
   setCache(ascents)
   return ascents
 }
