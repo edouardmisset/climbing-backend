@@ -3,12 +3,11 @@ import { removeObjectExtendedNullishValues } from 'helpers/remove-undefined-valu
 import { sortKeys } from 'helpers/sort-keys.ts'
 import { isValidNumber } from '@edouardmisset/utils'
 
-export const ascentsURL =
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vQu1B4frLAYYVXD9-lam59jV6gqYYu93GoGUlPiRzkmd_f9Z6Fegf6m7xCMuOYeZxbWvb3dXxYw5JS1/pub?gid=1693455229&single=true&output=csv'
+export const ascentsURL = Deno.env.get('GOOGLE_SHEET_ASCENTS_URL_CSV')
 export const ascentFileName = 'ascent-data.json'
 
-export const trainingURL =
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vR60aQqhO9PL0072_4d78EPuHnbl4BncjNiDX3NmSMM3aOVPhLEkQaFjKqFqquT2fFTwYj0QtsRyFvc/pub?gid=277284868&single=true&output=csv'
+export const trainingURL = Deno.env.get('GOOGLE_SHEET_TRAINING_URL_CSV')
+
 export const trainingFileName = 'training-data.json'
 
 const backupFilePath = './src/server/backup/'
@@ -292,6 +291,12 @@ export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
   boolean
 > {
   try {
+    if (!ascentsURL) {
+      throw new Error(
+        'Missing URL for the google sheet storing the ascents (exported as CSV)',
+      )
+    }
+
     await processCsvDataFromUrl(
       {
         uri: ascentsURL,
@@ -299,6 +304,12 @@ export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
         transformedHeaderNames: TRANSFORMED_ASCENT_HEADER_NAMES,
       },
     )
+
+    if (!trainingURL) {
+      throw new Error(
+        'Missing URL for the google sheet storing the training sessions (exported as CSV)',
+      )
+    }
 
     await processCsvDataFromUrl(
       {

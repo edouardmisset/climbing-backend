@@ -17,6 +17,12 @@ export async function getTrainingSessions(): Promise<TrainingSession[]> {
     return cachedData
   }
 
+  if (!trainingURL) {
+    throw new Error(
+      'Missing URL for the google sheet storing the training sessions (exported as CSV)',
+    )
+  }
+
   // Fetch CSV data
   const { data, headers } = await fetchAndParseCSV(trainingURL)
   // Transform CSV data into Array of Trs
