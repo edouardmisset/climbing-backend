@@ -1,12 +1,17 @@
 import { parse } from '@std/csv'
 import { removeObjectExtendedNullishValues } from 'helpers/remove-undefined-values.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
-import { isValidNumber } from '@edouardmisset/utils'
+import {
+  TRANSFORM_FUNCTIONS_GS_TO_JS,
+  TRANSFORMED_ASCENT_HEADER_NAMES,
+  TRANSFORMED_TRAINING_HEADER_NAMES,
+  transformTriesGSToJS,
+} from "helpers/transformers.ts"
 import { SHEETS_INFO } from 'services/google-sheets.ts'
 
 const backupFilePath = './src/server/backup/'
-export const trainingFileName = 'training-data.json'
-export const ascentFileName = 'ascent-data.json'
+const trainingFileName = 'training-data.json'
+const ascentFileName = 'ascent-data.json'
 
 type CSVHeaders = string[]
 type CSVData = string[][]
@@ -15,46 +20,6 @@ type CSVParsedData = {
   headers: CSVHeaders
   data: CSVData
 }
-
-type TransformFunction = (value: string) => string | number
-
-export const TRANSFORMED_ASCENT_HEADER_NAMES = {
-  'Route Name': 'routeName',
-  'Topo Grade': 'topoGrade',
-  'Date': 'date',
-  '# Tries': 'tries',
-  'My Grade': 'personalGrade',
-  'Height': 'height',
-  'Profile': 'profile',
-  'Holds': 'holds',
-  'Rating': 'rating',
-  'Route / Boulder': 'climbingDiscipline',
-  'Crag': 'crag',
-  'Area': 'area',
-  'Departement': 'region',
-  'Climber': 'climber',
-  'Ascent Comments': 'comments',
-} as const
-
-export type GSAscentKeys = keyof typeof TRANSFORMED_ASCENT_HEADER_NAMES
-export type JSAscentKeys = typeof TRANSFORMED_ASCENT_HEADER_NAMES[GSAscentKeys]
-
-export const TRANSFORMED_TRAINING_HEADER_NAMES = {
-  'Anatomical Region': 'anatomicalRegion',
-  Comments: 'comments',
-  Date: 'date',
-  'Energy System': 'energySystem',
-  'Gym / Crag': 'gymCrag',
-  Intensity: 'intensity',
-  LOAD: 'load',
-  'Route / Bouldering': 'climbingDiscipline',
-  'Type of Session': 'sessionType',
-  Volume: 'volume',
-} as const
-
-export type GSTrainingKeys = keyof typeof TRANSFORMED_TRAINING_HEADER_NAMES
-export type JSTrainingKeys =
-  typeof TRANSFORMED_TRAINING_HEADER_NAMES[GSTrainingKeys]
 
 /**
  * Fetches data from a URL and parses it as CSV.
@@ -102,102 +67,6 @@ ${JSON.stringify(transformedHeaderNames)}`,
 }
 
 /**
- * Transforms a value to a string.
- * @param {string} value - The value to transform.
- * @returns {string} - The transformed string value.
- */
-const transformToString: TransformFunction = (value) => String(value)
-
-/**
- * Transforms a date string from "DD/MM/YYYY" format to ISO string.
- * @param {string} value - The date string to transform.
- * @returns {string} - The transformed ISO date string.
- */
-const transformDate: TransformFunction = (value) => {
-  const [day, month, year] = value.split('/')
-  return new Date(`${year}-${month}-${day}T12:00:00Z`).toISOString()
-}
-
-/**
- * Transforms a height string by removing 'm' and converting to a number.
- * @param {string} value - The height string to transform.
- * @returns {number} - The transformed number value.
- */
-const transformHeight: TransformFunction = (value) =>
-  Number(value.replace('m', ''))
-
-/**
- * Transforms a rating string by removing '*' and converting to a number.
- * @param {string} value - The rating string to transform.
- * @returns {number} - The transformed number value.
- */
-const transformRating: TransformFunction = (value) =>
-  Number(value.replace('*', ''))
-
-/**
- * Transforms a tries string to extract style and number of tries.
- * @param {string} value - The tries string to transform.
- * @returns {{ style: 'Onsight' | 'Flash' | 'Redpoint', tries: number }} - The transformed style and tries.
- */
-export function transformTries(
-  value: string,
-): { style: 'Onsight' | 'Flash' | 'Redpoint'; tries: number } {
-  const style = value.includes('Onsight')
-    ? 'Onsight'
-    : value.includes('Flash')
-    ? 'Flash'
-    : 'Redpoint'
-
-  const tries = Number(
-    value.replace('go', '').replace('Onsight', '').replace('Flash', '').trim(),
-  )
-
-  return { style, tries }
-}
-
-/**
- * Transforms a session type string.
- * @param {string} value - The session type string to transform.
- * @returns {string} - The transformed session type.
- */
-const transformSessionType: TransformFunction = (
-  value,
-) => (value === 'Ex' ? 'Out' : value)
-
-/**
- * Transforms a climbing discipline string.
- * @param {string} value - The climbing discipline string to transform.
- * @returns {string} - The transformed climbing discipline.
- */
-const transformClimbingDiscipline: TransformFunction = (
-  value,
-) => (value === 'Bouldering' ? 'Boulder' : value)
-
-/**
- * Default transformation function that attempts to convert a string to a number.
- * @param {string} value - The value to transform.
- * @returns {string | number} - The transformed value as a number or string.
- */
-const defaultTransform: TransformFunction = (value) => {
-  const valueAsNumber = Number(value)
-  return isValidNumber(valueAsNumber) ? valueAsNumber : value
-}
-
-export const TRANSFORM_FUNCTIONS: Record<
-  string,
-  TransformFunction
-> = {
-  area: transformToString,
-  date: transformDate,
-  height: transformHeight,
-  rating: transformRating,
-  routeName: transformToString,
-  sessionType: transformSessionType,
-  climbingDiscipline: transformClimbingDiscipline,
-  default: defaultTransform,
-} as const
-
-/**
  * Transforms the csv data array based on the replaced headers.
  *
  * Note: Here, it's implied that the strings contained in the CSVData are only
@@ -218,11 +87,13 @@ export function transformClimbingData(
       if (valueAsString === '') return acc
 
       if (header === 'tries') {
-        acc.style = transformTries(valueAsString).style
-        acc[header] = transformTries(valueAsString).tries
+        acc.style = transformTriesGSToJS(valueAsString).style
+        acc[header] = transformTriesGSToJS(valueAsString).tries
       } else {
-        const transform = TRANSFORM_FUNCTIONS[header] ??
-          TRANSFORM_FUNCTIONS.default
+        const transform = TRANSFORM_FUNCTIONS_GS_TO_JS[
+          header as keyof typeof TRANSFORM_FUNCTIONS_GS_TO_JS
+        ] ??
+          TRANSFORM_FUNCTIONS_GS_TO_JS.default
         acc[header] = transform(valueAsString)
       }
 

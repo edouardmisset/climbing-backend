@@ -1,18 +1,16 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@edouardmisset/utils@^3.3.0": "3.3.0",
+    "jsr:@edouardmisset/utils@^3.3.3": "3.3.3",
     "jsr:@std/assert@0.223": "0.223.0",
     "jsr:@std/bytes@0.223": "0.223.0",
     "jsr:@std/csv@0.223": "0.223.0",
     "jsr:@std/dotenv@0.210.0": "0.210.0",
-    "jsr:@std/dotenv@0.219.1": "0.219.1",
-    "jsr:@std/dotenv@~0.219.1": "0.219.1",
     "jsr:@std/dotenv@~0.225.2": "0.225.2",
     "jsr:@std/fmt@0.223": "0.223.0",
     "jsr:@std/fmt@^1.0.3": "1.0.3",
     "jsr:@std/streams@0.223": "0.223.0",
-    "jsr:@std/text@1": "1.0.7",
+    "jsr:@std/text@1": "1.0.8",
     "npm:@hono/zod-validator@~0.4.1": "0.4.1_hono@4.6.8_zod@3.23.8",
     "npm:@total-typescript/ts-reset@~0.5.1": "0.5.1",
     "npm:@types/node@*": "22.5.3",
@@ -26,10 +24,10 @@
     "npm:zod@^3.23.8": "3.23.8"
   },
   "jsr": {
-    "@edouardmisset/utils@3.3.0": {
-      "integrity": "0ef1c1b66152de944b52cd7c0ff78e6266f86a60b5c98eb36eff4b2ac6e77a01",
+    "@edouardmisset/utils@3.3.3": {
+      "integrity": "7f94ee212de424b6c15113f2f88c8b7a0a05afde45939bab6a30cee18cc20eab",
       "dependencies": [
-        "jsr:@std/dotenv@~0.219.1"
+        "jsr:@std/dotenv@~0.225.2"
       ]
     },
     "@std/assert@0.223.0": {
@@ -51,9 +49,6 @@
     "@std/dotenv@0.210.0": {
       "integrity": "3fd18ed69ddfe0d043ffdf7aa3d0f571e55290b37713c6244a14653925cd5d0f"
     },
-    "@std/dotenv@0.219.1": {
-      "integrity": "061a8d284c85ac6f47ce6df7b90f950ae3f89de61e94cf4523cc4a1ba5175050"
-    },
     "@std/dotenv@0.225.2": {
       "integrity": "e2025dce4de6c7bca21dece8baddd4262b09d5187217e231b033e088e0c4dd23"
     },
@@ -71,6 +66,9 @@
     },
     "@std/text@1.0.7": {
       "integrity": "344a820af99fde81ae1d4f9ce586da3f47a58cda25ac4c4dd688166cf5ed97f1"
+    },
+    "@std/text@1.0.8": {
+      "integrity": "40ba34caa095f393e78796e5eda37b8b4e2cc6cfd6f51f34658ad7487b1451e4"
     }
   },
   "npm": {
@@ -793,7 +791,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@edouardmisset/utils@^3.3.0",
+      "jsr:@edouardmisset/utils@^3.3.3",
       "jsr:@std/csv@0.223",
       "jsr:@std/dotenv@~0.225.2",
       "jsr:@std/fmt@^1.0.3",

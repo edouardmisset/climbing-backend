@@ -1,13 +1,17 @@
+import { objectKeys } from '@edouardmisset/utils'
 import { createCache } from 'helpers/cache.ts'
 import { removeObjectExtendedNullishValues } from 'helpers/remove-undefined-values.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
 import { type Ascent, ascentSchema } from 'schema/ascent.ts'
 import {
+  ASCENT_HEADERS,
   type GSAscentKeys,
-  TRANSFORM_FUNCTIONS,
+  TRANSFORM_FUNCTIONS_GS_TO_JS,
+  TRANSFORM_FUNCTIONS_JS_TO_GS,
   TRANSFORMED_ASCENT_HEADER_NAMES,
-  transformTries,
-} from 'scripts/import-training-and-ascent-data-from-gs.ts'
+  type TransformFunctionJSToGS,
+  transformTriesGSToJS,
+} from "helpers/transformers.ts"
 import { loadWorksheet } from './google-sheets.ts'
 
 /**
@@ -30,11 +34,13 @@ function transformAscentFromGSToJS(
         TRANSFORMED_ASCENT_HEADER_NAMES[key as GSAscentKeys]
 
       if (transformedKey === 'tries') {
-        acc[transformedKey] = transformTries(value).tries
-        acc.style = transformTries(value).style
+        acc[transformedKey] = transformTriesGSToJS(value).tries
+        acc.style = transformTriesGSToJS(value).style
       } else {
-        const transform = TRANSFORM_FUNCTIONS[transformedKey] ??
-          TRANSFORM_FUNCTIONS.default
+        const transform = TRANSFORM_FUNCTIONS_GS_TO_JS[
+          transformedKey as keyof typeof TRANSFORM_FUNCTIONS_GS_TO_JS
+        ] ??
+          TRANSFORM_FUNCTIONS_GS_TO_JS.default
         acc[transformedKey] = transform(value)
       }
       return acc
@@ -63,23 +69,59 @@ export async function getAscentsFromDB(): Promise<Ascent[]> {
   return ascentSchema.array().parse(rawAscents)
 }
 
-// WRITE
+const { getCache, setCache } = createCache<Ascent[]>()
+
+export async function getAllAscents(
+  options?: { refresh?: boolean },
+): Promise<Ascent[]> {
+  const cachedData = getCache()
+
+  if (!!options?.refresh || (cachedData === undefined)) {
+    const ascents = await getAscentsFromDB()
+    setCache(ascents)
+    return ascents
+  }
+
+  return cachedData
+}
+
+// Key = JS ascent object's key
+// Header = Google Sheet's ascent's header
+function transformAscentFromJSToGS(
+  ascent: Ascent,
+): Record<GSAscentKeys, string> {
+  return ASCENT_HEADERS.reduce((accumulator, header) => {
+    const key = TRANSFORMED_ASCENT_HEADER_NAMES[header]
+
+    // Special cases
+    if (key === 'climber') {
+      accumulator.Climber = 'Edouard Misset'
+    } else if (key === 'tries') {
+      const GSTries = TRANSFORM_FUNCTIONS_JS_TO_GS.tries({
+        style: ascent.style,
+        tries: ascent.tries,
+      })
+      accumulator['# Tries'] = GSTries
+    } else {
+      const rawValue = ascent[key] ?? ''
+
+      //? how to deal with special chars in comments ?
+
+      const keyAs = key as keyof typeof TRANSFORM_FUNCTIONS_JS_TO_GS
+      const transformer =
+        (objectKeys(TRANSFORM_FUNCTIONS_JS_TO_GS).includes(keyAs)
+          ? TRANSFORM_FUNCTIONS_JS_TO_GS[keyAs]
+          : TRANSFORM_FUNCTIONS_JS_TO_GS.default) as TransformFunctionJSToGS
+
+      accumulator[header] = transformer(rawValue)
+    }
+
+    return accumulator
+  }, {} as Record<GSAscentKeys, string>)
+}
+
 export async function addAscent(ascent: Ascent): Promise<void> {
   const manualAscentsSheet = await loadWorksheet('ascents', { edit: true })
 
-  await manualAscentsSheet.addRow(
-    Object.values(ascentSchema.parse(ascent)).map(String),
-    {},
-  )
-}
-
-const { getCache, setCache } = createCache<Ascent[]>()
-
-export async function getAllAscents(): Promise<Ascent[]> {
-  const cachedData = getCache()
-  if (cachedData !== undefined) return cachedData
-
-  const ascents = await getAscentsFromDB()
-  setCache(ascents)
-  return ascents
+  await manualAscentsSheet.addRow(transformAscentFromJSToGS(ascent))
 }
