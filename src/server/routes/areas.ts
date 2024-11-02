@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 
-import { frequency } from '@edouardmisset/utils'
+import { frequency } from '@edouardmisset/array'
 import { findSimilar, groupSimilarStrings } from 'helpers/find-similar.ts'
 import { sortNumericalValues } from 'helpers/sort-values.ts'
 import type { Ascent } from 'schema/ascent.ts'

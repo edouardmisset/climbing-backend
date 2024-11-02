@@ -1,14 +1,13 @@
 import { Hono } from 'hono'
 import { compareSimilarity } from '@std/text'
 
+import { groupBy, sortBy } from '@edouardmisset/array'
 import {
-  groupBy,
   removeAccents,
-  sortBy,
   stringEqualsCaseInsensitive,
   stringIncludesCaseInsensitive,
-  validNumberWithFallback,
-} from '@edouardmisset/utils'
+} from '@edouardmisset/text'
+import { validNumberWithFallback } from '@edouardmisset/math'
 
 import { sortKeys } from 'helpers/sort-keys.ts'
 import { zValidator } from 'zod-validator'

@@ -1,4 +1,5 @@
-import { invert, isValidNumber } from '@edouardmisset/utils'
+import { isValidNumber } from '@edouardmisset/math'
+import { invert } from '@edouardmisset/object'
 import type { Ascent } from 'schema/ascent.ts'
 import type { TrainingSession } from 'schema/training.ts'
 
@@ -11,26 +12,23 @@ type TransformFunctionGSToJS = (value: string) => string | number
 
 //! The order of the headers matters. For this reason we define the headers in
 //! the right order in a separate array.
-export const ASCENT_HEADERS =
-  [
-    'Route Name',
-    'Topo Grade',
-    '# Tries',
-    'My Grade',
-    'Height',
-    'Profile',
-    'Holds',
-    'Rating',
-    'Route / Boulder',
-    'Crag',
-    'Area',
-    'Departement',
-    'Date',
-    'Climber',
-    'Ascent Comments',
-  ] as const
-
-
+export const ASCENT_HEADERS = [
+  'Route Name',
+  'Topo Grade',
+  '# Tries',
+  'My Grade',
+  'Height',
+  'Profile',
+  'Holds',
+  'Rating',
+  'Route / Boulder',
+  'Crag',
+  'Area',
+  'Departement',
+  'Date',
+  'Climber',
+  'Ascent Comments',
+] as const
 
 export const TRANSFORMED_ASCENT_HEADER_NAMES = {
   'Route Name': 'routeName',
@@ -136,8 +134,8 @@ export function transformTriesGSToJS(
   const style = value.includes('Onsight')
     ? 'Onsight'
     : value.includes('Flash')
-      ? 'Flash'
-      : 'Redpoint'
+    ? 'Flash'
+    : 'Redpoint'
 
   const tries = Number(
     value.replace('go', '').replace('Onsight', '').replace('Flash', '').trim(),

@@ -6,7 +6,7 @@ import {
 } from 'scripts/import-training-and-ascent-data-from-gs.ts'
 
 import { createCache } from 'helpers/cache.ts'
-import { TRANSFORMED_TRAINING_HEADER_NAMES } from "helpers/transformers.ts"
+import { TRANSFORMED_TRAINING_HEADER_NAMES } from 'helpers/transformers.ts'
 import { SHEETS_INFO } from 'services/google-sheets.ts'
 
 const { getCache, setCache } = createCache<TrainingSession[]>()

@@ -1,7 +1,12 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@edouardmisset/utils@^3.3.3": "3.3.3",
+    "jsr:@edouardmisset/array@*": "4.0.0",
+    "jsr:@edouardmisset/array@^4.0.1": "4.0.1",
+    "jsr:@edouardmisset/math@4": "4.0.0",
+    "jsr:@edouardmisset/object@^4.0.1": "4.0.1",
+    "jsr:@edouardmisset/text@4": "4.0.0",
+    "jsr:@edouardmisset/type@4": "4.0.0",
     "jsr:@std/assert@0.223": "0.223.0",
     "jsr:@std/bytes@0.223": "0.223.0",
     "jsr:@std/csv@0.223": "0.223.0",
@@ -24,6 +29,30 @@
     "npm:zod@^3.23.8": "3.23.8"
   },
   "jsr": {
+    "@edouardmisset/array@4.0.0": {
+      "integrity": "8a90ac0eb737a17111088d343b0729ab49d631225c2919e595a1e3dd7bec1098"
+    },
+    "@edouardmisset/array@4.0.1": {
+      "integrity": "5298155edc9b57db901c6cf95a1365bc02e873b19b5eb3573a46aeeb9ecf59e5",
+      "dependencies": [
+        "jsr:@edouardmisset/object"
+      ]
+    },
+    "@edouardmisset/math@4.0.0": {
+      "integrity": "d0617894afaa3658b07e86cdf7c83722704390612a302035f03f04d1754bc23e"
+    },
+    "@edouardmisset/object@4.0.1": {
+      "integrity": "af7019fecd774149a0d77fffadf649bed474c0bff99bb619186c5aefe5ed4164",
+      "dependencies": [
+        "jsr:@edouardmisset/type"
+      ]
+    },
+    "@edouardmisset/text@4.0.0": {
+      "integrity": "b39a27d6108e106f476b7a20ab86253f963f2cb6137fa3e67732ac8422e8ca9e"
+    },
+    "@edouardmisset/type@4.0.0": {
+      "integrity": "a5e7deb3a26f4cef751259ccee57a11bc2b80120cde646c21c2fa341e5b002a4"
+    },
     "@edouardmisset/utils@3.3.3": {
       "integrity": "7f94ee212de424b6c15113f2f88c8b7a0a05afde45939bab6a30cee18cc20eab",
       "dependencies": [
@@ -791,7 +820,11 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@edouardmisset/utils@^3.3.3",
+      "jsr:@edouardmisset/array@^4.0.1",
+      "jsr:@edouardmisset/function@4",
+      "jsr:@edouardmisset/math@4",
+      "jsr:@edouardmisset/object@^4.0.1",
+      "jsr:@edouardmisset/text@4",
       "jsr:@std/csv@0.223",
       "jsr:@std/dotenv@~0.225.2",
       "jsr:@std/fmt@^1.0.3",

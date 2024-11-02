@@ -6,7 +6,7 @@ import {
   TRANSFORMED_ASCENT_HEADER_NAMES,
   TRANSFORMED_TRAINING_HEADER_NAMES,
   transformTriesGSToJS,
-} from "helpers/transformers.ts"
+} from 'helpers/transformers.ts'
 import { SHEETS_INFO } from 'services/google-sheets.ts'
 
 const backupFilePath = './src/server/backup/'

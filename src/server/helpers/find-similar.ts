@@ -1,4 +1,4 @@
-import { removeAccents } from '@edouardmisset/utils'
+import { removeAccents } from '@edouardmisset/text'
 import { levenshteinDistance } from '@std/text'
 
 function formatString(item: string): string {

@@ -1,10 +1,8 @@
 import { Hono } from 'hono'
 
-import {
-  frequency,
-  mapObject,
-  stringEqualsCaseInsensitive,
-} from '@edouardmisset/utils'
+import { frequency } from '@edouardmisset/array'
+import { mapObject } from '@edouardmisset/object'
+import { stringEqualsCaseInsensitive } from '@edouardmisset/text'
 import {
   convertGradeToNumber,
   ROUTE_GRADE_TO_NUMBER,
