@@ -1,18 +1,18 @@
-import { objectKeys } from '@edouardmisset/object'
 import { createCache } from 'helpers/cache.ts'
 import { removeObjectExtendedNullishValues } from 'helpers/remove-undefined-values.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
-import { type Ascent, ascentSchema } from 'schema/ascent.ts'
 import {
   ASCENT_HEADERS,
   type GSAscentKeys,
+  type GSAscentRecord,
   TRANSFORM_FUNCTIONS_GS_TO_JS,
   TRANSFORM_FUNCTIONS_JS_TO_GS,
   TRANSFORMED_ASCENT_HEADER_NAMES,
-  type TransformFunctionJSToGS,
   transformTriesGSToJS,
+  transformTriesJSToGS,
 } from 'helpers/transformers.ts'
-import { loadWorksheet } from './google-sheets.ts'
+import { type Ascent, ascentSchema } from 'schema/ascent.ts'
+import { loadWorksheet } from 'services/google-sheets.ts'
 
 /**
  * Transforms a raw ascent record from Google Sheets format to a JavaScript
@@ -23,7 +23,7 @@ import { loadWorksheet } from './google-sheets.ts'
  * @returns A transformed record with keys as strings and values as strings,
  * numbers, or booleans, representing the ascent in JavaScript format.
  */
-function transformAscentFromGSToJS(
+export function transformAscentFromGSToJS(
   rawAscent: Record<string, string>,
 ): Record<string, string | number | boolean> {
   const transformedAscent = Object.entries(rawAscent).reduce(
@@ -76,7 +76,7 @@ export async function getAllAscents(
 ): Promise<Ascent[]> {
   const cachedData = getCache()
 
-  if (!!options?.refresh || (cachedData === undefined)) {
+  if (options?.refresh === true || cachedData === undefined) {
     const ascents = await getAscentsFromDB()
     setCache(ascents)
     return ascents
@@ -87,9 +87,9 @@ export async function getAllAscents(
 
 // Key = JS ascent object's key
 // Header = Google Sheet's ascent's header
-function transformAscentFromJSToGS(
+export function transformAscentFromJSToGS(
   ascent: Ascent,
-): Record<GSAscentKeys, string> {
+): GSAscentRecord {
   return ASCENT_HEADERS.reduce((accumulator, header) => {
     const key = TRANSFORMED_ASCENT_HEADER_NAMES[header]
 
@@ -97,27 +97,26 @@ function transformAscentFromJSToGS(
     if (key === 'climber') {
       accumulator.Climber = 'Edouard Misset'
     } else if (key === 'tries') {
-      const GSTries = TRANSFORM_FUNCTIONS_JS_TO_GS.tries({
+      const GSTries = transformTriesJSToGS({
         style: ascent.style,
         tries: ascent.tries,
       })
       accumulator['# Tries'] = GSTries
     } else {
-      const rawValue = ascent[key] ?? ''
+      const rawStringValue = ascent[key]?.toString() ?? ''
 
       //? how to deal with special chars in comments ?
 
       const keyAs = key as keyof typeof TRANSFORM_FUNCTIONS_JS_TO_GS
-      const transformer =
-        (objectKeys(TRANSFORM_FUNCTIONS_JS_TO_GS).includes(keyAs)
-          ? TRANSFORM_FUNCTIONS_JS_TO_GS[keyAs]
-          : TRANSFORM_FUNCTIONS_JS_TO_GS.default) as TransformFunctionJSToGS
+      const transformer = keyAs in TRANSFORM_FUNCTIONS_JS_TO_GS
+        ? TRANSFORM_FUNCTIONS_JS_TO_GS[keyAs]
+        : String
 
-      accumulator[header] = transformer(rawValue)
+      accumulator[header] = transformer(rawStringValue)
     }
 
     return accumulator
-  }, {} as Record<GSAscentKeys, string>)
+  }, {} as GSAscentRecord)
 }
 
 export async function addAscent(ascent: Ascent): Promise<void> {

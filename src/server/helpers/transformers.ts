@@ -1,7 +1,5 @@
 import { isValidNumber } from '@edouardmisset/math'
 import { invert } from '@edouardmisset/object'
-import type { Ascent } from 'schema/ascent.ts'
-import type { TrainingSession } from 'schema/training.ts'
 
 type TransformFunctionGSToJS = (value: string) => string | number
 
@@ -50,6 +48,8 @@ export const TRANSFORMED_ASCENT_HEADER_NAMES = {
 
 export type GSAscentKeys = keyof typeof TRANSFORMED_ASCENT_HEADER_NAMES
 type JSAscentKeys = typeof TRANSFORMED_ASCENT_HEADER_NAMES[GSAscentKeys]
+
+export type GSAscentRecord = Record<GSAscentKeys, string>
 
 export const TRANSFORMED_ASCENT_KEYS = invert(TRANSFORMED_ASCENT_HEADER_NAMES)
 
@@ -197,22 +197,15 @@ export const TRANSFORM_FUNCTIONS_GS_TO_JS = {
  * ---------------------------------------------
  */
 
-// deno-lint-ignore no-explicit-any
-export type TransformFunctionJSToGS = (value: any) => string
-
-/**
- * Transforms a value to a string.
- * @param {any} value - The value to transform.
- * @returns {string} - The transformed string value.
- */
-const transformToStringJSToGS = (value: unknown): string => String(value)
+export type TransformFunctionJSToGS = (value: string) => string
 
 /**
  * Transforms an ISO date string to "DD/MM/YYYY" format.
- * @param {Ascent['date']} ISODateString - The ISO date string to transform.
+ * @param {string} ISODateString - The ISO date string to transform.
  * @returns {string} - The transformed date string in "DD/MM/YYYY" format.
  */
-const transformDateJSToGS = (ISODateString: Ascent['date']): string => {
+const transformDateJSToGS = (ISODateString: string): string => {
+  if (ISODateString === '') return ''
   const date = new Date(ISODateString)
   const day = String(date.getUTCDate()).padStart(2, '0')
   const month = String(date.getUTCMonth() + 1).padStart(2, '0')
@@ -222,39 +215,55 @@ const transformDateJSToGS = (ISODateString: Ascent['date']): string => {
 
 /**
  * Transforms a height number to a string with 'm'.
- * @param {Ascent['height']} height - The height number to transform.
+ * @param {string} height - The height number to transform.
  * @returns {string} - The transformed height string.
  */
-const transformHeightJSToGS = (height: Ascent['height']): string => `${height}m`
+const transformHeightJSToGS = (height: string): string =>
+  height === '' ? '' : `${height}m`
 
 /**
  * Transforms a rating number to a string with '*'.
- * @param {Ascent['rating']} rating - The rating number to transform.
+ * @param {string} rating - The rating number to transform.
  * @returns {string} - The transformed rating string.
  */
-const transformRatingJSToGS = (rating: Ascent['rating']): string => `${rating}*`
+const transformRatingJSToGS = (rating: string): string =>
+  rating === '' ? '' : `${rating}*`
 
 /**
  * Transforms style and number of tries to a tries string.
  * @param {ClimbingAttempt} value - The style and tries to transform.
  * @returns {string} - The transformed tries string.
  */
-const transformTriesJSToGS = (
-  value: ClimbingAttempt,
+export const transformTriesJSToGS = (
+  { style, tries }: ClimbingAttempt,
 ): string => {
-  if (value.style === 'Onsight') return '001 Onsight'
-  if (value.style === 'Flash') return '01 Flash'
+  if (tries < 1) throw new Error('Tries must be greater than 1')
+  if (style === 'Redpoint' && tries === 1) {
+    throw new Error(
+      '1 try means Flash or Onsight but nor Redpoint ascent style',
+    )
+  }
+  if (
+    (style === 'Flash' || style === 'Onsight') && tries !== 1
+  ) {
+    throw new Error(
+      'Flash or Onsight ascents should their number of tries equal to 1',
+    )
+  }
 
-  return `${value.tries.toString().padStart(2, '0')} go`
+  if (style === 'Onsight') return '001 Onsight'
+  if (style === 'Flash') return '01 Flash'
+
+  return `${tries.toString().padStart(2, '0')} go`
 }
 
 /**
  * Transforms a session type string.
- * @param {NonNullable<TrainingSession['sessionType']>} sessionType - The session type string to transform.
+ * @param {string} sessionType - The session type string to transform.
  * @returns {string} - The transformed session type.
  */
 const transformSessionTypeJSToGS = (
-  sessionType: NonNullable<TrainingSession['sessionType']>,
+  sessionType: string,
 ): string => sessionType === 'Out' ? 'Ex' : sessionType
 
 /**
@@ -263,27 +272,19 @@ const transformSessionTypeJSToGS = (
  * @returns {string} - The transformed climbing discipline.
  */
 const transformClimbingDisciplineJSToGS = (
-  discipline: Ascent['climbingDiscipline'],
+  discipline: string,
 ): string => discipline === 'Boulder' ? 'Bouldering' : discipline
 
 type TransformFunctionMappingJSToGS = Partial<
-  Record<
-    JSAscentKeys | JSTrainingKeys | 'default' | 'style',
-    TransformFunctionJSToGS
-  >
+  Record<JSAscentKeys | JSTrainingKeys, TransformFunctionJSToGS>
 >
 
 export const TRANSFORM_FUNCTIONS_JS_TO_GS = {
-  area: transformToStringJSToGS,
   date: transformDateJSToGS,
   height: transformHeightJSToGS,
   rating: transformRatingJSToGS,
-  routeName: transformToStringJSToGS,
   sessionType: transformSessionTypeJSToGS,
   climbingDiscipline: transformClimbingDisciplineJSToGS,
-  default: transformToStringJSToGS,
-
-  tries: transformTriesJSToGS,
   // You need to catch the case for the `style` property not being mapped to
   // anything
 } satisfies TransformFunctionMappingJSToGS

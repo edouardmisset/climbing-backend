@@ -63,7 +63,7 @@ export const ascentSchema = z.object({
   climbingDiscipline: climbingDisciplineSchema,
   comments: string().optional(),
   crag: string().min(1),
-  date: string(),
+  date: string(), // ISO 8601 date format
   region: string().optional(),
   height: number().min(5).optional(),
   holds: holdsSchema.optional(),

@@ -1,7 +1,6 @@
 import { testClient } from 'hono/testing'
 
-import { assert } from 'jsr:@std/assert@^0.223.0/assert'
-import { assertArrayIncludes } from 'jsr:@std/assert@^0.223.0/assert-array-includes'
+import { assert, assertArrayIncludes } from '@std/assert'
 
 import sampleAscents from 'backup/ascent-data-sample-2024-10-30T15:53:27.118Z.json' with {
   type: 'json',
