@@ -18,21 +18,20 @@ import { groupSimilarStrings } from 'helpers/find-similar.ts'
 import { string, z } from 'zod'
 import { getAllAscents } from 'services/ascents.ts'
 
-// deno-lint-ignore explicit-module-boundary-types
-export const createAscentRoute = (fetchAscents = getAllAscents) =>
+const createAscentRoute = (fetchAscents = getAllAscents) =>
   new Hono().get(
     '/',
     zValidator(
       'query',
       z.object({
-        routeName: string().optional(),
+        'route-name': string().optional(),
         'topo-grade': string().optional(),
         year: string().optional(),
         tries: string().optional(),
         crag: string().optional(),
         'group-by': ascentSchema.keyof().optional(),
         descending: string().transform((s) => s === 'true').optional(),
-        climbingDiscipline: string().optional(),
+        'climbing-discipline': string().optional(),
         sort: string().optional(),
         fields: string().optional(),
       }),
@@ -55,14 +54,14 @@ export const createAscentRoute = (fetchAscents = getAllAscents) =>
 
       const validatedQuery = c.req.valid('query')
       const {
-        routeName: routeNameFilter,
+        'route-name': routeNameFilter,
         'topo-grade': gradeFilter,
         year: yearFilter,
         tries: numberOfTriesFilter,
         crag: cragFilter,
         'group-by': group,
         descending: dateIsDescending,
-        climbingDiscipline: disciplineFilter,
+        'climbing-discipline': disciplineFilter,
         sort,
         fields,
       } = validatedQuery
@@ -261,3 +260,5 @@ export const createAscentRoute = (fetchAscents = getAllAscents) =>
         })
       },
     )
+
+export { createAscentRoute }
