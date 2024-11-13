@@ -44,7 +44,7 @@ export const crags = new Hono().get('/', async (c) => {
       }),
     ),
     async (c) => {
-      const weightedByGrade = c.req.valid('query')['weight-by-grade']
+      const { 'weight-by-grade': weightedByGrade } = c.req.valid('query')
 
       const ascents = await getAllAscents()
       const validCrags = await getValidCrags()
