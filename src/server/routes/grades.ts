@@ -12,17 +12,20 @@ import { getAllAscents } from 'services/ascents.ts'
 import { z } from 'zod'
 import { zValidator } from 'zod-validator'
 
-const gradesQuerySchema = z.object({
-  ['climbing-discipline']: ascentSchema.shape.climbingDiscipline.optional(),
-  year: z.string().transform(Number).optional(),
-})
+const gradesQueryValidator = zValidator(
+  'query',
+  z.object({
+    ['climbing-discipline']: ascentSchema.shape.climbingDiscipline.optional(),
+    year: z.string().transform(Number).optional(),
+  }),
+)
 
-/** Helper function to filter ascents by climbing discipline and year */
-function filterAscents(
-  ascents: Ascent[],
+async function getFilteredAscents(
   climbingDiscipline?: Ascent['climbingDiscipline'],
   year?: number,
-): Ascent[] {
+): Promise<Ascent[]> {
+  const ascents = await getAllAscents()
+
   return ascents
     .filter((ascent) =>
       climbingDiscipline === undefined
@@ -36,16 +39,14 @@ function filterAscents(
 
 export const grades = new Hono().get(
   '/',
-  zValidator('query', gradesQuerySchema),
+  gradesQueryValidator,
   async (c) => {
     const {
       'climbing-discipline': climbingDiscipline,
       year,
     } = c.req.valid('query')
 
-    const ascents = await getAllAscents()
-
-    const filteredGrades = filterAscents(ascents, climbingDiscipline, year)
+    const filteredGrades = (await getFilteredAscents(climbingDiscipline, year))
       .map(({ topoGrade }) => topoGrade)
 
     const sortedGrades = [...new Set(filteredGrades)].sort()
@@ -53,15 +54,13 @@ export const grades = new Hono().get(
     return c.json({ data: sortedGrades })
   },
 )
-  .get('/frequency', zValidator('query', gradesQuerySchema), async (c) => {
+  .get('/frequency', gradesQueryValidator, async (c) => {
     const {
       'climbing-discipline': climbingDiscipline,
       year,
     } = c.req.valid('query')
 
-    const ascents = await getAllAscents()
-
-    const filteredGrades = filterAscents(ascents, climbingDiscipline, year)
+    const filteredGrades = (await getFilteredAscents(climbingDiscipline, year))
       .map(({ topoGrade }) => topoGrade)
 
     const sortedGradesByFrequency = sortKeys(
@@ -71,20 +70,15 @@ export const grades = new Hono().get(
 
     return c.json({ data: sortedGradesByFrequency })
   })
-  .get('/average', zValidator('query', gradesQuerySchema), async (c) => {
+  .get('/average', gradesQueryValidator, async (c) => {
     const {
       'climbing-discipline': climbingDiscipline,
       year,
     } = c.req.valid('query')
 
-    const ascents = await getAllAscents()
-
-    const filteredNumberGrades = filterAscents(
-      ascents,
-      climbingDiscipline,
-      year,
-    )
-      .map(({ topoGrade }) => convertGradeToNumber(topoGrade as Grade))
+    const filteredNumberGrades =
+      (await getFilteredAscents(climbingDiscipline, year))
+        .map(({ topoGrade }) => convertGradeToNumber(topoGrade as Grade))
 
     const averageGrade = convertNumberToGrade(
       Math.round(average(filteredNumberGrades)),
