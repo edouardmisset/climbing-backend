@@ -59,7 +59,7 @@ export const holdsSchema = z.enum(holds)
 
 export const ascentSchema = z.object({
   area: string().or(number()).transform(String).optional(),
-  climber: string().optional().transform((_s) => 'Edouard Misset'),
+  climber: string().optional().transform((_) => 'Edouard Misset'),
   climbingDiscipline: climbingDisciplineSchema,
   comments: string().optional(),
   crag: string().min(1),
