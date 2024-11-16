@@ -1,5 +1,6 @@
 import { isValidNumber } from '@edouardmisset/math'
 import { invert } from '@edouardmisset/object'
+import { holdsFomGSSchema } from 'schema/ascent.ts'
 
 type TransformFunctionGSToJS = (value: string) => string | number
 
@@ -163,6 +164,22 @@ const transformClimbingDisciplineGSToJS: TransformFunctionGSToJS = (
 ) => (value === 'Bouldering' ? 'Boulder' : value)
 
 /**
+ * Filter out climbing hold from Google Sheets schema to JS.
+ * @param {string} value - The climbing hold string to transform.
+ * @returns {string} - The filtered climbing hold type.
+ */
+const transformHoldsGSToJS: TransformFunctionGSToJS = (
+  value,
+) => {
+  const hold = holdsFomGSSchema.parse(value)
+  if (hold === 'Positive' || hold === 'Volume') return 'Sloper'
+  if (hold === 'Mono' || hold === 'Bi') return 'Pocket'
+  if (hold === 'Various') return 'Crimp'
+
+  return hold
+}
+
+/**
  * Default transformation function that attempts to convert a string to a number.
  * @param {string} value - The value to transform.
  * @returns {string | number} - The transformed value as a number or string.
@@ -183,6 +200,7 @@ export const TRANSFORM_FUNCTIONS_GS_TO_JS = {
   area: transformToStringGSToJS,
   date: transformDateGSToJS,
   height: transformHeightGSToJS,
+  holds: transformHoldsGSToJS,
   rating: transformRatingGSToJS,
   routeName: transformToStringGSToJS,
   sessionType: transformSessionTypeGSToJS,

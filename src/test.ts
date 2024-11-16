@@ -2,7 +2,7 @@ import { testClient } from 'hono/testing'
 
 import { assert, assertArrayIncludes } from '@std/assert'
 
-import sampleAscents from 'backup/ascent-data-sample-2024-10-30T15:53:27.118Z.json' with {
+import sampleAscents from './server/backup/ascent-data-sample-2024-10-30.json' with {
   type: 'json',
 }
 import { createAscentRoute } from 'routes/ascents.ts'

@@ -29,7 +29,7 @@ export const climbingDisciplineSchema = z.enum([
   'Multi-Pitch',
 ])
 
-const holds = [
+export const holdsFromGS = [
   'Positive',
   'Jug',
   'Sloper',
@@ -44,6 +44,24 @@ const holds = [
   'Undercling',
 ] as const
 
+/**
+ * 'Mono' and 'Bi' hold types from Google Sheets' model are really only pockets.
+ *
+ * 'Various' was a catch-all for holds that don't fit in the other categories,
+ * but it's not very useful. It is likely to be crimpy holds.
+ *
+ * 'Positive' and Volume are a hold type that don't really exist in outdoor climbing.
+ */
+export const holds = [
+  'Jug',
+  'Sloper',
+  'Pocket',
+  'Pinch',
+  'Crimp',
+  'Crack',
+  'Undercling',
+] as const
+
 const profiles = [
   'Dihedral',
   'Slab',
@@ -55,6 +73,7 @@ const profiles = [
 ] as const
 
 export const profileSchema = z.enum(profiles)
+export const holdsFomGSSchema = z.enum(holdsFromGS)
 export const holdsSchema = z.enum(holds)
 
 export const ascentSchema = z.object({
@@ -77,3 +96,5 @@ export const ascentSchema = z.object({
   tries: number().min(1),
 })
 export type Ascent = z.infer<typeof ascentSchema>
+
+type hold = Ascent['holds']
