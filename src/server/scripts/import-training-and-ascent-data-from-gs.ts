@@ -168,7 +168,7 @@ export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
 
     await processCsvDataFromUrl(
       {
-        uri: SHEETS_INFO.ascents.csvExportURL,
+        uri: SHEETS_INFO.training.csvExportURL,
         fileName: trainingFileName,
         transformedHeaderNames: TRANSFORMED_TRAINING_HEADER_NAMES,
       },

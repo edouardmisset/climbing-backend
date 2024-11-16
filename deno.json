@@ -6,7 +6,7 @@
     "dev": "deno run --allow-net --allow-env --allow-read --allow-write --watch --watch-exclude='src/data/*.json' src/mod.ts",
     "cache": "deno install --entrypoint src/mod.ts benchmark/mod.ts src/test.ts",
     "check": "deno check './**/*.ts*'",
-    "backup": "deno run --allow-net --allow-read --allow-write src/server/scripts/backup.ts && deno fmt src/server/backup",
+    "backup": "deno run --allow-env --allow-net --allow-read --allow-write src/server/scripts/backup.ts && deno fmt src/server/backup",
     "test": "deno test --allow-env --allow-read",
     "test:watch": "deno test --allow-env --allow-read --watch"
   },
