@@ -52,38 +52,16 @@ const Footer: FC = () => {
 }
 
 export const pages = new Hono().get('/', async (c) => {
-  let avgGrade: string | undefined = undefined
-
   const res = await client.api.grades.average.$get()
-  let json: any
+  const body = await res.body?.getReader().read().then(({ value }) => value ? new TextDecoder().decode(value) : '')
 
-  const responseBody = res.body;
-  if(isValidJSON(responseBody as unknown as string)) {
-
-    
-    res?.json().then((j) => {
-      json = j
-    }).catch((error) => globalThis.console.error(JSON.stringify(error as Error)))
-  }
-  else {
-    globalThis.console.error(responseBody)
-  }
-
-  avgGrade = (json as unknown as { data: string })?.data
-
-  if (avgGrade === undefined) {
-    return c.html(
-      <Layout>
-        <h1>Failed to load average grade</h1>
-      </Layout>,
-    )
-  }
+  console.log(body);
 
   return c.html(
     <Layout>
       <a href='/ascents'>Ascents</a>
       <p>
-        Average grade: {avgGrade}
+        Average grade:
       </p>
     </Layout>,
   )
