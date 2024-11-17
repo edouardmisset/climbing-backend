@@ -21,7 +21,7 @@ let timestamp = 0
 
 const app = new Hono().use(cors(), trimTrailingSlash())
   .use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
-  .all('api/backup', async (c) => {
+  .all('/api/backup', async (c) => {
     try {
       const throttleTimeInMinutes = 5
       const throttleTimeInMs = 1000 * 60 * throttleTimeInMinutes
@@ -49,7 +49,10 @@ const app = new Hono().use(cors(), trimTrailingSlash())
   })
   .route('/api', api)
   .route('/', pages)
-  .notFound((c) => c.json({ message: 'Line Not Found' }, 404))
+  .notFound((c) => {
+    globalThis.console.log('Route not found', c.req.url)
+    return c.json({ message: 'Line Not Found' }, 404)
+  })
 
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
 if (ENV === 'dev') app.use(timing(), logger())
