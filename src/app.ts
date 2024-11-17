@@ -13,7 +13,10 @@ import { api } from 'routes/mod.ts'
 import { backupAscentsAndTrainingFromGoogleSheets } from 'scripts/import-training-and-ascent-data-from-gs.ts'
 import { pages } from './client/pages/index.tsx'
 
-const { ENV } = await load()
+await load({ export: true })
+const env = Deno.env.toObject()
+const ENV = env.ENV
+
 let timestamp = 0
 
 const app = new Hono().use(cors(), trimTrailingSlash())

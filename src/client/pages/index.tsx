@@ -5,9 +5,11 @@ import { hc } from 'hono/client'
 import type { app } from '../../app.ts'
 import { load } from '@std/dotenv'
 
-const env = await load()
+await load({ export: true })
 
-const apiBaseUrl = env.API_BASE_URL ?? 'http://localhost:8000'
+const env = Deno.env.toObject()
+
+const apiBaseUrl = env.API_BASE_URL
 
 console.log(apiBaseUrl)
 
