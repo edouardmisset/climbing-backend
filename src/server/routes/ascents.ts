@@ -1,22 +1,22 @@
-import { Hono } from 'hono'
 import { compareSimilarity } from '@std/text'
+import { Hono } from 'hono'
 
 import { groupBy, sortBy } from '@edouardmisset/array'
+import { validNumberWithFallback } from '@edouardmisset/math'
 import {
   removeAccents,
   stringEqualsCaseInsensitive,
   stringIncludesCaseInsensitive,
 } from '@edouardmisset/text'
-import { validNumberWithFallback } from '@edouardmisset/math'
 
 import { sortKeys } from 'helpers/sort-keys.ts'
+import { Ascent } from 'schema/ascent.ts'
 import { zValidator } from 'zod-validator'
-import { Ascent, ascentSchema } from 'schema/ascent.ts'
 
 import fuzzySort from 'fuzzysort'
 import { groupSimilarStrings } from 'helpers/find-similar.ts'
-import { string, z } from 'zod'
 import { getAllAscents } from 'services/ascents.ts'
+import { string, z } from 'zod'
 
 const createAscentRoute = (fetchAscents = getAllAscents) =>
   new Hono().get(
@@ -29,7 +29,6 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
         year: string().optional(),
         tries: string().optional(),
         crag: string().optional(),
-        'group-by': ascentSchema.keyof().optional(),
         descending: string().transform((s) => s === 'true').optional(),
         'climbing-discipline': string().optional(),
         sort: string().optional(),
@@ -59,7 +58,6 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
         year: yearFilter,
         tries: numberOfTriesFilter,
         crag: cragFilter,
-        'group-by': group,
         descending: dateIsDescending,
         'climbing-discipline': disciplineFilter,
         sort,
@@ -180,12 +178,8 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
         ) => compareSimilarity(routeNameFilter)(aRouteName, bRouteName))
         : sortedAscents
 
-      const groupedAscents = group === undefined
-        ? sortedByClosestRouteName
-        : sortKeys(groupBy(sortedByClosestRouteName, group))
-
       return c.json({
-        data: groupedAscents,
+        data: sortedByClosestRouteName,
       })
     },
   )

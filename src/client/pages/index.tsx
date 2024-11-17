@@ -55,9 +55,7 @@ export const pages = new Hono().get('/', (c) => {
 })
   .get('/ascents', async (c) => {
     const res = await client.api.ascents.$get({ query: {} })
-    const json = await res.json()
-
-    const ascents = Array.isArray(json.data) ? json.data : []
+    const ascents = (await res.json()).data
 
     return c.html(
       <Layout>
