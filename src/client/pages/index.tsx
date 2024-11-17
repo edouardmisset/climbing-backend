@@ -13,7 +13,7 @@ const apiBaseUrl = env.API_BASE_URL
 
 console.log(apiBaseUrl)
 
-const client = hc<typeof app>(apiBaseUrl)
+const client = hc<typeof app>('https://localhost:80')
 
 const Layout: FC = (props) => {
   return (
@@ -66,7 +66,7 @@ export const pages = new Hono().get('/', (c) => {
 
     const json = await res.json()
 
-    console.log({ json })
+    // console.log({ json })
 
     const ascents = json.data
     // console.log({ ascents })
