@@ -1,17 +1,17 @@
 import { number, string, z } from 'zod'
 
 const degrees = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] as const
-const degreeSchema = z.enum(degrees)
+export const degreeSchema = z.enum(degrees)
 
 type Degree = z.infer<typeof degreeSchema>
 
-const ROUTE_LETTERS = ['a', 'b', 'c'] as const
+export const ROUTE_LETTERS = ['a', 'b', 'c'] as const
 const routeGradeLetterSchema = z.enum(ROUTE_LETTERS)
 
 type RouteGradeLetter = z.infer<typeof routeGradeLetterSchema>
-type BoulderGradeLetter = Uppercase<RouteGradeLetter>
+export type BoulderGradeLetter = Uppercase<RouteGradeLetter>
 
-const optionalPlus = ['', '+'] as const
+export const optionalPlus = ['', '+'] as const
 const optionalPlusSchema = z.enum(optionalPlus)
 type OptionalPlus = z.infer<typeof optionalPlusSchema>
 
