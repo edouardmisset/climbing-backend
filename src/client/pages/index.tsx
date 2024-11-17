@@ -13,7 +13,7 @@ const apiBaseUrl = env.API_BASE_URL
 
 console.log(apiBaseUrl)
 
-const client = hc<typeof app>('https://localhost:80')
+const client = hc<typeof app>(apiBaseUrl)
 
 const Layout: FC = (props) => {
   return (
