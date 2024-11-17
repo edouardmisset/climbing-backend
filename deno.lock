@@ -2,6 +2,7 @@
   "version": "4",
   "specifiers": {
     "jsr:@edouardmisset/array@^4.0.1": "4.0.2",
+    "jsr:@edouardmisset/function@4": "4.1.0",
     "jsr:@edouardmisset/math@4": "4.0.0",
     "jsr:@edouardmisset/object@^4.0.1": "4.0.1",
     "jsr:@edouardmisset/text@4": "4.0.0",
@@ -28,6 +29,12 @@
       "integrity": "7da71b83a454403f4aefc9015ee402ca9aa29a1eab6af2f1862f9b3440000238",
       "dependencies": [
         "jsr:@edouardmisset/object"
+      ]
+    },
+    "@edouardmisset/function@4.1.0": {
+      "integrity": "ac92c6278c5eb3d1428042d0db9e46b02e2c404faccbf8358f28483b818fd27a",
+      "dependencies": [
+        "jsr:@std/dotenv"
       ]
     },
     "@edouardmisset/math@4.0.0": {

@@ -5,6 +5,7 @@ import { hc } from 'hono/client'
 import type { app } from '../../app.ts'
 import { load } from '@std/dotenv'
 import type { Ascent } from 'schema/ascent.ts'
+import { isValidJSON } from '@edouardmisset/function'
 
 await load({ export: true })
 const env = Deno.env.toObject()
@@ -51,8 +52,32 @@ const Footer: FC = () => {
 }
 
 export const pages = new Hono().get('/', async (c) => {
+  let avgGrade: string | undefined = undefined
 
-  const avgGrade = (await (await client.api.grades.average.$get())?.json())?.data
+  const res = await client.api.grades.average.$get()
+  let json: any
+
+  const responseBody = res.body;
+  if(isValidJSON(responseBody as unknown as string)) {
+
+    
+    res?.json().then((j) => {
+      json = j
+    }).catch((error) => globalThis.console.error(JSON.stringify(error as Error)))
+  }
+  else {
+    globalThis.console.error(responseBody)
+  }
+
+  avgGrade = (json as unknown as { data: string })?.data
+
+  if (avgGrade === undefined) {
+    return c.html(
+      <Layout>
+        <h1>Failed to load average grade</h1>
+      </Layout>,
+    )
+  }
 
   return c.html(
     <Layout>
@@ -75,12 +100,11 @@ export const pages = new Hono().get('/', async (c) => {
 
       ascents = json.data
     } catch (error) {
-      globalThis.console.error(error, c.req.url);
-
+      globalThis.console.error(error, c.req.url)
     }
     // console.log({ ascents })
 
-    if(ascents === undefined) {
+    if (ascents === undefined) {
       return c.html(
         <Layout>
           <h1>Failed to load ascents</h1>
