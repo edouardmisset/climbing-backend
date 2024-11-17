@@ -6665,6 +6665,75 @@
       "load": 25,
       "sessionType": "Out",
       "volume": 50
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-10-31T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Zillertal",
+      "intensity": 70,
+      "load": 28,
+      "sessionType": "Out",
+      "volume": 40
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "comments": "Froid froid froid",
+      "date": "2024-11-02T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Zillertal",
+      "intensity": 50,
+      "load": 20,
+      "sessionType": "Out",
+      "volume": 40
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "comments": "Bonne journée de bloc avec encore des nouveaux amis (Marie, Flow, Veronika)",
+      "date": "2024-11-03T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Kasler Alm",
+      "intensity": 70,
+      "load": 63,
+      "sessionType": "Out",
+      "volume": 90
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "comments": "Nago",
+      "date": "2024-11-11T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Arco",
+      "intensity": 50,
+      "load": 10,
+      "sessionType": "Out",
+      "volume": 20
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2024-11-12T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Arco",
+      "intensity": 80,
+      "load": 32,
+      "sessionType": "Out",
+      "volume": 40
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2024-11-13T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Arco",
+      "intensity": 60,
+      "load": 36,
+      "sessionType": "Out",
+      "volume": 60
     }
   ]
 }

@@ -11,5 +11,25 @@
     "Undercling"
   ],
   "deno.future": true,
-  "deno.codeLens.test": true
+  "deno.codeLens.test": true,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#ff2f88",
+    "activityBar.background": "#ff2f88",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#5fdf00",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#ff2f88",
+    "statusBar.background": "#fb006b",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#ff2f88",
+    "statusBarItem.remoteBackground": "#fb006b",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#fb006b",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#fb006b99",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#fb006b"
 }

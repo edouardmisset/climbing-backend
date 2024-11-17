@@ -1,5 +1,5 @@
-import { removeAccents } from '@edouardmisset/utils'
-import { levenshteinDistance } from 'text'
+import { removeAccents } from '@edouardmisset/text'
+import { levenshteinDistance } from '@std/text'
 
 function formatString(item: string): string {
   const synonyms: Record<string, string> = {
