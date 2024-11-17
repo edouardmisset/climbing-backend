@@ -17,7 +17,7 @@ const gradesQueryValidator = zValidator(
   z.object({
     ['climbing-discipline']: ascentSchema.shape.climbingDiscipline.optional(),
     year: z.string().transform(Number).optional(),
-  }),
+  }).optional(),
 )
 
 async function getFilteredAscents(
@@ -44,7 +44,7 @@ export const grades = new Hono().get(
     const {
       'climbing-discipline': climbingDiscipline,
       year,
-    } = c.req.valid('query')
+    } = c.req.valid('query') ?? {}
 
     const filteredGrades = (await getFilteredAscents(climbingDiscipline, year))
       .map(({ topoGrade }) => topoGrade)
@@ -58,7 +58,7 @@ export const grades = new Hono().get(
     const {
       'climbing-discipline': climbingDiscipline,
       year,
-    } = c.req.valid('query')
+    } = c.req.valid('query') ?? {}
 
     const filteredGrades = (await getFilteredAscents(climbingDiscipline, year))
       .map(({ topoGrade }) => topoGrade)
@@ -74,7 +74,7 @@ export const grades = new Hono().get(
     const {
       'climbing-discipline': climbingDiscipline,
       year,
-    } = c.req.valid('query')
+    } = c.req.valid('query') ?? {}
 
     const filteredNumberGrades =
       (await getFilteredAscents(climbingDiscipline, year))

@@ -50,10 +50,16 @@ const Footer: FC = () => {
   )
 }
 
-export const pages = new Hono().get('/', (c) => {
+export const pages = new Hono().get('/', async (c) => {
+
+  const avgGrade = (await (await client.api.grades.average.$get())?.json())?.data
+
   return c.html(
     <Layout>
       <a href='/ascents'>Ascents</a>
+      <p>
+        Average grade: {avgGrade}
+      </p>
     </Layout>,
   )
 })
