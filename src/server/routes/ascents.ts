@@ -1,7 +1,7 @@
 import { compareSimilarity } from '@std/text'
 import { Hono } from 'hono'
 
-import { groupBy, sortBy } from '@edouardmisset/array'
+import { sortBy } from '@edouardmisset/array'
 import { validNumberWithFallback } from '@edouardmisset/math'
 import {
   removeAccents,
@@ -9,7 +9,6 @@ import {
   stringIncludesCaseInsensitive,
 } from '@edouardmisset/text'
 
-import { sortKeys } from 'helpers/sort-keys.ts'
 import { Ascent } from 'schema/ascent.ts'
 import { zValidator } from 'zod-validator'
 

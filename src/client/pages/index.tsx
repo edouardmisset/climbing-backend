@@ -4,9 +4,9 @@ import { Hono } from 'hono'
 import { hc } from 'hono/client'
 import type { app } from '../../app.ts'
 
-const client = hc<typeof app>(
-  `http://localhost:8000`,
-)
+const baseAPIUrl = Deno.env.get('API_BASE_URL') ?? 'http://localhost:8000'
+
+const client = hc<typeof app>(baseAPIUrl)
 
 const Layout: FC = (props) => {
   return (
