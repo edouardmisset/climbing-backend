@@ -1,17 +1,6 @@
-import type { FC } from 'hono/jsx'
 import { Hono } from 'hono'
-
-import { hc } from 'hono/client'
-import type { app } from '../../app.ts'
-import { load } from '@std/dotenv'
-import type { Ascent } from 'schema/ascent.ts'
-import { isValidJSON } from '@edouardmisset/function'
-
-await load({ export: true })
-const env = Deno.env.toObject()
-const apiBaseUrl = env.API_BASE_URL
-
-const client = hc<typeof app>(apiBaseUrl)
+import type { FC } from 'hono/jsx'
+import { getAllAscents } from 'services/ascents.ts'
 
 const Layout: FC = (props) => {
   return (
@@ -51,44 +40,15 @@ const Footer: FC = () => {
   )
 }
 
-export const pages = new Hono().get('/', async (c) => {
-  const res = await client.api.grades.average.$get()
-  const body = await res.body?.getReader().read().then(({ value }) => value ? new TextDecoder().decode(value) : '')
-
-  console.log(body);
-
+export const pages = new Hono().get('/', (c) => {
   return c.html(
     <Layout>
       <a href='/ascents'>Ascents</a>
-      <p>
-        Average grade:
-      </p>
     </Layout>,
   )
 })
   .get('/ascents', async (c) => {
-    let ascents: Ascent[] | undefined = undefined
-    try {
-      const res = await client.api.ascents.$get()
-      console.log({ res })
-
-      const json = await res.json()
-
-      // console.log({ json })
-
-      ascents = json.data
-    } catch (error) {
-      globalThis.console.error(error, c.req.url)
-    }
-    // console.log({ ascents })
-
-    if (ascents === undefined) {
-      return c.html(
-        <Layout>
-          <h1>Failed to load ascents</h1>
-        </Layout>,
-      )
-    }
+    const ascents = await getAllAscents()
 
     return c.html(
       <Layout>

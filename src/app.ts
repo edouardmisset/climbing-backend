@@ -48,7 +48,7 @@ const app = new Hono().use(cors(), trimTrailingSlash())
     }
   })
   .route('/api', api)
-  .route('/app', pages)
+  .route('/', pages)
   .notFound((c) => {
     globalThis.console.log('Route not found', c.req.url)
     return c.json({ message: 'Line Not Found' }, 404)

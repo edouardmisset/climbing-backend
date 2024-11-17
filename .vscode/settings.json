@@ -7,7 +7,7 @@
   "deno.cacheOnSave": true,
   "editor.formatOnSaveMode": "modifications",
   "editor.codeActionsOnSave": {
-    "source.fixAll.ts": "explicit",
+    "source.fixAll.ts": "explicit"
   },
   "cSpell.words": [
     "departement",

@@ -2,7 +2,7 @@ import { testClient } from 'hono/testing'
 
 import { assert, assertArrayIncludes } from '@std/assert'
 
-import sampleAscents from './server/backup/ascent-data-sample-2024-10-30.json' with {
+import sampleAscents from "backup/ascent-data-sample-2024-10-30.json" with {
   type: 'json',
 }
 import { createAscentRoute } from 'routes/ascents.ts'
@@ -18,7 +18,7 @@ Deno.test('GET /ascents', async () => {
   const mockFetchAscents = async () => await sampleAscents as Ascent[]
 
   const app = createAscentRoute(mockFetchAscents)
-  const res = await testClient(app).index.$get({ query: {} })
+  const res = await testClient(app).index.$get()
   assert(res.status === 200)
 
   const json = await res.json() as { data: unknown[] }
