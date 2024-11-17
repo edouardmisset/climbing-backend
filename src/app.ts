@@ -19,7 +19,10 @@ const ENV = env.ENV
 
 let timestamp = 0
 
-const app = new Hono().use(cors(), trimTrailingSlash())
+const app = new Hono().use(
+  // cors(),
+  trimTrailingSlash(),
+)
   .use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
   .all('api/backup', async (c) => {
     try {
