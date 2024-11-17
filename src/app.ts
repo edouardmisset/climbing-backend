@@ -49,7 +49,7 @@ const app = new Hono().use(cors(), trimTrailingSlash())
   })
   .route('/api', api)
   .route('/', pages)
-  .notFound((c) => c.html('<h1>404 Not Found</h1>'))
+  .notFound((c) => c.text('Custom 404 Message', 404))
 
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
 if (ENV === 'dev') app.use(timing(), logger())
