@@ -19,10 +19,8 @@ const ENV = env.ENV
 
 let timestamp = 0
 
-const app = new Hono().use(
-  // cors(),
-  trimTrailingSlash(),
-)
+const app = new Hono()
+  // .use(cors(), trimTrailingSlash())
   .use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
   .all('api/backup', async (c) => {
     try {
@@ -54,7 +52,7 @@ const app = new Hono().use(
   .route('/', pages)
   .notFound((c) => c.html('<h1>404 Not Found</h1>'))
 
-if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
+// if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
 if (ENV === 'dev') app.use(timing(), logger())
 
 export { app }
