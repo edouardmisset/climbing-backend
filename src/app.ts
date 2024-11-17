@@ -49,7 +49,7 @@ const app = new Hono().use(cors(), trimTrailingSlash())
   })
   .route('/api', api)
   .route('/', pages)
-  .notFound((c) => c.text('Line Not Found', 404))
+  .notFound((c) => c.json({ message: 'Line Not Found' }, 404))
 
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
 if (ENV === 'dev') app.use(timing(), logger())
