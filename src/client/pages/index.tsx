@@ -7,14 +7,14 @@ import { load } from '@std/dotenv'
 import type { Ascent } from 'schema/ascent.ts'
 
 await load({ export: true })
-
 const env = Deno.env.toObject()
-
 const apiBaseUrl = env.API_BASE_URL
 
-console.log(apiBaseUrl)
-
-const client = hc<typeof app>(apiBaseUrl)
+// this is a trick to calculate the type when compiling
+const client = hc<typeof app>('')
+export type Client = typeof client
+export const hcWithType = (...args: Parameters<typeof hc>): Client =>
+  hc<typeof app>(...args)
 
 const Layout: FC = (props) => {
   return (
@@ -64,12 +64,12 @@ export const pages = new Hono().get('/', (c) => {
   .get('/ascents', async (c) => {
     let ascents: Ascent[] | undefined = undefined
     try {
-      const res = await client.api.ascents.$get()
+      const res = await hcWithType(apiBaseUrl).api.ascents.$get()
       console.log({ res })
 
       const json = await res.json()
 
-      console.log({ json })
+      // console.log({ json })
 
       ascents = json.data
     } catch (error) {
