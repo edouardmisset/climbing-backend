@@ -117,7 +117,7 @@ const transformHeightGSToJS: TransformFunctionGSToJS = (value) =>
  * @returns {number} - The transformed number value.
  */
 const transformRatingGSToJS: TransformFunctionGSToJS = (value) =>
-  Number(value.replace('*', ''))
+  Number(value.replaceAll('*', ''))
 
 type ClimbingAttempt = {
   style: 'Onsight' | 'Flash' | 'Redpoint'
