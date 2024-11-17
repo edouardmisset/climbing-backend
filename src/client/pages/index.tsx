@@ -9,6 +9,8 @@ const env = await load()
 
 const apiBaseUrl = env.API_BASE_URL ?? 'http://localhost:8000'
 
+console.log(apiBaseUrl)
+
 const client = hc<typeof app>(apiBaseUrl)
 
 const Layout: FC = (props) => {
