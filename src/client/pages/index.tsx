@@ -3,10 +3,13 @@ import { Hono } from 'hono'
 
 import { hc } from 'hono/client'
 import type { app } from '../../app.ts'
+import { load } from '@std/dotenv'
 
-const baseAPIUrl = Deno.env.get('API_BASE_URL') ?? 'http://localhost:8000'
+const env = await load()
 
-const client = hc<typeof app>(baseAPIUrl)
+const apiBaseUrl = env.API_BASE_URL ?? 'http://localhost:8000'
+
+const client = hc<typeof app>(apiBaseUrl)
 
 const Layout: FC = (props) => {
   return (
