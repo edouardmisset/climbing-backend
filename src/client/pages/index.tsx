@@ -69,7 +69,7 @@ export const pages = new Hono().get('/', (c) => {
 
       const json = await res.json()
 
-      // console.log({ json })
+      console.log({ json })
 
       ascents = json.data
     } catch (error) {
