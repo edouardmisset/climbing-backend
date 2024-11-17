@@ -10,11 +10,7 @@ await load({ export: true })
 const env = Deno.env.toObject()
 const apiBaseUrl = env.API_BASE_URL
 
-// this is a trick to calculate the type when compiling
-const client = hc<typeof app>('')
-export type Client = typeof client
-export const hcWithType = (...args: Parameters<typeof hc>): Client =>
-  hc<typeof app>(...args)
+const client = hc<typeof app>(apiBaseUrl)
 
 const Layout: FC = (props) => {
   return (
@@ -64,7 +60,7 @@ export const pages = new Hono().get('/', (c) => {
   .get('/ascents', async (c) => {
     let ascents: Ascent[] | undefined = undefined
     try {
-      const res = await hcWithType(apiBaseUrl).api.ascents.$get()
+      const res = await client.api.ascents.$get()
       console.log({ res })
 
       const json = await res.json()
