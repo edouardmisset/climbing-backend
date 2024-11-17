@@ -32,7 +32,7 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
         'climbing-discipline': string().optional(),
         sort: string().optional(),
         fields: string().optional(),
-      }),
+      }).optional(),
     ),
     async (c) => {
       /**
@@ -41,16 +41,14 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
        * Pipe the data through the following steps:
        *
        * Filter
-       * Selectors
        * Sort
-       * Group
-       * (Pagination)
-       * Search : routeName
+       * Selected fields (ascent properties) using a whitelist and blacklist
+       * ! using a whitelist and blacklist changes the data structure
        *
        * Return result
        */
 
-      const validatedQuery = c.req.valid('query')
+      const validatedQuery = c.req.valid('query') ?? {}
       const {
         'route-name': routeNameFilter,
         'topo-grade': gradeFilter,

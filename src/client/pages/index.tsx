@@ -4,6 +4,7 @@ import { Hono } from 'hono'
 import { hc } from 'hono/client'
 import type { app } from '../../app.ts'
 import { load } from '@std/dotenv'
+import type { Ascent } from 'schema/ascent.ts'
 
 await load({ export: true })
 
@@ -61,15 +62,29 @@ export const pages = new Hono().get('/', (c) => {
   )
 })
   .get('/ascents', async (c) => {
-    const res = await client.api.ascents.$get({ query: {} })
-    console.log({ res })
+    let ascents: Ascent[] | undefined = undefined
+    try {
+      const res = await client.api.ascents.$get()
+      console.log({ res })
 
-    const json = await res.json()
+      const json = await res.json()
 
-    // console.log({ json })
+      // console.log({ json })
 
-    const ascents = json.data
+      ascents = json.data
+    } catch (error) {
+      globalThis.console.error(error, c.req.url);
+
+    }
     // console.log({ ascents })
+
+    if(ascents === undefined) {
+      return c.html(
+        <Layout>
+          <h1>Failed to load ascents</h1>
+        </Layout>,
+      )
+    }
 
     return c.html(
       <Layout>
