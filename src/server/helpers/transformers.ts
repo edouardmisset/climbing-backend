@@ -1,6 +1,8 @@
 import { isValidNumber } from '@edouardmisset/math'
 import { invert } from '@edouardmisset/object'
-import { holdsFomGSSchema } from 'schema/ascent.ts'
+import { removeObjectExtendedNullishValues } from 'helpers/remove-undefined-values.ts'
+import { sortKeys } from 'helpers/sort-keys.ts'
+import { type Ascent, holdsFomGSSchema } from 'schema/ascent.ts'
 
 type TransformFunctionGSToJS = (value: string) => string | number
 
@@ -9,8 +11,10 @@ type TransformFunctionGSToJS = (value: string) => string | number
  * ---------------------------------------------
  */
 
-//! The order of the headers matters. For this reason we define the headers in
-//! the right order in a separate array.
+/**
+ * !The order of the headers matters. For this reason we define the headers in
+ * the right order in a separate array.
+ */
 export const ASCENT_HEADERS = [
   'Route Name',
   'Topo Grade',
@@ -74,6 +78,7 @@ export type JSTrainingKeys =
 /**
  * NB: there is one more key (`style`) in the JS object than in the GS headers
  */
+
 export const TRANSFORMED_TRAINING_KEYS = invert(
   TRANSFORMED_TRAINING_HEADER_NAMES,
 )
@@ -208,6 +213,43 @@ export const TRANSFORM_FUNCTIONS_GS_TO_JS = {
   default: defaultTransformGSToJS,
 } as const satisfies TransformFunctionMappingGSToJS
 
+/**
+ * Transforms a raw ascent record from Google Sheets format to a JavaScript
+ * object format.
+ *
+ * @param rawAscent - A record representing a single ascent with keys and values
+ * as strings from Google Sheets.
+ * @returns A transformed record with keys as strings and values as strings,
+ * numbers, or booleans, representing the ascent in JavaScript format.
+ */
+export function transformAscentFromGSToJS(
+  rawAscent: Record<string, string>,
+): Record<string, string | number | boolean> {
+  const transformedAscent = Object.entries(rawAscent).reduce(
+    (acc, [key, value]) => {
+      if (value === '') return acc
+
+      const transformedKey =
+        TRANSFORMED_ASCENT_HEADER_NAMES[key as GSAscentKeys]
+
+      if (transformedKey === 'tries') {
+        acc[transformedKey] = transformTriesGSToJS(value).tries
+        acc.style = transformTriesGSToJS(value).style
+      } else {
+        const transform = TRANSFORM_FUNCTIONS_GS_TO_JS[
+          transformedKey as keyof typeof TRANSFORM_FUNCTIONS_GS_TO_JS
+        ] ??
+          TRANSFORM_FUNCTIONS_GS_TO_JS.default
+        acc[transformedKey] = transform(value)
+      }
+      return acc
+    },
+    {} as Record<string, string | number | boolean>,
+  )
+
+  return sortKeys(removeObjectExtendedNullishValues(transformedAscent))
+}
+
 /* ---------------------------------------------
  *                   TRANSFORMS
  *
@@ -306,3 +348,37 @@ export const TRANSFORM_FUNCTIONS_JS_TO_GS = {
   // You need to catch the case for the `style` property not being mapped to
   // anything
 } satisfies TransformFunctionMappingJSToGS
+
+// Key = JS ascent object's key
+// Header = Google Sheet's ascent's header
+export function transformAscentFromJSToGS(
+  ascent: Ascent,
+): GSAscentRecord {
+  return ASCENT_HEADERS.reduce((accumulator, header) => {
+    const key = TRANSFORMED_ASCENT_HEADER_NAMES[header]
+
+    // Special cases
+    if (key === 'climber') {
+      accumulator.Climber = 'Edouard Misset'
+    } else if (key === 'tries') {
+      const GSTries = transformTriesJSToGS({
+        style: ascent.style,
+        tries: ascent.tries,
+      })
+      accumulator['# Tries'] = GSTries
+    } else {
+      const rawStringValue = ascent[key]?.toString() ?? ''
+
+      //? how to deal with special chars in comments ?
+
+      const keyAs = key as keyof typeof TRANSFORM_FUNCTIONS_JS_TO_GS
+      const transformer = keyAs in TRANSFORM_FUNCTIONS_JS_TO_GS
+        ? TRANSFORM_FUNCTIONS_JS_TO_GS[keyAs]
+        : String
+
+      accumulator[header] = transformer(rawStringValue)
+    }
+
+    return accumulator
+  }, {} as GSAscentRecord)
+}

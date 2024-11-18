@@ -6,7 +6,7 @@ import { sortNumericalValues } from 'helpers/sort-values.ts'
 import type { Ascent } from 'schema/ascent.ts'
 import { getAllAscents } from 'services/ascents.ts'
 
-async function getValidAreas(): Promise<Exclude<Ascent['area'], undefined>[]> {
+async function getValidAreas(): Promise<NonNullable<Ascent['area']>[]> {
   const ascents = await getAllAscents()
   return ascents.map(({ area }) => area?.trim()).filter(
     (area) => area !== undefined,

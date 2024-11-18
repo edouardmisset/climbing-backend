@@ -1,10 +1,10 @@
 import { assertEquals } from '@std/assert'
+import { type Ascent, holds, holdsFromGS } from 'schema/ascent.ts'
 import {
+  type GSAscentRecord,
   transformAscentFromGSToJS,
   transformAscentFromJSToGS,
-} from 'services/ascents.ts'
-import { type Ascent, holds, holdsFromGS } from 'schema/ascent.ts'
-import type { GSAscentRecord } from 'helpers/transformers.ts'
+} from 'helpers/transformers.ts'
 import sampleAscents from 'backup/ascent-data-sample-2024-10-30.json' with {
   type: 'json',
 }
