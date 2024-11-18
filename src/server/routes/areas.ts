@@ -16,9 +16,9 @@ async function getValidAreas(): Promise<NonNullable<Ascent['area']>[]> {
 // Get all known areas from the ascents
 export const areas = new Hono().get('/', async (c) => {
   const validAreas = await getValidAreas()
-  const a = [...new Set(validAreas)].sort()
+  const sortedAreas = [...new Set(validAreas)].sort()
 
-  return c.json({ data: a })
+  return c.json({ data: sortedAreas })
 })
   .get('/frequency', async (c) => {
     const validAreas = await getValidAreas()
