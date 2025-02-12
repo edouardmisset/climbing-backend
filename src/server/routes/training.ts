@@ -8,7 +8,11 @@ export const training = new Hono().get(
     const year = c.req.query('year')
     const sessions = await getAllTrainingSessions()
 
-    const filteredSessions = sessions.filter((session) => year === undefined || year === '' ? true : new Date(session.date).getFullYear().toString() === year)
+    const filteredSessions = sessions.filter((session) =>
+      year === undefined || year === ''
+        ? true
+        : new Date(session.date).getFullYear().toString() === year
+    )
     return c.json({ data: filteredSessions })
   },
 )
