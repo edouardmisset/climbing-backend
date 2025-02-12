@@ -34,7 +34,7 @@ const Footer: FC = () => {
   return (
     <footer>
       <p>
-        Copyright <b>@edouardmisset</b> 2024-2024
+        Copyright <b>@edouardmisset</b> 2024-{new Date().getFullYear()}
       </p>
     </footer>
   )
