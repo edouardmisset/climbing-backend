@@ -9,17 +9,60 @@ import {
   stringIncludesCaseInsensitive,
 } from '@edouardmisset/text'
 
-import { Ascent } from 'schema/ascent.ts'
-import { zValidator } from 'zod-validator'
+import { Ascent, ascentSchema } from 'schema/ascent.ts'
 
 import fuzzySort from 'fuzzysort'
 import { groupSimilarStrings } from 'helpers/find-similar.ts'
 import { getAllAscents } from 'services/ascents.ts'
 import { string, z } from 'zod'
+import { describeRoute } from 'hono-openapi'
+import { resolver, validator as zValidator } from 'hono-openapi/zod'
+
+// For extending the Zod schema with OpenAPI properties
+import 'zod-openapi/extend'
 
 const createAscentRoute = (fetchAscents = getAllAscents) =>
   new Hono().get(
     '/',
+    describeRoute({
+      description: 'Get all ascents',
+      responses: {
+        200: {
+          description: 'Success',
+          content: {
+            'application/json': {
+              schema: resolver(
+                z.object({
+                  data: z.array(ascentSchema),
+                }).openapi({
+                  example: {
+                    data: [
+                      {
+                        area: 'Cave',
+                        climber: 'Adam Ondra',
+                        climbingDiscipline: 'Route',
+                        comments: 'Soft',
+                        crag: 'Flathangar',
+                        date: '2021-06-01',
+                        height: 40,
+                        holds: 'Crimp',
+                        personalGrade: '9c',
+                        profile: 'Overhang',
+                        rating: 5,
+                        routeName: 'Silence',
+                        style: 'Onsight',
+                        topoGrade: '9c',
+                        tries: 1,
+                      },
+                    ],
+                  },
+                }),
+              ),
+            },
+          },
+        },
+      },
+    }),
     zValidator(
       'query',
       z.object({
@@ -32,7 +75,9 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
         'climbing-discipline': string().optional(),
         sort: string().optional(),
         fields: string().optional(),
-      }).optional(),
+      }).optional().openapi({
+        ref: 'query',
+      }),
     ),
     async (c) => {
       /**

@@ -1,5 +1,7 @@
+import { apiReference } from '@scalar/hono-api-reference'
 import { load } from '@std/dotenv'
 import { Hono } from 'hono'
+import { openAPISpecs } from 'hono-openapi'
 import { compress } from 'hono/compress'
 import { cors } from 'hono/cors'
 import { csrf } from 'hono/csrf'
@@ -8,7 +10,6 @@ import { etag } from 'hono/etag'
 import { logger } from 'hono/logger'
 import { endTime, startTime, timing } from 'hono/timing'
 import { trimTrailingSlash } from 'hono/trailing-slash'
-
 import { api } from 'routes/mod.ts'
 import { backupAscentsAndTrainingFromGoogleSheets } from 'scripts/import-training-and-ascent-data-from-gs.ts'
 import { pages } from './client/pages/index.tsx'
@@ -53,6 +54,34 @@ const app = new Hono().use(cors(), trimTrailingSlash())
     globalThis.console.log('Route not found', c.req.url)
     return c.json({ message: 'Line Not Found' }, 404)
   })
+
+app.get(
+  '/openapi',
+  openAPISpecs(app, {
+    documentation: {
+      info: {
+        title: 'Climbing Backend',
+        version: '1.0.0',
+        description: 'API for climbing data',
+      },
+      servers: [
+        {
+          url: `http://localhost:${Deno.env.get('PORT')}`,
+          description: 'Local server',
+        },
+      ],
+    },
+  }),
+)
+
+app.get(
+  '/docs',
+  apiReference({
+    theme: 'deepSpace',
+    pageTitle: 'Climbing API',
+    url: '/openapi',
+  }),
+)
 
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
 if (ENV === 'dev') app.use(timing(), logger())

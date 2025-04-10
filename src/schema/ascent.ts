@@ -76,9 +76,18 @@ export const profileSchema = z.enum(profiles)
 export const holdsFomGSSchema = z.enum(holdsFromGS)
 export const holdsSchema = z.enum(holds)
 
+// For extending the Zod schema with OpenAPI properties
+import 'zod-openapi/extend'
+
 export const ascentSchema = z.object({
-  area: string().or(number()).transform(String).optional(),
-  climber: string().optional().transform((_) => 'Edouard Misset'),
+  area: string().or(number()).transform(String).optional().openapi({
+    effectType: 'input',
+    type: 'string',
+  }),
+  climber: string().optional().transform((_) => 'Edouard Misset').openapi({
+    effectType: 'input',
+    type: 'string',
+  }),
   climbingDiscipline: climbingDisciplineSchema,
   comments: string().optional(),
   crag: string().min(1),
@@ -90,7 +99,10 @@ export const ascentSchema = z.object({
     .optional(),
   profile: profileSchema.optional(),
   rating: number().min(0).max(5).optional(),
-  routeName: string().min(1).or(number()).transform(String),
+  routeName: string().min(1).or(number()).transform(String).openapi({
+    effectType: 'input',
+    type: 'string',
+  }),
   style: z.enum(ascentStyle),
   topoGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema),
   tries: number().min(1),
