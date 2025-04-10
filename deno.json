@@ -3,12 +3,12 @@
   "tasks": {
     "lint": "deno lint --watch",
     "fmt": "deno fmt --watch",
-    "dev": "deno run --allow-net --allow-env --allow-read --allow-write --watch --watch-exclude='src/data/*.json' src/mod.ts",
+    "dev": "OTEL_DENO=true deno run --unstable-otel --allow-net --allow-env --allow-read --allow-write  --allow-run --allow-sys --watch --watch-exclude='src/data/*.json,src/server/backup/*,src/server/scripts/*' src/mod.ts",
     "cache": "deno install --entrypoint src/mod.ts src/test.ts",
     "check": "deno check './**/*.ts*'",
     "backup": "deno run --allow-env --allow-net --allow-read --allow-write src/server/scripts/backup.ts && deno fmt src/server/backup",
-    "test": "deno test --allow-env --allow-read",
-    "test:watch": "deno test --allow-env --allow-read --watch"
+    "test": "deno test --allow-env --allow-read --reporter=dot",
+    "test:watch": "deno task test --watch"
   },
   "imports": {
     "@edouardmisset/array": "jsr:@edouardmisset/array@^4.0.1",
@@ -16,6 +16,9 @@
     "@edouardmisset/function": "jsr:@edouardmisset/function@^4.0.0",
     "@edouardmisset/text": "jsr:@edouardmisset/text@^4.0.0",
     "@edouardmisset/math": "jsr:@edouardmisset/math@^4.0.0",
+    "@hono/otel": "npm:@hono/otel@^0.1.1",
+    "@opentelemetry/sdk-node": "npm:@opentelemetry/sdk-node@^0.200.0",
+    "@opentelemetry/sdk-trace-node": "npm:@opentelemetry/sdk-trace-node@^2.0.0",
     "@scalar/hono-api-reference": "npm:@scalar/hono-api-reference@^0.7.2",
     "@std/assert": "jsr:@std/assert@^1.0.7",
     "@std/csv": "jsr:@std/csv@^1.0.3",
@@ -31,6 +34,7 @@
     "zod": "npm:zod@^3.23.8",
     "zod-openapi": "npm:zod-openapi@^4.2.3",
     "zod-validator": "npm:@hono/zod-validator@^0.4.1",
+
     "schema/": "./src/schema/",
     "helpers/": "./src/server/helpers/",
     "services/": "./src/server/services/",

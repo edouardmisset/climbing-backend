@@ -1,3 +1,6 @@
+import { otel } from '@hono/otel'
+import { NodeSDK } from '@opentelemetry/sdk-node'
+import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-node'
 import { apiReference } from '@scalar/hono-api-reference'
 import { load } from '@std/dotenv'
 import { Hono } from 'hono'
@@ -20,7 +23,14 @@ const ENV = env.ENV
 
 let timestamp = 0
 
+const sdk = new NodeSDK({
+  traceExporter: new ConsoleSpanExporter(),
+})
+
+sdk.start()
+
 const app = new Hono().use(cors(), trimTrailingSlash())
+  .use('*', otel())
   .use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
   .all('/api/backup', async (c) => {
     try {
@@ -34,6 +44,7 @@ const app = new Hono().use(cors(), trimTrailingSlash())
             `Backup was triggered less than ${throttleTimeInMinutes} min ago.`,
         })
       }
+
       startTime(
         c,
         'backup',
@@ -42,10 +53,21 @@ const app = new Hono().use(cors(), trimTrailingSlash())
       const success = await backupAscentsAndTrainingFromGoogleSheets()
       endTime(c, 'backup')
       timestamp = Date.now()
-      return c.json({ status: success ? 'success' : 'failure' }, 200)
+
+      if (!success) {
+        return c.json(
+          {
+            status: 'failure',
+            message: 'Backup failed due to an internal server error.',
+          },
+          500,
+        )
+      }
+
+      return c.json({ status: 'success' }, 200)
     } catch (error) {
-      console.error(error)
-      return c.json(JSON.stringify(error), 500)
+      globalThis.console.error(error)
+      return c.json({ error: error instanceof Error ? error.message : 'An unexpected error occurred' }, 500)
     }
   })
   .route('/api', api)
@@ -86,4 +108,4 @@ app.get(
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
 if (ENV === 'dev') app.use(timing(), logger())
 
-export { app }
+export default app
