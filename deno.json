@@ -1,11 +1,22 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
-    "lint": "deno lint --watch",
-    "fmt": "deno fmt --watch",
+    "lint": "deno lint",
+    "lint:watch": "deno lint --watch",
+    "format": "deno fmt",
+    "format:watch": "deno fmt --watch",
+    "check": {
+      "command": "deno task test",
+      "dependencies": [
+        "lint",
+        "format",
+        "typecheck"
+      ],
+      "description": "Run all checks"
+    },
     "dev": "OTEL_DENO=true deno run --unstable-otel --allow-net --allow-env --allow-read --allow-write  --allow-run --allow-sys --watch --watch-exclude='src/data/*.json,src/server/backup/*,src/server/scripts/*' src/mod.ts",
     "cache": "deno install --entrypoint src/mod.ts src/test.ts",
-    "check": "deno check './**/*.ts*'",
+    "typecheck": "deno check './**/*.ts*'",
     "backup": "deno run --allow-env --allow-net --allow-read --allow-write src/server/scripts/backup.ts && deno fmt src/server/backup",
     "test": "deno test --allow-env --allow-read --reporter=dot",
     "test:watch": "deno task test --watch"

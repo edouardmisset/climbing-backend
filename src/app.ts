@@ -67,7 +67,11 @@ const app = new Hono().use(cors(), trimTrailingSlash())
       return c.json({ status: 'success' }, 200)
     } catch (error) {
       globalThis.console.error(error)
-      return c.json({ error: error instanceof Error ? error.message : 'An unexpected error occurred' }, 500)
+      return c.json({
+        error: error instanceof Error
+          ? error.message
+          : 'An unexpected error occurred',
+      }, 500)
     }
   })
   .route('/api', api)

@@ -38,7 +38,10 @@ export async function fetchAndParseCSV(url: string): Promise<CSVParsedData> {
     const [headers, ...data] = parse(csv)
     return { headers, data }
   } catch (error) {
-    globalThis.console.error('An error occurred while fetching and parsing data:', error)
+    globalThis.console.error(
+      'An error occurred while fetching and parsing data:',
+      error,
+    )
     throw error
   }
 }
@@ -178,10 +181,14 @@ export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
       [ascentBackupPromise, trainingBackupPromise],
     )
 
-    const allPromisesFulfilled = results.every(({ status }) => status === 'fulfilled')
+    const allPromisesFulfilled = results.every(({ status }) =>
+      status === 'fulfilled'
+    )
 
     if (allPromisesFulfilled) {
-      globalThis.console.log('Backup of ascent and training data was successful.')
+      globalThis.console.log(
+        'Backup of ascent and training data was successful.',
+      )
     } else {
       globalThis.console.warn('Backup completed with some failures:', results)
     }
