@@ -109,4 +109,18 @@ export const ascentSchema = z.object({
 })
 export type Ascent = z.infer<typeof ascentSchema>
 
-type hold = Ascent['holds']
+export const optionalAscentFilterSchema = z
+  .object({
+    climbingDiscipline: climbingDisciplineSchema.optional(),
+    crag: ascentSchema.shape.crag.optional(),
+    grade: ascentSchema.shape.topoGrade.optional(),
+    height: ascentSchema.shape.height.optional(),
+    holds: holdsSchema.optional(),
+    profile: profileSchema.optional(),
+    style: ascentSchema.shape.style.optional(),
+    tries: ascentSchema.shape.tries.optional(),
+    year: number().optional(),
+    rating: ascentSchema.shape.rating.optional(),
+  })
+  .optional()
+export type OptionalAscentFilter = z.infer<typeof optionalAscentFilterSchema>

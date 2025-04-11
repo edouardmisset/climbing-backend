@@ -1,12 +1,9 @@
 import { assert, assertArrayIncludes } from '@std/assert'
-import sampleAscents from 'backup/ascent-data-sample-2024-10-30.json' with {
-  type: 'json',
-}
+import { sampleAscents } from 'backup/sample-ascents.ts'
+import { shutdownOpenTelemetry } from 'helpers/open-telemetry.ts'
 import { testClient } from 'hono/testing'
 import { createAscentRoute } from 'routes/ascents.ts'
-import type { Ascent } from 'schema/ascent.ts'
 import app from './app.ts'
-import { shutdownOpenTelemetry } from 'helpers/open-telemetry.ts'
 
 Deno.test('GET /api is ok', async () => {
   const res = await testClient(app).api.$get()
@@ -16,7 +13,7 @@ Deno.test('GET /api is ok', async () => {
 })
 
 Deno.test('GET /ascents', async () => {
-  const mockFetchAscents = async () => await sampleAscents as Ascent[]
+  const mockFetchAscents = async () => await sampleAscents
 
   const ascentsApp = createAscentRoute(mockFetchAscents)
   const res = await testClient(ascentsApp).index.$get()

@@ -18,7 +18,7 @@
       ],
       "dependsOrder": "parallel",
       "group": {
-        "kind": "none",
+        "kind": "test",
         "isDefault": true
       },
       "runOptions": {
@@ -40,13 +40,12 @@
       }
     },
     {
-      "label": "Format",
+      "label": "Test",
       "icon": {
-        "id": "paintcan",
-        "color": "terminal.ansiGreen"
+        "id": "run-all",
+        "color": "terminal.ansiYellow"
       },
-      "type": "shell",
-      "command": "deno task format:watch",
+      "command": "deno task test:watch",
       "isBackground": true,
       "problemMatcher": [],
       "presentation": {
@@ -54,13 +53,13 @@
       }
     },
     {
-      "label": "Test",
+      "label": "Format",
       "icon": {
-        "id": "run-all",
-        "color": "terminal.ansiYellow"
+        "id": "paintcan",
+        "color": "terminal.ansiGreen"
       },
       "type": "shell",
-      "command": "deno task test:watch",
+      "command": "deno task format:watch",
       "isBackground": true,
       "problemMatcher": [],
       "presentation": {

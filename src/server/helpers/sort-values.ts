@@ -1,5 +1,5 @@
 /**
- * **WARNING** Sorting objects'keys or values is not guaranteed to be stable.
+ * *WARNING* Sorting objects'keys or values is not guaranteed to be stable.
  *
  * Sorts the values of a given object in ascending or descending order.
  * Defaults to ascending order.
@@ -18,7 +18,7 @@
  */
 export function sortNumericalValues<Obj extends Record<string, number>>(
   obj: Obj,
-  ascending = true,
+  ascending: boolean = true,
 ): Obj {
   return Object.fromEntries(
     Object.entries(obj).sort(
