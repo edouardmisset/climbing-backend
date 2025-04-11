@@ -1,8 +1,10 @@
 import { otel } from '@hono/otel'
-import { NodeSDK } from '@opentelemetry/sdk-node'
-import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-node'
 import { apiReference } from '@scalar/hono-api-reference'
 import { load } from '@std/dotenv'
+import {
+  registerShutdownHandlers,
+  startOpenTelemetry,
+} from 'helpers/open-telemetry.ts'
 import { Hono } from 'hono'
 import { openAPISpecs } from 'hono-openapi'
 import { compress } from 'hono/compress'
@@ -23,14 +25,10 @@ const ENV = env.ENV
 
 let timestamp = 0
 
-const sdk = new NodeSDK({
-  traceExporter: new ConsoleSpanExporter(),
-})
-
-sdk.start()
+startOpenTelemetry()
 
 const app = new Hono().use(cors(), trimTrailingSlash())
-  .use('*', otel())
+  .use('/api/*', otel())
   .use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
   .all('/api/backup', async (c) => {
     try {
@@ -111,5 +109,7 @@ app.get(
 
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
 if (ENV === 'dev') app.use(timing(), logger())
+
+registerShutdownHandlers()
 
 export default app
