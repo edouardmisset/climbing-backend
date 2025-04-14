@@ -45,6 +45,7 @@
         "id": "run-all",
         "color": "terminal.ansiYellow"
       },
+      "type": "shell",
       "command": "deno task test:watch",
       "isBackground": true,
       "problemMatcher": [],
