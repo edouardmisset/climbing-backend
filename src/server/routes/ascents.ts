@@ -120,6 +120,66 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
     })
     .get(
       '/search',
+      describeRoute({
+        description: 'Search for a specific ascent',
+        responses: {
+          200: {
+            description: 'Success',
+            content: {
+              'application/json': {
+                schema: resolver(
+                  z.object({
+                    data: z.array(
+                      ascentSchema.extend({
+                        target: z.string(),
+                        highlight: z.string(),
+                      }),
+                    ),
+                    metadata: z.object({
+                      query: z.string(),
+                      limit: z.string().optional().transform((val) =>
+                        validNumberWithFallback(val, 100)
+                      ).openapi({
+                        effectType: 'input',
+                        type: 'number',
+                      }),
+                      results: z.number(),
+                    }),
+                  }).openapi({
+                    example: {
+                      data: [{
+                        area: 'Wig Wam',
+                        climber: 'Edouard Misset',
+                        climbingDiscipline: 'Route',
+                        comments:
+                          'À la fois superbe grimpe et passage terrifiant.',
+                        crag: 'Ewige Jagdgründe',
+                        date: '2024-10-27T12:00:00.000Z',
+                        height: 25,
+                        holds: 'Crimp',
+                        personalGrade: '6c+',
+                        profile: 'Arête',
+                        rating: 4,
+                        routeName: 'Black Knight',
+                        style: 'Onsight',
+                        topoGrade: '7a',
+                        tries: 1,
+                        target: 'Black Knight',
+                        highlight: 'black',
+                      }],
+                      metadata: {
+                        query: 'black',
+                        limit: undefined,
+                        results: 1,
+                      },
+                    },
+                  }),
+                ),
+              },
+            },
+          },
+        },
+      }),
       zValidator(
         'query',
         z.object({
@@ -144,9 +204,9 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
 
         return c.json({
           data: results.map((result) => ({
+            ...result.obj,
             highlight: result.highlight(),
             target: result.target,
-            ...result.obj,
           })),
           metadata: {
             query,
