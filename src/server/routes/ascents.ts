@@ -1,21 +1,18 @@
-import { Hono } from 'hono'
-
 import { validNumberWithFallback } from '@edouardmisset/math'
 import { removeAccents } from '@edouardmisset/text'
-
-import { ascentSchema, holdsSchema, profileSchema } from 'schema/ascent.ts'
-
 import fuzzySort from 'fuzzysort'
 import { groupSimilarStrings } from 'helpers/find-similar.ts'
+import { Hono } from 'hono'
 import { describeRoute } from 'hono-openapi'
 import { resolver, validator as zValidator } from 'hono-openapi/zod'
+import { ascentSchema, holdsSchema, profileSchema } from 'schema/ascent.ts'
 import { getAllAscents } from 'services/ascents.ts'
 import { string, z } from 'zod'
 
 // For extending the Zod schema with OpenAPI properties
-import 'zod-openapi/extend'
-import { filterAscents } from 'helpers/filter-ascents.ts'
 import { sampleAscents } from 'backup/sample-ascents.ts'
+import { filterAscents } from 'helpers/filter-ascents.ts'
+import 'zod-openapi/extend'
 
 const createAscentRoute = (fetchAscents = getAllAscents) =>
   new Hono().get(
@@ -85,39 +82,97 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
       })
     },
   )
-    .get('/duplicates', async (c) => {
-      const ascentMap = new Map()
-      const ascents = await fetchAscents()
-
-      ascents.forEach(
-        ({ routeName, crag, topoGrade }) => {
-          // We ignore the "+" in the topoGrade in case it was logged inconsistently
-          const key = [routeName, topoGrade.replace('+', ''), crag].map((
-            string,
-          ) => removeAccents(string.toLocaleLowerCase())).join('-')
-
-          ascentMap.set(key, (ascentMap.get(key) || 0) + 1)
+    .get(
+      '/duplicates',
+      describeRoute({
+        description: 'Find potential duplicate ascent entries',
+        responses: {
+          200: {
+            description: 'Success',
+            content: {
+              'application/json': {
+                schema: resolver(
+                  z.object({
+                    data: z.array(z.string()),
+                  }).openapi({
+                    example: {
+                      data: [
+                        'black-knight-7a-ewige-jagdgrunde',
+                        'superplafond-6c-gorges-du-loup',
+                      ],
+                    },
+                  }),
+                ),
+              },
+            },
+          },
         },
-      )
+      }),
+      async (c) => {
+        const ascentMap = new Map<string, number>()
+        const ascents = await fetchAscents()
 
-      const duplicateRoutes = Array.from(ascentMap.entries())
-        .filter(([, count]) => count > 1)
-        .map(([key]) => key)
+        ascents.forEach(
+          ({ routeName, crag, topoGrade }) => {
+            // We ignore the "+" in the topoGrade in case it was logged inconsistently
+            const key = [routeName, topoGrade.replace('+', ''), crag].map((
+              string,
+            ) => removeAccents(string.toLocaleLowerCase())).join('-')
 
-      return c.json({ data: duplicateRoutes })
-    })
-    .get('/similar', async (c) => {
-      const ascents = await fetchAscents()
-      const similarAscents = Array.from(
-        groupSimilarStrings(
-          ascents.map(({ routeName }) => routeName),
-          2,
+            ascentMap.set(key, (ascentMap.get(key) || 0) + 1)
+          },
         )
-          .entries(),
-      )
 
-      return c.json({ data: similarAscents })
-    })
+        const duplicateRoutes = Array.from(ascentMap.entries())
+          .filter(([, count]) => count > 1)
+          .map(([key]) => key)
+
+        return c.json({ data: duplicateRoutes })
+      },
+    )
+    .get(
+      '/similar',
+      describeRoute({
+        description:
+          'Find routes with similar names to identify potential duplicates',
+        responses: {
+          200: {
+            description: 'Success',
+            content: {
+              'application/json': {
+                schema: resolver(
+                  z.object({
+                    data: z.array(z.tuple([
+                      z.string(),
+                      z.array(z.string()),
+                    ])),
+                  }).openapi({
+                    example: {
+                      data: [
+                        ['Black Knight', ['Black Night', 'Black Knigh']],
+                        ['Superplafond', ['Super plafond', 'Super-plafond']],
+                      ],
+                    },
+                  }),
+                ),
+              },
+            },
+          },
+        },
+      }),
+      async (c) => {
+        const ascents = await fetchAscents()
+        const similarAscents = Array.from(
+          groupSimilarStrings(
+            ascents.map(({ routeName }) => routeName),
+            2,
+          )
+            .entries(),
+        )
+
+        return c.json({ data: similarAscents })
+      },
+    )
     .get(
       '/search',
       describeRoute({
