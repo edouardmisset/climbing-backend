@@ -89,23 +89,23 @@ export const ascentSchema = z.object({
     type: 'string',
   }),
   climbingDiscipline: climbingDisciplineSchema,
-  comments: string().optional(),
+  comments: string().max(10_000).optional(),
   crag: string().min(1),
   date: string(), // ISO 8601 date format
   region: string().optional(),
-  height: number().min(5).optional(),
+  height: number().int().min(5).max(1_000).optional(),
   holds: holdsSchema.optional(),
   personalGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema)
     .optional(),
   profile: profileSchema.optional(),
-  rating: number().min(0).max(5).optional(),
+  rating: number().int().min(0).max(5).optional(),
   routeName: string().min(1).or(number()).transform(String).openapi({
     effectType: 'input',
     type: 'string',
   }),
   style: z.enum(ascentStyle),
   topoGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema),
-  tries: number().min(1),
+  tries: number().int().min(1),
 })
 export type Ascent = z.infer<typeof ascentSchema>
 
