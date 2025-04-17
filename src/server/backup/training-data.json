@@ -567,6 +567,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-01-15T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -596,6 +597,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-01-24T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 90,
       "sessionType": "En",
       "volume": 90
     },
@@ -669,6 +671,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-02-23T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -676,6 +679,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-02-24T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -683,6 +687,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-02-25T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -839,6 +844,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-05-30T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 80,
       "sessionType": "En",
       "volume": 80
     },
@@ -847,6 +853,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-06-05T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "En",
       "volume": 70
     },
@@ -867,6 +874,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-06-11T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Ta",
       "volume": 60
     },
@@ -893,6 +901,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-07-02T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 70,
       "sessionType": "CS",
       "volume": 70
     },
@@ -912,6 +921,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-07-11T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -919,6 +929,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-07-15T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -926,6 +937,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-07-17T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 90,
       "sessionType": "Out",
       "volume": 90
     },
@@ -933,6 +945,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-07-21T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 90,
       "sessionType": "Out",
       "volume": 90
     },
@@ -940,6 +953,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-07-28T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -947,6 +961,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-07-30T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -954,6 +969,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-01T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -961,6 +977,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-03T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -968,6 +985,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-05T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Ta",
       "volume": 50
     },
@@ -976,6 +994,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-08T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 60,
       "sessionType": "MS",
       "volume": 60
     },
@@ -983,6 +1002,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-10T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -990,6 +1010,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-13T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -997,6 +1018,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-14T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -1004,6 +1026,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-20T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -1011,6 +1034,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-21T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -1019,6 +1043,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-24T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 70,
       "sessionType": "MS",
       "volume": 70
     },
@@ -1026,6 +1051,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-27T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1033,6 +1059,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-08-29T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1040,6 +1067,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-09-02T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -1047,6 +1075,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-09-03T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 40,
       "sessionType": "Ta",
       "volume": 40
     },
@@ -1055,6 +1084,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-09-06T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "MS",
       "volume": 50
     },
@@ -1062,6 +1092,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-09-08T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 90,
       "sessionType": "Out",
       "volume": 90
     },
@@ -1069,6 +1100,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-09-10T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Ta",
       "volume": 50
     },
@@ -1076,6 +1108,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-09-16T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 40,
       "sessionType": "Ta",
       "volume": 40
     },
@@ -1083,6 +1116,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-09-18T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 20,
       "sessionType": "Ta",
       "volume": 20
     },
@@ -1090,6 +1124,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-09-20T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1097,6 +1132,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-09-21T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1104,6 +1140,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-09-23T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Ta",
       "volume": 50
     },
@@ -1111,6 +1148,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-09-25T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Ta",
       "volume": 50
     },
@@ -1118,6 +1156,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-10-03T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Ta",
       "volume": 50
     },
@@ -1125,6 +1164,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-10-05T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1133,6 +1173,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-10-06T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 90,
       "sessionType": "En",
       "volume": 90
     },
@@ -1140,6 +1181,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-10-08T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 70,
       "sessionType": "En",
       "volume": 70
     },
@@ -1147,6 +1189,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-10-10T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Ta",
       "volume": 50
     },
@@ -1154,6 +1197,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-10-12T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1161,6 +1205,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-10-13T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1169,6 +1214,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-10-16T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "En",
       "volume": 60
     },
@@ -1176,6 +1222,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-10-18T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 40,
       "sessionType": "Ta",
       "volume": 40
     },
@@ -1183,6 +1230,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-10-21T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1191,6 +1239,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-10-24T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "En",
       "volume": 70
     },
@@ -1199,6 +1248,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-10-28T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 80,
       "sessionType": "MS",
       "volume": 80
     },
@@ -1207,6 +1257,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-10-30T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 80,
       "sessionType": "En",
       "volume": 80
     },
@@ -1215,6 +1266,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-11-01T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 60,
       "sessionType": "MS",
       "volume": 60
     },
@@ -1222,6 +1274,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-11-09T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1230,6 +1283,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-11-10T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 70,
       "sessionType": "MS",
       "volume": 70
     },
@@ -1238,6 +1292,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-11-11T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 60,
       "sessionType": "MS",
       "volume": 60
     },
@@ -1246,6 +1301,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-11-14T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "En",
       "volume": 70
     },
@@ -1254,6 +1310,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-11-16T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 50,
       "sessionType": "Ta",
       "volume": 50
     },
@@ -1262,6 +1319,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-11-17T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 80,
       "sessionType": "En",
       "volume": 80
     },
@@ -1270,6 +1328,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-11-18T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 80,
       "sessionType": "En",
       "volume": 80
     },
@@ -1278,6 +1337,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-11-19T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 90,
       "sessionType": "MS",
       "volume": 90
     },
@@ -1286,6 +1346,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-11-22T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 80,
       "sessionType": "MS",
       "volume": 80
     },
@@ -1293,6 +1354,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-11-24T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1301,6 +1363,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-11-26T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 90,
       "sessionType": "MS",
       "volume": 90
     },
@@ -1309,6 +1372,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-11-29T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 90,
       "sessionType": "MS",
       "volume": 90
     },
@@ -1316,6 +1380,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-11-30T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1324,6 +1389,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-03T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 50,
       "sessionType": "En",
       "volume": 50
     },
@@ -1331,6 +1397,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-05T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1338,6 +1405,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-07T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1345,6 +1413,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-08T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1352,6 +1421,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2019-12-10T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 40,
       "sessionType": "Ta",
       "volume": 40
     },
@@ -1359,6 +1429,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-14T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1366,6 +1437,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-15T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1373,6 +1445,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-16T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 40,
       "sessionType": "Out",
       "volume": 40
     },
@@ -1380,6 +1453,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-19T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1387,6 +1461,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-21T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1394,6 +1469,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-22T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1401,6 +1477,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-27T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 90,
       "sessionType": "Out",
       "volume": 90
     },
@@ -1408,6 +1485,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-28T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1415,6 +1493,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-30T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 100,
       "sessionType": "Out",
       "volume": 100
     },
@@ -1422,6 +1501,7 @@
       "climbingDiscipline": "Route",
       "date": "2019-12-31T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -1429,6 +1509,7 @@
       "anatomicalRegion": "Fi",
       "date": "2020-01-04T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 40,
       "sessionType": "FB",
       "volume": 40
     },
@@ -1436,6 +1517,7 @@
       "anatomicalRegion": "Ar",
       "date": "2020-01-08T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 10,
       "sessionType": "Ro",
       "volume": 10
     },
@@ -1443,6 +1525,7 @@
       "anatomicalRegion": "Ar",
       "date": "2020-01-10T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 10,
       "sessionType": "Ro",
       "volume": 10
     },
@@ -1450,6 +1533,7 @@
       "anatomicalRegion": "Ar",
       "date": "2020-01-11T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 10,
       "sessionType": "Ro",
       "volume": 10
     },
@@ -1459,6 +1543,7 @@
       "date": "2020-01-12T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Pont de Barret",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1466,6 +1551,7 @@
       "anatomicalRegion": "Ar",
       "date": "2020-01-13T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 10,
       "sessionType": "Ro",
       "volume": 10
     },
@@ -1474,6 +1560,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2020-01-14T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 60,
       "sessionType": "MS",
       "volume": 60
     },
@@ -1482,6 +1569,7 @@
       "climbingDiscipline": "Route",
       "date": "2020-01-16T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 50,
       "sessionType": "En",
       "volume": 50
     },
@@ -1491,6 +1579,7 @@
       "date": "2020-01-18T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Vergisson",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -1499,6 +1588,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2020-01-20T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 80,
       "sessionType": "Po",
       "volume": 80
     },
@@ -1507,6 +1597,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2020-01-23T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 70,
       "sessionType": "Po",
       "volume": 70
     },
@@ -1514,6 +1605,7 @@
       "anatomicalRegion": "Ar",
       "date": "2020-01-24T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 10,
       "sessionType": "Ro",
       "volume": 10
     },
@@ -1523,6 +1615,7 @@
       "date": "2020-01-25T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Fontainebleau",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -1532,6 +1625,7 @@
       "date": "2020-01-26T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Fontainebleau",
+      "load": 20,
       "sessionType": "Out",
       "volume": 20
     },
@@ -1540,6 +1634,7 @@
       "climbingDiscipline": "Route",
       "date": "2020-01-28T12:00:00.000Z",
       "energySystem": "AL",
+      "load": 80,
       "sessionType": "En",
       "volume": 80
     },
@@ -1548,6 +1643,7 @@
       "climbingDiscipline": "Boulder",
       "date": "2020-01-30T12:00:00.000Z",
       "energySystem": "AA",
+      "load": 80,
       "sessionType": "MS",
       "volume": 80
     },
@@ -1557,6 +1653,7 @@
       "date": "2020-02-01T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Buoux",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1566,6 +1663,7 @@
       "date": "2020-02-02T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Buoux",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1575,6 +1673,7 @@
       "date": "2020-02-04T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 70,
       "sessionType": "CS",
       "volume": 70
     },
@@ -1584,6 +1683,7 @@
       "date": "2020-02-09T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Lyon",
+      "load": 60,
       "sessionType": "En",
       "volume": 60
     },
@@ -1593,6 +1693,7 @@
       "date": "2020-02-10T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Saint-Genis-les-Ollières",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -1602,6 +1703,7 @@
       "date": "2020-02-11T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Lyon",
+      "load": 80,
       "sessionType": "En",
       "volume": 80
     },
@@ -1611,6 +1713,7 @@
       "date": "2020-02-12T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 10,
       "sessionType": "Ro",
       "volume": 10
     },
@@ -1620,6 +1723,7 @@
       "date": "2020-02-14T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 20,
       "sessionType": "Ro",
       "volume": 20
     },
@@ -1629,6 +1733,7 @@
       "date": "2020-02-15T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Calanques de Luminy - Grotte de l’ours",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -1638,6 +1743,7 @@
       "date": "2020-02-16T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Roquevaire",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1646,6 +1752,7 @@
       "date": "2020-02-17T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "MROC Part-Dieu",
+      "load": 30,
       "sessionType": "FB",
       "volume": 30
     },
@@ -1655,6 +1762,7 @@
       "date": "2020-02-18T12:00:00.000Z",
       "energySystem": "AE",
       "gymCrag": "Mur de Lyon",
+      "load": 40,
       "sessionType": "Sk",
       "volume": 40
     },
@@ -1664,6 +1772,7 @@
       "date": "2020-02-19T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 10,
       "sessionType": "Ro",
       "volume": 10
     },
@@ -1673,6 +1782,7 @@
       "date": "2020-02-20T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Crept",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1682,6 +1792,7 @@
       "date": "2020-02-22T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Saint-Léger-du-Ventoux",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1691,6 +1802,7 @@
       "date": "2020-02-23T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Saint-Léger-du-Ventoux",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1700,6 +1812,7 @@
       "date": "2020-02-24T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Crept",
+      "load": 40,
       "sessionType": "Out",
       "volume": 40
     },
@@ -1709,6 +1822,7 @@
       "date": "2020-03-02T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 50,
       "sessionType": "Ta",
       "volume": 50
     },
@@ -1718,6 +1832,7 @@
       "date": "2020-03-04T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Mur de Lyon",
+      "load": 60,
       "sessionType": "Ta",
       "volume": 60
     },
@@ -1727,6 +1842,7 @@
       "date": "2020-03-07T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Baderne",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1736,6 +1852,7 @@
       "date": "2020-03-11T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 30,
       "sessionType": "Ro",
       "volume": 30
     },
@@ -1745,6 +1862,7 @@
       "date": "2020-03-12T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Lyon",
+      "load": 60,
       "sessionType": "St",
       "volume": 60
     },
@@ -1754,6 +1872,7 @@
       "date": "2020-03-15T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Vergisson",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -1763,6 +1882,7 @@
       "date": "2020-03-17T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Saint-Léger-du-Ventoux",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -1772,6 +1892,7 @@
       "date": "2020-05-12T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -1781,6 +1902,7 @@
       "date": "2020-05-16T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Saint-Léger-du-Ventoux",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1790,6 +1912,7 @@
       "date": "2020-05-17T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Saint-Léger-du-Ventoux",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1799,6 +1922,7 @@
       "date": "2020-05-18T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Saint-Léger-du-Ventoux",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -1808,6 +1932,7 @@
       "date": "2020-05-20T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Gorges du Tarn",
+      "load": 75,
       "sessionType": "Out",
       "volume": 75
     },
@@ -1817,6 +1942,7 @@
       "date": "2020-05-21T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Gorges du Tarn",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -1826,6 +1952,7 @@
       "date": "2020-05-23T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Gorges du Tarn",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -1835,6 +1962,7 @@
       "date": "2020-05-24T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Gorges du Tarn",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -1844,6 +1972,7 @@
       "date": "2020-05-27T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1853,6 +1982,7 @@
       "date": "2020-06-01T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Hière sur Amby",
+      "load": 40,
       "sessionType": "Out",
       "volume": 40
     },
@@ -1862,6 +1992,7 @@
       "date": "2020-06-03T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1871,6 +2002,7 @@
       "date": "2020-06-04T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 20,
       "sessionType": "Ro",
       "volume": 20
     },
@@ -1880,6 +2012,7 @@
       "date": "2020-06-06T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Verdon",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -1889,6 +2022,7 @@
       "date": "2020-06-07T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Verdon",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -1898,6 +2032,7 @@
       "date": "2020-06-08T12:00:00.000Z",
       "energySystem": "AE",
       "gymCrag": "Verdon",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1907,6 +2042,7 @@
       "date": "2020-06-09T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Buoux",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -1916,6 +2052,7 @@
       "date": "2020-06-11T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Buoux",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -1925,6 +2062,7 @@
       "date": "2020-06-12T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Buoux",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -1934,6 +2072,7 @@
       "date": "2020-06-15T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 30,
       "sessionType": "MS",
       "volume": 30
     },
@@ -1943,6 +2082,7 @@
       "date": "2020-06-20T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "BO Rennes",
+      "load": 60,
       "sessionType": "MS",
       "volume": 60
     },
@@ -1952,6 +2092,7 @@
       "date": "2020-06-23T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Fontainebleau",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -1961,6 +2102,7 @@
       "date": "2020-06-24T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Fontainebleau",
+      "load": 20,
       "sessionType": "Out",
       "volume": 20
     },
@@ -1970,6 +2112,7 @@
       "date": "2020-06-25T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Fontainebleau",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -1979,6 +2122,7 @@
       "date": "2020-06-27T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Fontainebleau",
+      "load": 75,
       "sessionType": "Out",
       "volume": 75
     },
@@ -1988,6 +2132,7 @@
       "date": "2020-06-30T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -1997,6 +2142,7 @@
       "date": "2020-07-02T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Lyon",
+      "load": 75,
       "sessionType": "En",
       "volume": 75
     },
@@ -2006,6 +2152,7 @@
       "date": "2020-07-03T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 30,
       "sessionType": "Ro",
       "volume": 30
     },
@@ -2015,6 +2162,7 @@
       "date": "2020-07-04T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Fixin",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -2024,6 +2172,7 @@
       "date": "2020-07-05T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Fixin",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -2033,6 +2182,7 @@
       "date": "2020-07-06T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Lyon",
+      "load": 70,
       "sessionType": "PE",
       "volume": 70
     },
@@ -2042,6 +2192,7 @@
       "date": "2020-07-08T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Satan",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2051,6 +2202,7 @@
       "date": "2020-07-09T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Satan",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2060,6 +2212,7 @@
       "date": "2020-07-10T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "MROC Part-Dieu",
+      "load": 40,
       "sessionType": "SE",
       "volume": 40
     },
@@ -2069,6 +2222,7 @@
       "date": "2020-07-12T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Lyon",
+      "load": 60,
       "sessionType": "PE",
       "volume": 60
     },
@@ -2077,6 +2231,7 @@
       "date": "2020-07-15T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "MROC Part-Dieu",
+      "load": 30,
       "sessionType": "FB",
       "volume": 30
     },
@@ -2086,6 +2241,7 @@
       "date": "2020-07-17T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -2095,6 +2251,7 @@
       "date": "2020-07-19T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Balme de Yenne",
+      "load": 65,
       "sessionType": "Out",
       "volume": 65
     },
@@ -2103,6 +2260,7 @@
       "date": "2020-07-21T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 35,
       "sessionType": "FB",
       "volume": 35
     },
@@ -2111,6 +2269,7 @@
       "date": "2020-07-22T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 25,
       "sessionType": "Ro",
       "volume": 25
     },
@@ -2120,6 +2279,7 @@
       "date": "2020-07-24T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Entraygues",
+      "load": 90,
       "sessionType": "Out",
       "volume": 90
     },
@@ -2129,6 +2289,7 @@
       "date": "2020-07-25T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Entraygues",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -2138,6 +2299,7 @@
       "date": "2020-07-26T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Ailefroide",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2147,6 +2309,7 @@
       "date": "2020-07-29T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Précipice de Corbière",
+      "load": 65,
       "sessionType": "Out",
       "volume": 65
     },
@@ -2156,6 +2319,7 @@
       "date": "2020-07-30T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Précipice de Corbière",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2165,6 +2329,7 @@
       "date": "2020-08-02T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Fontainebleau",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2174,6 +2339,7 @@
       "date": "2020-08-04T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "La Barbaque",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -2182,6 +2348,7 @@
       "date": "2020-08-06T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 15,
       "sessionType": "Ro",
       "volume": 15
     },
@@ -2191,6 +2358,7 @@
       "date": "2020-08-08T12:00:00.000Z",
       "energySystem": "AE",
       "gymCrag": "Ailefroide",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -2200,6 +2368,7 @@
       "date": "2020-08-09T12:00:00.000Z",
       "energySystem": "AE",
       "gymCrag": "Ailefroide",
+      "load": 65,
       "sessionType": "Out",
       "volume": 65
     },
@@ -2209,6 +2378,7 @@
       "date": "2020-08-11T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 75,
       "sessionType": "Out",
       "volume": 75
     },
@@ -2218,6 +2388,7 @@
       "date": "2020-08-12T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 40,
       "sessionType": "Out",
       "volume": 40
     },
@@ -2227,6 +2398,7 @@
       "date": "2020-08-19T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Satan",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -2236,6 +2408,7 @@
       "date": "2020-08-20T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Satan",
+      "load": 65,
       "sessionType": "Out",
       "volume": 65
     },
@@ -2245,6 +2418,7 @@
       "date": "2020-08-22T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Baderne",
+      "load": 70,
       "sessionType": "Out",
       "volume": 70
     },
@@ -2254,6 +2428,7 @@
       "date": "2020-08-23T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Baderne",
+      "load": 40,
       "sessionType": "Out",
       "volume": 40
     },
@@ -2263,6 +2438,7 @@
       "date": "2020-08-25T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 40,
       "sessionType": "Ta",
       "volume": 40
     },
@@ -2272,6 +2448,7 @@
       "date": "2020-08-26T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 65,
       "sessionType": "MS",
       "volume": 65
     },
@@ -2280,6 +2457,7 @@
       "date": "2020-08-27T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "MROC Part-Dieu",
+      "load": 15,
       "sessionType": "Ro",
       "volume": 15
     },
@@ -2289,6 +2467,7 @@
       "date": "2020-08-29T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Fontainebleau",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -2298,6 +2477,7 @@
       "date": "2020-09-02T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Mur de Lyon",
+      "load": 60,
       "sessionType": "En",
       "volume": 60
     },
@@ -2307,6 +2487,7 @@
       "date": "2020-09-03T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2316,6 +2497,7 @@
       "date": "2020-09-05T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -2330,6 +2512,7 @@
       "date": "2020-09-15T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 40,
       "sessionType": "Out",
       "volume": 40
     },
@@ -2339,6 +2522,7 @@
       "date": "2020-09-16T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -2348,6 +2532,7 @@
       "date": "2020-09-17T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -2357,6 +2542,7 @@
       "date": "2020-09-19T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Fontainebleau",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2366,6 +2552,7 @@
       "date": "2020-09-25T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Les Herbez",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -2375,6 +2562,7 @@
       "date": "2020-09-26T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Les Herbez",
+      "load": 40,
       "sessionType": "Out",
       "volume": 40
     },
@@ -2384,6 +2572,7 @@
       "date": "2020-09-27T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Les Herbez",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -2393,6 +2582,7 @@
       "date": "2020-09-30T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 90,
       "sessionType": "Out",
       "volume": 90
     },
@@ -2402,6 +2592,7 @@
       "date": "2020-10-01T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 40,
       "sessionType": "Out",
       "volume": 40
     },
@@ -2411,6 +2602,7 @@
       "date": "2020-10-04T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2419,6 +2611,7 @@
       "date": "2020-10-05T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Home",
+      "load": 20,
       "sessionType": "Ro",
       "volume": 20
     },
@@ -2428,6 +2621,7 @@
       "date": "2020-10-06T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Balme de Yenne",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2437,6 +2631,7 @@
       "date": "2020-10-17T12:00:00.000Z",
       "energySystem": "AE",
       "gymCrag": "Saussois",
+      "load": 10,
       "sessionType": "Out",
       "volume": 10
     },
@@ -2446,6 +2641,7 @@
       "date": "2020-10-18T12:00:00.000Z",
       "energySystem": "AE",
       "gymCrag": "Saussois",
+      "load": 10,
       "sessionType": "Out",
       "volume": 10
     },
@@ -2455,6 +2651,7 @@
       "date": "2020-10-27T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Parc de la commune de Paris",
+      "load": 20,
       "sessionType": "Ta",
       "volume": 20
     },
@@ -2464,6 +2661,7 @@
       "date": "2020-10-29T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Baderne",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -2473,6 +2671,7 @@
       "date": "2020-10-30T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Baderne",
+      "load": 85,
       "sessionType": "Out",
       "volume": 85
     },
@@ -2482,6 +2681,7 @@
       "date": "2020-10-31T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Baderne",
+      "load": 100,
       "sessionType": "Out",
       "volume": 100
     },
@@ -2491,6 +2691,7 @@
       "date": "2020-11-01T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Baderne",
+      "load": 75,
       "sessionType": "Out",
       "volume": 75
     },
@@ -2498,6 +2699,7 @@
       "date": "2020-11-05T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Home",
+      "load": 20,
       "sessionType": "Co",
       "volume": 20
     },
@@ -2506,6 +2708,7 @@
       "date": "2020-11-07T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Home",
+      "load": 40,
       "sessionType": "MS",
       "volume": 40
     },
@@ -2514,6 +2717,7 @@
       "date": "2020-11-08T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Home",
+      "load": 30,
       "sessionType": "FB",
       "volume": 30
     },
@@ -2523,6 +2727,7 @@
       "date": "2020-11-10T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Baderne",
+      "load": 40,
       "sessionType": "FB",
       "volume": 40
     },
@@ -2531,6 +2736,7 @@
       "date": "2020-11-12T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Home",
+      "load": 90,
       "sessionType": "Out",
       "volume": 90
     },
@@ -2539,6 +2745,7 @@
       "date": "2020-11-14T12:00:00.000Z",
       "energySystem": "AA",
       "gymCrag": "Home",
+      "load": 50,
       "sessionType": "MS",
       "volume": 50
     },
@@ -2547,6 +2754,7 @@
       "date": "2020-11-15T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Home",
+      "load": 40,
       "sessionType": "SE",
       "volume": 40
     },
@@ -2556,12 +2764,14 @@
       "date": "2020-11-22T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Vergisson",
+      "load": 85,
       "sessionType": "Out",
       "volume": 85
     },
     {
       "date": "2020-11-24T12:00:00.000Z",
       "gymCrag": "Home",
+      "load": 10,
       "sessionType": "Co",
       "volume": 10
     },
@@ -2571,12 +2781,14 @@
       "date": "2020-11-28T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Viaduc de Charbonnières",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
     {
       "date": "2020-12-03T12:00:00.000Z",
       "gymCrag": "Home",
+      "load": 20,
       "sessionType": "Ro",
       "volume": 20
     },
@@ -2586,6 +2798,7 @@
       "date": "2020-12-13T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Viaduc de Charbonnières-les-Bains",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2595,6 +2808,7 @@
       "date": "2020-12-18T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Lourmarin",
+      "load": 100,
       "sessionType": "Out",
       "volume": 100
     },
@@ -2604,6 +2818,7 @@
       "date": "2020-12-19T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Lourmarin",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -2613,6 +2828,7 @@
       "date": "2020-12-20T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Lourmarin",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -2622,6 +2838,7 @@
       "date": "2020-12-21T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Lourmarin",
+      "load": 75,
       "sessionType": "Out",
       "volume": 75
     },
@@ -2632,6 +2849,7 @@
       "date": "2020-12-26T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Seynes",
+      "load": 40,
       "sessionType": "Out",
       "volume": 40
     },
@@ -2642,6 +2860,7 @@
       "date": "2020-12-27T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Seynes",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2652,6 +2871,7 @@
       "date": "2020-12-28T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Seynes",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -2662,6 +2882,7 @@
       "date": "2020-12-30T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Seynes",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -2672,6 +2893,7 @@
       "date": "2020-12-31T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Seynes",
+      "load": 50,
       "sessionType": "Out",
       "volume": 50
     },
@@ -2682,6 +2904,7 @@
       "date": "2021-01-02T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Seynes",
+      "load": 40,
       "sessionType": "Out",
       "volume": 40
     },
@@ -2692,6 +2915,7 @@
       "date": "2021-01-03T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Seynes",
+      "load": 30,
       "sessionType": "Out",
       "volume": 30
     },
@@ -2701,6 +2925,7 @@
       "date": "2021-01-09T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Home",
+      "load": 70,
       "sessionType": "Ro",
       "volume": 70
     },
@@ -2711,6 +2936,7 @@
       "date": "2021-01-16T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Les Calanques",
+      "load": 60,
       "sessionType": "Out",
       "volume": 60
     },
@@ -2721,6 +2947,7 @@
       "date": "2021-01-17T12:00:00.000Z",
       "energySystem": "AL",
       "gymCrag": "Les Calanques",
+      "load": 80,
       "sessionType": "Out",
       "volume": 80
     },
@@ -3355,7 +3582,7 @@
       "comments": "Malade 🤧",
       "date": "2021-12-04T12:00:00.000Z",
       "energySystem": "AA",
-      "gymCrag": "Calanques",
+      "gymCrag": "Les Calanques",
       "intensity": 50,
       "load": 10,
       "sessionType": "Out",
@@ -6734,6 +6961,432 @@
       "load": 36,
       "sessionType": "Out",
       "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "comments": "Avec Antoine ",
+      "date": "2024-11-20T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Le Labo",
+      "intensity": 80,
+      "load": 48,
+      "sessionType": "MS",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Boulder",
+      "comments": "Avec Thomas",
+      "date": "2024-11-22T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Arkose",
+      "intensity": 80,
+      "load": 56,
+      "sessionType": "MS",
+      "volume": 70
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-11-29T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Baou des 4 Ouro",
+      "intensity": 90,
+      "load": 72,
+      "sessionType": "Out",
+      "volume": 80
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-11-30T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Baou des 4 Ouro",
+      "intensity": 80,
+      "load": 72,
+      "sessionType": "Out",
+      "volume": 90
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-12-01T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Baou des 4 Ouro",
+      "intensity": 70,
+      "load": 28,
+      "sessionType": "Out",
+      "volume": 40
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "comments": "grosse séance",
+      "date": "2024-12-04T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Ulassai",
+      "intensity": 60,
+      "load": 48,
+      "sessionType": "Out",
+      "volume": 80
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2024-12-05T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Ulassai",
+      "intensity": 50,
+      "load": 15,
+      "sessionType": "Out",
+      "volume": 30
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2024-12-07T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Ulassai",
+      "intensity": 60,
+      "load": 36,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Grande voie à Pedra Longa 7 longueurs en 6a+ max avec Louisiane. Doublé ou triplé les longueurs. Vue sur la mer 🌊 ",
+      "date": "2024-12-09T12:00:00.000Z",
+      "energySystem": "AE",
+      "gymCrag": "Pedra Longa",
+      "intensity": 20,
+      "load": 8,
+      "sessionType": "Out",
+      "volume": 40
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Grosse séance avec Tim et Molly à Red Chili (Pedra Longa)",
+      "date": "2024-12-10T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Banei",
+      "intensity": 90,
+      "load": 81,
+      "sessionType": "Out",
+      "volume": 90
+    },
+    {
+      "anatomicalRegion": "Ar",
+      "climbingDiscipline": "Route",
+      "date": "2024-12-14T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Millenium",
+      "intensity": 70,
+      "load": 63,
+      "sessionType": "Out",
+      "volume": 90
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Jolie falaise en forme de visage en corse. Avec beaucoup de vent froid",
+      "date": "2024-12-17T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "San Tonio",
+      "intensity": 60,
+      "load": 30,
+      "sessionType": "Out",
+      "volume": 50
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-12-18T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "San Tonio",
+      "intensity": 40,
+      "load": 16,
+      "sessionType": "Out",
+      "volume": 40
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Magnifique falaise très atypique avec son superbe granite et incroyable gestuelle. Marche d'approche longue 35 min + (250m D+) pas simple",
+      "date": "2024-12-19T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Corte",
+      "intensity": 50,
+      "load": 20,
+      "sessionType": "Out",
+      "volume": 40
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-12-21T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Restonica",
+      "intensity": 60,
+      "load": 30,
+      "sessionType": "Out",
+      "volume": 50
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2024-12-23T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Restonica",
+      "intensity": 40,
+      "load": 16,
+      "sessionType": "Out",
+      "volume": 40
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Première sortie en extérieur avec Velcroc :) ",
+      "date": "2024-12-30T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Gorges du Blavet",
+      "intensity": 60,
+      "load": 18,
+      "sessionType": "Out",
+      "volume": 30
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Avec Damien Juliette et Antoine.",
+      "date": "2024-12-31T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Gorges du Blavet",
+      "intensity": 60,
+      "load": 36,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "comments": "Avec Anthony et Orianne",
+      "date": "2025-01-03T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Blavet - Source",
+      "intensity": 30,
+      "load": 6,
+      "sessionType": "Out",
+      "volume": 20
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Reprise ~après~ le puppy blues",
+      "date": "2025-02-10T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Gorges du Blavet",
+      "intensity": 30,
+      "load": 6,
+      "sessionType": "Out",
+      "volume": 20
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Reprise après 2 mois d’arrêt 😰",
+      "date": "2025-03-01T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Roquevaire",
+      "intensity": 60,
+      "load": 36,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ar",
+      "climbingDiscipline": "Route",
+      "date": "2025-03-02T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Les Calanques",
+      "intensity": 50,
+      "load": 25,
+      "sessionType": "Out",
+      "volume": 50
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2025-03-05T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Roquevaire",
+      "intensity": 50,
+      "load": 30,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "comments": "Ça donne presque l’impression que ça revient",
+      "date": "2025-03-06T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Boulder line 1",
+      "intensity": 70,
+      "load": 49,
+      "sessionType": "Ta",
+      "volume": 70
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "comments": "J’ai donné ma vie dans un 6b+. Ça reviens pas encore 😔",
+      "date": "2025-03-07T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Thaurac",
+      "intensity": 50,
+      "load": 20,
+      "sessionType": "Out",
+      "volume": 40
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2025-03-15T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Siurana",
+      "intensity": 40,
+      "load": 20,
+      "sessionType": "Out",
+      "volume": 50
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2025-03-17T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Siurana",
+      "intensity": 60,
+      "load": 36,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "comments": "4 x 7a en vertical dalle. Mal aux pieds et aux doigts",
+      "date": "2025-03-22T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Chulilla",
+      "intensity": 60,
+      "load": 48,
+      "sessionType": "Out",
+      "volume": 80
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2025-03-24T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Chulilla",
+      "intensity": 60,
+      "load": 42,
+      "sessionType": "Out",
+      "volume": 70
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2025-03-26T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Chulilla",
+      "intensity": 70,
+      "load": 56,
+      "sessionType": "Out",
+      "volume": 80
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "comments": "J’ai trop faim ",
+      "date": "2025-03-28T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Chulilla",
+      "intensity": 80,
+      "load": 40,
+      "sessionType": "Out",
+      "volume": 50
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2025-03-29T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Chulilla",
+      "intensity": 70,
+      "load": 56,
+      "sessionType": "Out",
+      "volume": 80
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "date": "2025-03-30T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Chulilla",
+      "intensity": 65,
+      "load": 39,
+      "sessionType": "Out",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ar",
+      "climbingDiscipline": "Route",
+      "comments": "Une 7c flash et pis c’est tout",
+      "date": "2025-04-01T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Chulilla",
+      "intensity": 60,
+      "load": 15,
+      "sessionType": "Out",
+      "volume": 25
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "comments": "Chouette séance à oasis avec la louve",
+      "date": "2025-04-04T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Chulilla",
+      "intensity": 70,
+      "load": 46,
+      "sessionType": "Out",
+      "volume": 65
+    },
+    {
+      "anatomicalRegion": "Fi",
+      "climbingDiscipline": "Route",
+      "comments": "Rincé ",
+      "date": "2025-04-06T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Chulilla",
+      "intensity": 70,
+      "load": 56,
+      "sessionType": "Out",
+      "volume": 80
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2025-04-08T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Chulilla",
+      "intensity": 90,
+      "load": 63,
+      "sessionType": "Out",
+      "volume": 70
     }
   ]
 }

@@ -1,14 +1,11 @@
 import { assertEquals } from '@std/assert'
-import { type Ascent, holds, holdsFromGS } from 'schema/ascent.ts'
+import { type Ascent, ascentSchema, holds, holdsFromGS } from 'schema/ascent.ts'
 import {
   type GSAscentRecord,
   transformAscentFromGSToJS,
   transformAscentFromJSToGS,
 } from 'helpers/transformers.ts'
-import sampleAscents from 'backup/ascent-data-sample-2024-10-30.json' with {
-  type: 'json',
-}
-import { setDifference } from '@edouardmisset/array/sets.ts'
+import { sampleAscents } from 'backup/sample-ascents.ts'
 
 Deno.test('transformAscentFromJSToGS', async (t) => {
   await t.step('boulder', () => {
@@ -161,7 +158,7 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
       Departement: 'Île-de-France',
     }
 
-    const expectedAscent: Ascent = {
+    const expectedAscent = {
       style: 'Flash',
       tries: 1,
       climber: 'Edouard Misset',
@@ -177,7 +174,7 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
       holds: 'Sloper',
       personalGrade: '6a',
       region: 'Île-de-France',
-    }
+    } as const satisfies Ascent
 
     assertEquals(
       transformAscentFromGSToJS(boulderingGSRecord),
@@ -204,7 +201,7 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
       'Topo Grade': '8a',
     }
 
-    const expectedAscent: Ascent = {
+    const expectedAscent = {
       style: 'Redpoint',
       tries: 3,
       climber: 'Edouard Misset',
@@ -219,7 +216,7 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
       personalGrade: '7a',
       region: 'ARA',
       height: 20,
-    }
+    } as const satisfies Ascent
 
     assertEquals(
       transformAscentFromGSToJS(routeGSRecord),
@@ -246,7 +243,7 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
       Departement: '',
     }
 
-    const bareBoneAscent: Ascent = {
+    const bareBoneAscent = {
       style: 'Onsight',
       tries: 1,
       climber: 'Edouard Misset',
@@ -256,7 +253,7 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
       area: 'Berlin',
       routeName: 'Biographie',
       date: '2023-07-15T12:00:00.000Z',
-    }
+    } as const satisfies Ascent
 
     assertEquals(
       transformAscentFromGSToJS(emptyGSRecord),
@@ -269,14 +266,21 @@ Deno.test('transformAscentFromJSToGS and transformAscentFromGSToJS are reversibl
   // Some information loss is expected when transforming from GS to JS and back
   // like certain `hold` type are voluntarily not supported in the JS model.
 
-  const ascents = (sampleAscents as Ascent[]).filter((ascent) =>
-    ascent.holds === undefined ||
-    setDifference([...holds], [...holdsFromGS]).includes(ascent.holds)
-  )
+  const holdsSet = new Set(holds)
+  const holdsFromGSSet = new Set(holdsFromGS)
+  const holdsInGSOnly = holdsFromGSSet.difference(holdsSet)
+  console.log('🚀 ~ Deno.test ~ holdsInGSOnly:', holdsInGSOnly)
+
+  const ascents = sampleAscents.filter((ascent) => {
+    return (ascent.holds === undefined || !holdsInGSOnly.has(ascent.holds))
+  })
 
   for (const ascent of ascents) {
+    const convertedAscent = ascentSchema.parse(transformAscentFromGSToJS(
+      transformAscentFromJSToGS(ascent),
+    ))
     assertEquals(
-      transformAscentFromGSToJS(transformAscentFromJSToGS(ascent)),
+      convertedAscent,
       ascent,
     )
   }

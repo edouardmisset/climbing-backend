@@ -5,6 +5,7 @@
   "deno.enable": true,
   "deno.lint": true,
   "deno.cacheOnSave": true,
+  "deno.suggest.imports.autoDiscover": true,
   "editor.formatOnSaveMode": "modifications",
   "editor.codeActionsOnSave": {
     "source.fixAll.ts": "explicit"
@@ -13,7 +14,6 @@
     "departement",
     "Undercling"
   ],
-  "deno.future": true,
   "deno.codeLens.test": true,
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#ff2f88",

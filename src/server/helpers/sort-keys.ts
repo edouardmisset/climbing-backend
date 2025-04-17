@@ -21,7 +21,7 @@
  */
 export function sortKeys<Obj extends Record<string, unknown>>(
   obj: Obj,
-  ascending = true,
+  ascending: boolean = true,
 ): Obj {
   return Object.fromEntries(
     Object.entries(obj).sort(

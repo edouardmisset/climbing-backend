@@ -5,7 +5,7 @@
     "reveal": "always",
     "focus": false,
     "panel": "dedicated",
-    "showReuseMessage": true
+    "showReuseMessage": false
   },
   "tasks": [
     {
@@ -18,7 +18,7 @@
       ],
       "dependsOrder": "parallel",
       "group": {
-        "kind": "build",
+        "kind": "test",
         "isDefault": true
       },
       "runOptions": {
@@ -28,25 +28,11 @@
     {
       "label": "Lint",
       "icon": {
-        "id": "wrench",
+        "id": "checklist",
         "color": "terminal.ansiGreen"
       },
       "type": "shell",
-      "command": "deno task lint",
-      "isBackground": true,
-      "problemMatcher": [],
-      "presentation": {
-        "group": "deno"
-      }
-    },
-    {
-      "label": "Format",
-      "icon": {
-        "id": "pencil",
-        "color": "terminal.ansiGreen"
-      },
-      "type": "shell",
-      "command": "deno task fmt",
+      "command": "deno task lint:watch",
       "isBackground": true,
       "problemMatcher": [],
       "presentation": {
@@ -56,11 +42,25 @@
     {
       "label": "Test",
       "icon": {
-        "id": "bug",
+        "id": "run-all",
         "color": "terminal.ansiYellow"
       },
       "type": "shell",
       "command": "deno task test:watch",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "group": "deno"
+      }
+    },
+    {
+      "label": "Format",
+      "icon": {
+        "id": "paintcan",
+        "color": "terminal.ansiGreen"
+      },
+      "type": "shell",
+      "command": "deno task format:watch",
       "isBackground": true,
       "problemMatcher": [],
       "presentation": {

@@ -3,7 +3,7 @@ import { blue, bold, green } from '@std/fmt/colors'
 import { inspectRoutes } from 'hono/dev'
 import { getAllAscents } from 'services/ascents.ts'
 import { getAllTrainingSessions } from 'services/training.ts'
-import { app } from './app.ts'
+import app from './app.ts'
 
 await load({ export: true })
 export const env = Deno.env.toObject()

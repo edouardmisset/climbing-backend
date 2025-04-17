@@ -1,21 +1,38 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
-    "lint": "deno lint --watch",
-    "fmt": "deno fmt --watch",
-    "dev": "deno run --allow-net --allow-env --allow-read --allow-write --watch --watch-exclude='src/data/*.json' src/mod.ts",
+    "lint": "deno lint --fix",
+    "lint:watch": "deno lint --fix --watch",
+    "format": "deno fmt",
+    "format:watch": "deno fmt --watch",
+    "check": {
+      "command": "deno task test",
+      "dependencies": [
+        "lint",
+        "format",
+        "typecheck"
+      ],
+      "description": "Run all checks"
+    },
+    "dev": "OTEL_DENO=true deno run --unstable-otel --allow-net --allow-env --allow-read --allow-write  --allow-run --allow-sys --watch --watch-exclude='src/data/*.json,src/server/backup/*,src/server/scripts/*' src/mod.ts",
     "cache": "deno install --entrypoint src/mod.ts src/test.ts",
-    "check": "deno check './**/*.ts*'",
+    "typecheck": "deno check './**/*.ts*'",
     "backup": "deno run --allow-env --allow-net --allow-read --allow-write src/server/scripts/backup.ts && deno fmt src/server/backup",
-    "test": "deno test --allow-env --allow-read",
-    "test:watch": "deno test --allow-env --allow-read --watch"
+    "test": "deno test --allow-env --allow-read --reporter=dot",
+    "test:watch": "deno task test --watch",
+    "docker": "docker run --name lgtm -p 3000:3000 -p 4317:4317 -p 4318:4318 --rm -ti -v \"$PWD\"/lgtm/grafana:/data/grafana -v \"$PWD\"/lgtm/prometheus:/data/prometheus -v \"$PWD\"/lgtm/loki:/data/loki -e GF_PATHS_DATA=/data/grafana docker.io/grafana/otel-lgtm:0.8.1"
   },
   "imports": {
     "@edouardmisset/array": "jsr:@edouardmisset/array@^4.0.1",
+    "@edouardmisset/date": "jsr:@edouardmisset/date@^4.1.0",
     "@edouardmisset/object": "jsr:@edouardmisset/object@^4.0.1",
     "@edouardmisset/function": "jsr:@edouardmisset/function@^4.0.0",
     "@edouardmisset/text": "jsr:@edouardmisset/text@^4.0.0",
     "@edouardmisset/math": "jsr:@edouardmisset/math@^4.0.0",
+    "@hono/otel": "npm:@hono/otel@^0.1.1",
+    "@opentelemetry/sdk-node": "npm:@opentelemetry/sdk-node@^0.200.0",
+    "@opentelemetry/sdk-trace-node": "npm:@opentelemetry/sdk-trace-node@^2.0.0",
+    "@sakgoyal/use-nullish": "jsr:@sakgoyal/use-nullish@^1.0.2",
     "@scalar/hono-api-reference": "npm:@scalar/hono-api-reference@^0.7.2",
     "@std/assert": "jsr:@std/assert@^1.0.7",
     "@std/csv": "jsr:@std/csv@^1.0.3",
@@ -31,6 +48,7 @@
     "zod": "npm:zod@^3.23.8",
     "zod-openapi": "npm:zod-openapi@^4.2.3",
     "zod-validator": "npm:@hono/zod-validator@^0.4.1",
+
     "schema/": "./src/schema/",
     "helpers/": "./src/server/helpers/",
     "services/": "./src/server/services/",
@@ -41,9 +59,13 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "strict": true
+    "strict": true,
+    "exactOptionalPropertyTypes": true
   },
   "lint": {
+    "plugins": [
+      "jsr:@sakgoyal/use-nullish"
+    ],
     "rules": {
       "tags": [
         "recommended"
@@ -54,12 +76,15 @@
         "eqeqeq",
         "explicit-function-return-type",
         "explicit-module-boundary-types",
+        "no-await-in-loop",
         "no-const-assign",
         "no-eval",
+        "no-external-import",
         "no-implicit-declare-namespace-export",
         "no-non-null-asserted-optional-chain",
         "no-non-null-assertion",
         "no-self-compare",
+        "no-undef",
         "single-var-declarator"
       ]
     },
@@ -81,5 +106,6 @@
     "include": [
       "."
     ]
-  }
+  },
+  "nodeModulesDir": "auto"
 }

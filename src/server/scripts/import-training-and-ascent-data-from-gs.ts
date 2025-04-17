@@ -38,7 +38,10 @@ export async function fetchAndParseCSV(url: string): Promise<CSVParsedData> {
     const [headers, ...data] = parse(csv)
     return { headers, data }
   } catch (error) {
-    console.error('An error occurred while fetching and parsing data:', error)
+    globalThis.console.error(
+      'An error occurred while fetching and parsing data:',
+      error,
+    )
     throw error
   }
 }
@@ -120,7 +123,7 @@ async function writeDataToFile(
       { create: true },
     )
   } catch (error) {
-    console.error(error)
+    globalThis.console.error(error)
   }
 }
 
@@ -146,7 +149,7 @@ export async function processCsvDataFromUrl(
 
     await writeDataToFile(fileName, transformedData)
   } catch (error) {
-    console.error(error)
+    globalThis.console.error(error)
   }
 }
 
@@ -158,7 +161,7 @@ export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
   boolean
 > {
   try {
-    await processCsvDataFromUrl(
+    const ascentBackupPromise = processCsvDataFromUrl(
       {
         uri: SHEETS_INFO.ascents.csvExportURL,
         fileName: ascentFileName,
@@ -166,7 +169,7 @@ export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
       },
     )
 
-    await processCsvDataFromUrl(
+    const trainingBackupPromise = processCsvDataFromUrl(
       {
         uri: SHEETS_INFO.training.csvExportURL,
         fileName: trainingFileName,
@@ -174,9 +177,25 @@ export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
       },
     )
 
-    return true
+    const results = await Promise.allSettled(
+      [ascentBackupPromise, trainingBackupPromise],
+    )
+
+    const allPromisesFulfilled = results.every(({ status }) =>
+      status === 'fulfilled'
+    )
+
+    if (allPromisesFulfilled) {
+      globalThis.console.log(
+        'Backup of ascent and training data was successful.',
+      )
+    } else {
+      globalThis.console.warn('Backup completed with some failures:', results)
+    }
+
+    return allPromisesFulfilled
   } catch (_error) {
-    console.error(
+    globalThis.console.error(
       'An error occurred while backing up data from Google Sheets',
       _error,
     )

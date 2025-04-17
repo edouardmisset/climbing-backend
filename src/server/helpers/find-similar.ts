@@ -1,7 +1,7 @@
 import { removeAccents } from '@edouardmisset/text'
 import { levenshteinDistance } from '@std/text'
 
-function formatString(item: string): string {
+function normalizeString(item: string): string {
   const synonyms: Record<string, string> = {
     '(l1 + l2)': 'l1 + l2',
     'l1+l2': 'l1 + l2',
@@ -28,7 +28,7 @@ export function findSimilar(items: string[]): { [key: string]: string[] }[] {
   const map = new Map<string, string[]>()
 
   for (const item of items) {
-    const transformedItem = formatString(item)
+    const transformedItem = normalizeString(item)
 
     const existingItems = map.get(transformedItem)
     if (!existingItems) {
