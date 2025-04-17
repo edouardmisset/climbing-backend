@@ -15,7 +15,7 @@ import { getAllAscents } from 'services/ascents.ts'
 import { z } from 'zod'
 import { zValidator } from 'zod-validator'
 
-const hightestGradeNumber = [...ROUTE_GRADE_TO_NUMBER.values()].at(-1) ?? 1
+const highestGradeNumber = [...ROUTE_GRADE_TO_NUMBER.values()].at(-1) ?? 1
 
 export const crags = new Hono().get(
   '/',
@@ -138,7 +138,7 @@ export const crags = new Hono().get(
             (acc, { topoGrade }) =>
               acc +
               (weightedByGrade
-                ? convertGradeToNumber(topoGrade as Grade) / hightestGradeNumber
+                ? convertGradeToNumber(topoGrade as Grade) / highestGradeNumber
                 : 1),
             0,
           )
