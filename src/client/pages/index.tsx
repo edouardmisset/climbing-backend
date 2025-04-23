@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import type { FC } from 'hono/jsx'
-import { orpc } from '../services/orpc.ts'
+import { orpc } from '../services/orpc-client.ts'
 
 const Layout: FC = (props) => {
   return (

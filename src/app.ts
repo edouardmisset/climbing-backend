@@ -18,7 +18,7 @@ import { logger } from 'hono/logger'
 import { endTime, startTime, timing } from 'hono/timing'
 import { trimTrailingSlash } from 'hono/trailing-slash'
 import { api } from 'routes/mod.ts'
-import { router } from 'routes/otrpc.ts'
+import { router } from 'routes/otrpc-server.ts'
 import { backupAscentsAndTrainingFromGoogleSheets } from 'scripts/import-training-and-ascent-data-from-gs.ts'
 import { pages } from './client/pages/index.tsx'
 
