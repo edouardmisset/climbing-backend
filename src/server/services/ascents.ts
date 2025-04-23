@@ -1,10 +1,15 @@
 import { createCache } from 'helpers/cache.ts'
-import { type Ascent, ascentSchema } from 'schema/ascent.ts'
+import {
+  type Ascent,
+  ascentSchema,
+  type OptionalAscentFilter,
+} from 'schema/ascent.ts'
 import { loadWorksheet } from 'services/google-sheets.ts'
 import {
   transformAscentFromGSToJS,
   transformAscentFromJSToGS,
 } from 'helpers/transformers.ts'
+import { filterAscents } from 'helpers/filter-ascents.ts'
 
 /**
  * Retrieves all ascent records from the Google Sheets 'ascents' worksheet,
@@ -43,8 +48,20 @@ export async function getAllAscents(
   return cachedData
 }
 
-export async function addAscent(ascent: Omit<Ascent, 'id'>): Promise<void> {
+export async function getFilteredAscents(
+  filters?: OptionalAscentFilter,
+): Promise<Ascent[]> {
+  const ascents = await getAllAscents()
+  if (filters === undefined) return ascents
+  return filterAscents(ascents, filters)
+}
+
+export async function addAscent(ascent: Omit<Ascent, 'id'>): Promise<Ascent> {
   const manualAscentsSheet = await loadWorksheet('ascents', { edit: true })
 
   await manualAscentsSheet.addRow(transformAscentFromJSToGS(ascent))
+
+  const allAscents = await getAllAscents({ refresh: true })
+
+  return { ...ascent, id: allAscents.length - 1 }
 }

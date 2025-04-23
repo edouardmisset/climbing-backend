@@ -52,7 +52,9 @@
     "zod": "npm:zod@^3.24.3",
     "zod-validator": "npm:@hono/zod-validator@^0.4.1",
 
+    "~/": "./src/",
     "schema/": "./src/schema/",
+    "contracts/": "./src/server/contracts/",
     "helpers/": "./src/server/helpers/",
     "services/": "./src/server/services/",
     "backup/": "./src/server/backup/",
