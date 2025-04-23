@@ -9,7 +9,7 @@ import { sampleAscents } from 'backup/sample-ascents.ts'
 
 Deno.test('transformAscentFromJSToGS', async (t) => {
   await t.step('boulder', () => {
-    const boulderingAscent: Ascent = {
+    const boulderingAscent: Omit<Ascent, 'id'> = {
       style: 'Flash',
       tries: 1,
       climber: 'Edouard Misset',
@@ -52,7 +52,7 @@ Deno.test('transformAscentFromJSToGS', async (t) => {
   })
 
   await t.step('route', () => {
-    const routeAscent: Ascent = {
+    const routeAscent: Omit<Ascent, 'id'> = {
       style: 'Redpoint',
       tries: 3,
       climber: 'Edouard Misset',
@@ -94,7 +94,7 @@ Deno.test('transformAscentFromJSToGS', async (t) => {
   })
 
   await t.step('edge case with undefined values', () => {
-    const undefinedAscent: Ascent = {
+    const undefinedAscent: Omit<Ascent, 'id'> = {
       style: 'Onsight',
       tries: 1,
       climber: 'Edouard Misset',
@@ -104,13 +104,6 @@ Deno.test('transformAscentFromJSToGS', async (t) => {
       area: 'Berlin',
       routeName: 'Biographie',
       date: '2023-07-15T08:00:00.000Z',
-      profile: undefined,
-      holds: undefined,
-      personalGrade: undefined,
-      region: undefined,
-      height: undefined,
-      rating: undefined,
-      comments: undefined,
     }
 
     const expectedGSRecord = {
@@ -174,7 +167,7 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
       holds: 'Sloper',
       personalGrade: '6a',
       region: 'Île-de-France',
-    } as const satisfies Ascent
+    } as const satisfies Omit<Ascent, 'id'>
 
     assertEquals(
       transformAscentFromGSToJS(boulderingGSRecord),
@@ -216,7 +209,7 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
       personalGrade: '7a',
       region: 'ARA',
       height: 20,
-    } as const satisfies Ascent
+    } as const satisfies Omit<Ascent, 'id'>
 
     assertEquals(
       transformAscentFromGSToJS(routeGSRecord),
@@ -253,7 +246,7 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
       area: 'Berlin',
       routeName: 'Biographie',
       date: '2023-07-15T12:00:00.000Z',
-    } as const satisfies Ascent
+    } as const satisfies Omit<Ascent, 'id'>
 
     assertEquals(
       transformAscentFromGSToJS(emptyGSRecord),
@@ -269,18 +262,20 @@ Deno.test('transformAscentFromJSToGS and transformAscentFromGSToJS are reversibl
   const holdsSet = new Set(holds)
   const holdsFromGSSet = new Set(holdsFromGS)
   const holdsInGSOnly = holdsFromGSSet.difference(holdsSet)
-  console.log('🚀 ~ Deno.test ~ holdsInGSOnly:', holdsInGSOnly)
 
   const ascents = sampleAscents.filter((ascent) => {
     return (ascent.holds === undefined || !holdsInGSOnly.has(ascent.holds))
   })
 
   for (const ascent of ascents) {
-    const convertedAscent = ascentSchema.parse(transformAscentFromGSToJS(
-      transformAscentFromJSToGS(ascent),
-    ))
+    const convertedAscent = ascentSchema.omit({ id: true }).parse(
+      transformAscentFromGSToJS(
+        transformAscentFromJSToGS(ascent),
+      ),
+    )
+    console.log('🚀 ~ Deno.test ~ convertedAscent:', convertedAscent)
     assertEquals(
-      convertedAscent,
+      { ...convertedAscent, id: ascent.id },
       ascent,
     )
   }
