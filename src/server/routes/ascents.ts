@@ -1,43 +1,17 @@
 import { validNumberWithFallback } from '@edouardmisset/math'
 import { removeAccents } from '@edouardmisset/text'
 import fuzzySort from 'fuzzysort'
+import { filterAscents } from 'helpers/filter-ascents.ts'
 import { groupSimilarStrings } from 'helpers/find-similar.ts'
 import { Hono } from 'hono'
-import { describeRoute } from 'hono-openapi'
-import { resolver, validator as zValidator } from 'hono-openapi/zod'
+import { zValidator } from 'zod-validator'
 import { ascentSchema, holdsSchema, profileSchema } from 'schema/ascent.ts'
 import { getAllAscents } from 'services/ascents.ts'
 import { string, z } from 'zod'
 
-// For extending the Zod schema with OpenAPI properties
-import { sampleAscents } from 'backup/sample-ascents.ts'
-import { filterAscents } from 'helpers/filter-ascents.ts'
-import 'zod-openapi/extend'
-
 const createAscentRoute = (fetchAscents = getAllAscents) =>
   new Hono().get(
     '/',
-    describeRoute({
-      description: 'Get all ascents',
-      responses: {
-        200: {
-          description: 'Success',
-          content: {
-            'application/json': {
-              schema: resolver(
-                z.object({
-                  data: z.array(ascentSchema),
-                }).openapi({
-                  example: {
-                    data: sampleAscents.slice(0, 5),
-                  },
-                }),
-              ),
-            },
-          },
-        },
-      },
-    }),
     zValidator(
       'query',
       z.object({
@@ -52,9 +26,7 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
         year: z.number().optional(),
         rating: ascentSchema.shape.rating.optional(),
       })
-        .optional().openapi({
-          ref: 'query',
-        }),
+        .optional(),
     ),
     async (c) => {
       const validatedQuery = c.req.valid('query') ?? {}
@@ -84,30 +56,6 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
   )
     .get(
       '/duplicates',
-      describeRoute({
-        description: 'Find potential duplicate ascent entries',
-        responses: {
-          200: {
-            description: 'Success',
-            content: {
-              'application/json': {
-                schema: resolver(
-                  z.object({
-                    data: z.array(z.string()),
-                  }).openapi({
-                    example: {
-                      data: [
-                        'black-knight-7a-ewige-jagdgrunde',
-                        'superplafond-6c-gorges-du-loup',
-                      ],
-                    },
-                  }),
-                ),
-              },
-            },
-          },
-        },
-      }),
       async (c) => {
         const ascentMap = new Map<string, number>()
         const ascents = await fetchAscents()
@@ -132,34 +80,6 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
     )
     .get(
       '/similar',
-      describeRoute({
-        description:
-          'Find routes with similar names to identify potential duplicates',
-        responses: {
-          200: {
-            description: 'Success',
-            content: {
-              'application/json': {
-                schema: resolver(
-                  z.object({
-                    data: z.array(z.tuple([
-                      z.string(),
-                      z.array(z.string()),
-                    ])),
-                  }).openapi({
-                    example: {
-                      data: [
-                        ['Black Knight', ['Black Night', 'Black Knigh']],
-                        ['Superplafond', ['Super plafond', 'Super-plafond']],
-                      ],
-                    },
-                  }),
-                ),
-              },
-            },
-          },
-        },
-      }),
       async (c) => {
         const ascents = await fetchAscents()
         const similarAscents = Array.from(
@@ -175,66 +95,6 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
     )
     .get(
       '/search',
-      describeRoute({
-        description: 'Search for a specific ascent',
-        responses: {
-          200: {
-            description: 'Success',
-            content: {
-              'application/json': {
-                schema: resolver(
-                  z.object({
-                    data: z.array(
-                      ascentSchema.extend({
-                        target: z.string(),
-                        highlight: z.string(),
-                      }),
-                    ),
-                    metadata: z.object({
-                      query: z.string(),
-                      limit: z.string().optional().transform((val) =>
-                        validNumberWithFallback(val, 100)
-                      ).openapi({
-                        effectType: 'input',
-                        type: 'number',
-                      }),
-                      results: z.number(),
-                    }),
-                  }).openapi({
-                    example: {
-                      data: [{
-                        area: 'Wig Wam',
-                        climber: 'Edouard Misset',
-                        climbingDiscipline: 'Route',
-                        comments:
-                          'À la fois superbe grimpe et passage terrifiant.',
-                        crag: 'Ewige Jagdgründe',
-                        date: '2024-10-27T12:00:00.000Z',
-                        height: 25,
-                        holds: 'Crimp',
-                        personalGrade: '6c+',
-                        profile: 'Arête',
-                        rating: 4,
-                        routeName: 'Black Knight',
-                        style: 'Onsight',
-                        topoGrade: '7a',
-                        tries: 1,
-                        target: 'Black Knight',
-                        highlight: 'black',
-                      }],
-                      metadata: {
-                        query: 'black',
-                        limit: undefined,
-                        results: 1,
-                      },
-                    },
-                  }),
-                ),
-              },
-            },
-          },
-        },
-      }),
       zValidator(
         'query',
         z.object({

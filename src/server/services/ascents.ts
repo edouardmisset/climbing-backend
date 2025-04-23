@@ -19,7 +19,10 @@ export async function getAscentsFromDB(): Promise<Ascent[]> {
   const rows = await allAscentsSheet.getRows()
 
   const rawAscents = rows
-    .map((row) => transformAscentFromGSToJS(row.toObject()))
+    .map((row, index) => ({
+      ...transformAscentFromGSToJS(row.toObject()),
+      id: index,
+    }))
 
   return ascentSchema.array().parse(rawAscents)
 }
@@ -40,7 +43,7 @@ export async function getAllAscents(
   return cachedData
 }
 
-export async function addAscent(ascent: Ascent): Promise<void> {
+export async function addAscent(ascent: Omit<Ascent, 'id'>): Promise<void> {
   const manualAscentsSheet = await loadWorksheet('ascents', { edit: true })
 
   await manualAscentsSheet.addRow(transformAscentFromJSToGS(ascent))

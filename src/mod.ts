@@ -1,15 +1,10 @@
-import { load } from '@std/dotenv'
 import { blue, bold, green } from '@std/fmt/colors'
 import { inspectRoutes } from 'hono/dev'
 import { getAllAscents } from 'services/ascents.ts'
 import { getAllTrainingSessions } from 'services/training.ts'
 import app from './app.ts'
+import { env, port } from './env.ts'
 
-await load({ export: true })
-export const env = Deno.env.toObject()
-const FALLBACK_PORT = 8000
-
-const port = Number(env.PORT) || FALLBACK_PORT
 Deno.serve({ port }, app.fetch)
 
 if (env.ENV === 'dev') {

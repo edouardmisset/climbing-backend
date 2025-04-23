@@ -1,12 +1,14 @@
 import { otel } from '@hono/otel'
-import { apiReference } from '@scalar/hono-api-reference'
+import { OpenAPIHandler } from '@orpc/openapi/fetch'
+import { OpenAPIReferencePlugin } from '@orpc/openapi/plugins'
+import { CORSPlugin } from '@orpc/server/plugins'
+import { ZodSmartCoercionPlugin, ZodToJsonSchemaConverter } from '@orpc/zod'
 import { load } from '@std/dotenv'
 import {
   registerShutdownHandlers,
   startOpenTelemetry,
 } from 'helpers/open-telemetry.ts'
 import { Hono } from 'hono'
-import { openAPISpecs } from 'hono-openapi'
 import { compress } from 'hono/compress'
 import { cors } from 'hono/cors'
 import { csrf } from 'hono/csrf'
@@ -16,6 +18,7 @@ import { logger } from 'hono/logger'
 import { endTime, startTime, timing } from 'hono/timing'
 import { trimTrailingSlash } from 'hono/trailing-slash'
 import { api } from 'routes/mod.ts'
+import { router } from 'routes/otrpc.ts'
 import { backupAscentsAndTrainingFromGoogleSheets } from 'scripts/import-training-and-ascent-data-from-gs.ts'
 import { pages } from './client/pages/index.tsx'
 
@@ -23,13 +26,45 @@ await load({ export: true })
 const env = Deno.env.toObject()
 const ENV = env.ENV
 
+const openapiHandler = new OpenAPIHandler(router, {
+  plugins: [
+    new CORSPlugin(
+      { exposeHeaders: ['Content-Disposition'] },
+    ),
+    new ZodSmartCoercionPlugin(),
+    new OpenAPIReferencePlugin({
+      schemaConverters: [
+        new ZodToJsonSchemaConverter(),
+      ],
+      specGenerateOptions: {
+        info: {
+          title: 'Climbing API',
+          version: '0.1.0',
+        },
+      },
+    }),
+  ],
+})
+
 let timestamp = 0
 
 startOpenTelemetry()
 
 const app = new Hono().use(cors(), trimTrailingSlash())
-  .use('/api/*', otel())
   .use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
+  .use('/api/*', otel())
+  .use('/openapi/*', async (c, next) => {
+    const { matched, response } = await openapiHandler.handle(c.req.raw, {
+      prefix: '/openapi',
+      context: {}, // Provide initial context if needed
+    })
+
+    if (matched) {
+      return c.newResponse(response.body, response)
+    }
+
+    await next()
+  })
   .all('/api/backup', async (c) => {
     try {
       const throttleTimeInMinutes = 5
@@ -78,34 +113,6 @@ const app = new Hono().use(cors(), trimTrailingSlash())
     globalThis.console.log('Route not found', c.req.url)
     return c.json({ message: 'Line Not Found' }, 404)
   })
-
-app.get(
-  '/openapi',
-  openAPISpecs(app, {
-    documentation: {
-      info: {
-        title: 'Climbing Backend',
-        version: '1.0.0',
-        description: 'API for climbing data',
-      },
-      servers: [
-        {
-          url: `http://localhost:${Deno.env.get('PORT')}`,
-          description: 'Local server',
-        },
-      ],
-    },
-  }),
-)
-
-app.get(
-  '/docs',
-  apiReference({
-    theme: 'deepSpace',
-    pageTitle: 'Climbing API',
-    url: '/openapi',
-  }),
-)
 
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
 if (ENV === 'dev') app.use(timing(), logger())
