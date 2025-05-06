@@ -1,11 +1,7 @@
 import { otel } from '@hono/otel'
 import { OpenAPIHandler } from '@orpc/openapi/fetch'
 import { OpenAPIReferencePlugin } from '@orpc/openapi/plugins'
-import {
-  BatchHandlerPlugin,
-  CORSPlugin,
-  SimpleCsrfProtectionHandlerPlugin,
-} from '@orpc/server/plugins'
+import { BatchHandlerPlugin, CORSPlugin } from '@orpc/server/plugins'
 import { ZodSmartCoercionPlugin, ZodToJsonSchemaConverter } from '@orpc/zod'
 import { load } from '@std/dotenv'
 import {
@@ -48,7 +44,6 @@ const openApiHandler = new OpenAPIHandler(router, {
       },
     }),
     new BatchHandlerPlugin(),
-    new SimpleCsrfProtectionHandlerPlugin(),
   ],
 })
 
