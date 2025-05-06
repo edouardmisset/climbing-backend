@@ -3,7 +3,7 @@ import {
   fetchAndParseCSV,
   replaceHeaders,
   transformClimbingData,
-} from 'scripts/import-training-and-ascent-data-from-gs.ts'
+} from 'scripts/import-trainings-and-ascents-from-gs.ts'
 
 import { createCache } from 'helpers/cache.ts'
 import { TRANSFORMED_TRAINING_HEADER_NAMES } from 'helpers/transformers.ts'

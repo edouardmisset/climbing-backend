@@ -6,8 +6,8 @@ import {
 } from 'helpers/converters.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
 import { Hono } from 'hono'
-import { type Ascent, ascentSchema, type Grade } from 'schema/ascent.ts'
-import { getAllAscents } from 'services/ascents.ts'
+import { ascentSchema, type Grade } from 'schema/ascent.ts'
+import { getFilteredAscents } from 'services/ascents.ts'
 import { z } from 'zod'
 import { zValidator } from 'zod-validator'
 
@@ -19,23 +19,6 @@ const gradesQueryValidator = zValidator(
   }).optional(),
 )
 
-async function getFilteredAscents(
-  climbingDiscipline?: Ascent['climbingDiscipline'],
-  year?: number,
-): Promise<Ascent[]> {
-  const ascents = await getAllAscents()
-
-  return ascents
-    .filter((ascent) =>
-      climbingDiscipline === undefined
-        ? true
-        : ascent.climbingDiscipline === climbingDiscipline
-    )
-    .filter((ascent) =>
-      year === undefined ? true : new Date(ascent.date).getFullYear() === year
-    )
-}
-
 export const grades = new Hono().get(
   '/',
   gradesQueryValidator,
@@ -45,8 +28,9 @@ export const grades = new Hono().get(
       year,
     } = c.req.valid('query') ?? {}
 
-    const filteredGrades = (await getFilteredAscents(climbingDiscipline, year))
-      .map(({ topoGrade }) => topoGrade)
+    const filteredGrades =
+      (await getFilteredAscents({ climbingDiscipline, year }))
+        .map(({ topoGrade }) => topoGrade)
 
     const sortedGrades = [...new Set(filteredGrades)].sort()
 
@@ -63,7 +47,7 @@ export const grades = new Hono().get(
       } = c.req.valid('query') ?? {}
 
       const filteredGrades =
-        (await getFilteredAscents(climbingDiscipline, year))
+        (await getFilteredAscents({ climbingDiscipline, year }))
           .map(({ topoGrade }) => topoGrade)
 
       const sortedGradesByFrequency = sortKeys(
@@ -84,7 +68,7 @@ export const grades = new Hono().get(
       } = c.req.valid('query') ?? {}
 
       const filteredNumberGrades =
-        (await getFilteredAscents(climbingDiscipline, year))
+        (await getFilteredAscents({ climbingDiscipline, year }))
           .map(({ topoGrade }) => convertGradeToNumber(topoGrade as Grade))
 
       const averageGrade = convertNumberToGrade(

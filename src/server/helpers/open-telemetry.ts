@@ -5,12 +5,24 @@ const sdk = new NodeSDK({
   traceExporter: new ConsoleSpanExporter(),
 })
 
+let hasOpenTelemetryStarted = false
+
 export function startOpenTelemetry(): void {
   sdk.start()
+  globalThis.console.log('OpenTelemetry SDK started successfully.')
+  hasOpenTelemetryStarted = true
 }
 
 export async function shutdownOpenTelemetry(): Promise<void> {
-  await sdk.shutdown()
+  if (!hasOpenTelemetryStarted) return
+
+  try {
+    await sdk.shutdown()
+    globalThis.console.log('OpenTelemetry SDK shut down successfully.')
+    hasOpenTelemetryStarted = false
+  } catch (error) {
+    globalThis.console.error('Error during shutdown:', error)
+  }
 }
 
 // After all your routes and exports, add the global shutdown handlers

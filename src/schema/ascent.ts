@@ -1,4 +1,4 @@
-import { number, string, z } from 'zod'
+import { z } from 'zod'
 
 const degrees = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] as const
 export const degreeSchema = z.enum(degrees)
@@ -19,7 +19,7 @@ export type RouteGrade = `${Degree}${RouteGradeLetter}${OptionalPlus}`
 export type BoulderGrade = Uppercase<RouteGrade>
 export type Grade = RouteGrade | BoulderGrade
 
-const routeFrenchGradeSchema = string().min(2).regex(/^\d{1}[a-c]\+?$/)
+const routeFrenchGradeSchema = z.string().min(2).regex(/^\d{1}[a-c]\+?$/)
 const _boulderingFrenchGradeSchema = routeFrenchGradeSchema.toUpperCase()
 
 export const _GRADES = [
@@ -145,23 +145,23 @@ export const holdsFomGSSchema = z.enum(holdsFromGS)
 export const holdsSchema = z.enum(holds)
 
 export const ascentSchema = z.object({
-  area: string().or(number()).transform(String).optional(),
-  climber: string().optional().transform((_) => 'Edouard Misset'),
+  area: z.string().or(z.number()).transform(String).optional(),
+  climber: z.string().optional().transform((_) => 'Edouard Misset'),
   climbingDiscipline: climbingDisciplineSchema,
-  comments: string().max(10_000).optional(),
-  crag: string().min(1),
-  date: string(), // ISO 8601 date format
-  region: string().optional(),
-  height: number().int().min(5).max(1_000).optional(),
+  comments: z.string().max(10_000).optional(),
+  crag: z.string().min(1),
+  date: z.string(), // ISO 8601 date format
+  region: z.string().optional(),
+  height: z.number().int().min(5).max(1_000).optional(),
   holds: holdsSchema.optional(),
   personalGrade: gradeSchema
     .optional(),
   profile: profileSchema.optional(),
-  rating: number().int().min(0).max(5).optional(),
-  routeName: string().min(1).or(number()).transform(String),
+  rating: z.number().int().min(0).max(5).optional(),
+  routeName: z.string().min(1).or(z.number()).transform(String),
   style: ascentStyleSchema,
   topoGrade: gradeSchema,
-  tries: number().int().min(1),
+  tries: z.number().int().min(1),
   id: z.number().int().min(0),
 })
 export type Ascent = z.infer<typeof ascentSchema>
@@ -176,7 +176,7 @@ export const optionalAscentFilterSchema = z
     profile: profileSchema.optional(),
     style: ascentSchema.shape.style.optional(),
     tries: ascentSchema.shape.tries.optional(),
-    year: number().optional(),
+    year: z.number().optional(),
     rating: ascentSchema.shape.rating.optional(),
   })
   .optional()

@@ -10,8 +10,8 @@ type CreateCacheOutput<T> = {
 }
 
 // Create cache expiry duration
-const tenMinutesInMs = 10 * 60 * 1000
-const defaultCacheExpiryDurationInMs = tenMinutesInMs
+const TEN_MINUTES_IN_MS = 10 * 60 * 1000
+const DEFAULT_CACHE_EXPIRY_DURATION_IN_MS = TEN_MINUTES_IN_MS
 
 export function createCache<T>(
   options?: { expiryDurationInMs?: number },
@@ -19,13 +19,13 @@ export function createCache<T>(
   let cache: Cache<T> = undefined
 
   const expiryDuration = options?.expiryDurationInMs ??
-    defaultCacheExpiryDurationInMs
+    DEFAULT_CACHE_EXPIRY_DURATION_IN_MS
 
   function getCache(): T | undefined {
-    const isCacheValid = cache !== undefined &&
-      (Date.now() - cache.timestamp) < expiryDuration
+    if (!cache) return undefined
 
-    if (!cache || !isCacheValid) return
+    const isCacheValid = (Date.now() - cache.timestamp) < expiryDuration
+    if (!isCacheValid) return undefined
 
     return cache.data
   }

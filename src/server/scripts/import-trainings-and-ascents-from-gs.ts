@@ -83,8 +83,8 @@ export function transformClimbingData(
   csvData: CSVData,
   headers: CSVHeaders,
 ): Record<string, string | number | boolean>[] {
-  return csvData.map((rowOfStrings) =>
-    headers.reduce((acc, header, index) => {
+  return csvData.map((rowOfStrings, index) => {
+    const record = headers.reduce((acc, header, index) => {
       const valueAsString = rowOfStrings[index]
 
       if (valueAsString === '') return acc
@@ -102,9 +102,11 @@ export function transformClimbingData(
 
       return acc
     }, {} as Record<CSVHeaders[number], string | number | boolean>)
-  )
-    .map((item) => removeObjectExtendedNullishValues(item))
-    .map((item) => sortKeys(item))
+
+    return sortKeys(
+      removeObjectExtendedNullishValues({ ...record, id: index + 1 }),
+    )
+  })
 }
 
 /**

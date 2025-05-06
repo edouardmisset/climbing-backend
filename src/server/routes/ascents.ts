@@ -7,7 +7,7 @@ import { Hono } from 'hono'
 import { zValidator } from 'zod-validator'
 import { ascentSchema, holdsSchema, profileSchema } from 'schema/ascent.ts'
 import { getAllAscents } from 'services/ascents.ts'
-import { string, z } from 'zod'
+import { z } from 'zod'
 
 const createAscentRoute = (fetchAscents = getAllAscents) =>
   new Hono().get(
@@ -98,7 +98,7 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
       zValidator(
         'query',
         z.object({
-          query: string(),
+          query: z.string(),
           limit: z.string().optional().transform((val) =>
             validNumberWithFallback(val, 100)
           ),

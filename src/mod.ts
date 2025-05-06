@@ -1,4 +1,4 @@
-import { blue, bold, green } from '@std/fmt/colors'
+import { blue, bold, green, red } from '@std/fmt/colors'
 import { inspectRoutes } from 'hono/dev'
 import { getAllAscents } from 'services/ascents.ts'
 import { getAllTrainingSessions } from 'services/training.ts'
@@ -21,14 +21,20 @@ if (env.ENV === 'dev') {
 }
 
 function displayRoutes(): void {
+  const domain = `http://localhost:${port}`
+
+  globalThis.console.log(
+    `\n${domain}${red(bold('/openapi'))}\n`,
+  )
+
   inspectRoutes(app)
     .filter(({ method, isMiddleware }) => method === 'GET' && !isMiddleware)
     .forEach(({ path }) => {
-      const domain = `http://localhost:${port}`
-
       if (path.startsWith('/api')) {
+        // API routes
         globalThis.console.log(`${domain}${green(bold(path))}`)
       } else {
+        // Frontend routes
         globalThis.console.log(`${domain}${blue(bold(path))}`)
       }
     })

@@ -5,7 +5,7 @@ import {
   transformAscentFromGSToJS,
   transformAscentFromJSToGS,
 } from 'helpers/transformers.ts'
-import { sampleAscents } from 'backup/sample-ascents.ts'
+import { sampleAscents } from '../backup/samples.ts'
 
 Deno.test('transformAscentFromJSToGS', async (t) => {
   await t.step('boulder', () => {

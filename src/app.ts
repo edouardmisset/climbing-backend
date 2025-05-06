@@ -1,7 +1,11 @@
 import { otel } from '@hono/otel'
 import { OpenAPIHandler } from '@orpc/openapi/fetch'
 import { OpenAPIReferencePlugin } from '@orpc/openapi/plugins'
-import { CORSPlugin } from '@orpc/server/plugins'
+import {
+  BatchHandlerPlugin,
+  CORSPlugin,
+  SimpleCsrfProtectionHandlerPlugin,
+} from '@orpc/server/plugins'
 import { ZodSmartCoercionPlugin, ZodToJsonSchemaConverter } from '@orpc/zod'
 import { load } from '@std/dotenv'
 import {
@@ -19,14 +23,14 @@ import { endTime, startTime, timing } from 'hono/timing'
 import { trimTrailingSlash } from 'hono/trailing-slash'
 import { api } from 'routes/mod.ts'
 import { router } from 'routes/routes.ts'
-import { backupAscentsAndTrainingFromGoogleSheets } from 'scripts/import-training-and-ascent-data-from-gs.ts'
+import { backupAscentsAndTrainingFromGoogleSheets } from './server/scripts/import-trainings-and-ascents-from-gs.ts'
 import { pages } from './client/pages/index.tsx'
 
 await load({ export: true })
 const env = Deno.env.toObject()
 const ENV = env.ENV
 
-const openapiHandler = new OpenAPIHandler(router, {
+const openApiHandler = new OpenAPIHandler(router, {
   plugins: [
     new CORSPlugin(
       { exposeHeaders: ['Content-Disposition'] },
@@ -43,18 +47,22 @@ const openapiHandler = new OpenAPIHandler(router, {
         },
       },
     }),
+    new BatchHandlerPlugin(),
+    new SimpleCsrfProtectionHandlerPlugin(),
   ],
 })
 
 let timestamp = 0
 
-startOpenTelemetry()
+if (import.meta.main) {
+  startOpenTelemetry()
+}
 
 const app = new Hono().use(cors(), trimTrailingSlash())
   .use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
   .use('/api/*', otel())
   .use('/openapi/*', async (c, next) => {
-    const { matched, response } = await openapiHandler.handle(c.req.raw, {
+    const { matched, response } = await openApiHandler.handle(c.req.raw, {
       prefix: '/openapi',
       context: {}, // Provide initial context if needed
     })
@@ -110,8 +118,9 @@ const app = new Hono().use(cors(), trimTrailingSlash())
   .route('/api', api)
   .route('/', pages)
   .notFound((c) => {
-    globalThis.console.log('Route not found', c.req.url)
-    return c.json({ message: 'Line Not Found' }, 404)
+    const notFoundMessage = 'Route Not Found'
+    globalThis.console.log(notFoundMessage, c.req.url)
+    return c.json({ message: notFoundMessage }, 404)
   })
 
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())

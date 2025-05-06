@@ -1,13 +1,22 @@
-import backup from 'backup/ascent-data.json' with { type: 'json' }
+import ascentBackup from 'backup/ascent-data.json' with { type: 'json' }
+import trainingBackup from 'backup/training-data.json' with { type: 'json' }
 
-const { data } = backup
+const { data: ascentData } = ascentBackup
+const { data: trainingData } = trainingBackup
 
 const sampleSize = 100
-const stratifyBy: (keyof (typeof data)[number])[] = [
+const stratifyAscentBy: (keyof (typeof ascentData)[number])[] = [
   'crag',
   'climbingDiscipline',
   'style',
   'tries',
+]
+
+const stratifyTrainingBy: (keyof (typeof trainingData)[number])[] = [
+  'sessionType',
+  'volume',
+  'intensity',
+  'climbingDiscipline',
 ]
 
 // Function to get a random sample of specified size from an array
@@ -52,14 +61,23 @@ function stratifiedSample(
 }
 
 // Select n random ascents from the data using stratified sampling by multiple keys
-const subset = stratifiedSample(data, sampleSize, stratifyBy)
+const ascentSubset = stratifiedSample(ascentData, sampleSize, stratifyAscentBy)
+const trainingSubset = stratifiedSample(
+  trainingData,
+  sampleSize,
+  stratifyTrainingBy,
+)
 
 // Write the subset to a new JSON file
 await Deno.writeTextFile(
-  `./src/server/backup/ascent-data-sample-${(new Date()).toISOString()}.json`,
-  JSON.stringify(subset, null, 2),
+  `./src/server/backup/ascent-data-sample.json`,
+  JSON.stringify(ascentSubset, null, 2),
+)
+await Deno.writeTextFile(
+  `./src/server/backup/training-data-sample.json`,
+  JSON.stringify(trainingSubset, null, 2),
 )
 
 globalThis.console.log(
-  `Sampled ${subset.length} entries from the original data.`,
+  `Sampled ${ascentSubset.length} ascents and training sessions from the original data.`,
 )
