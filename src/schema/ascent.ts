@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { yearSchema } from './generics.ts'
 
 const degrees = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] as const
 export const degreeSchema = z.enum(degrees)
@@ -176,7 +177,7 @@ export const optionalAscentFilterSchema = z
     profile: profileSchema.optional(),
     style: ascentSchema.shape.style.optional(),
     tries: ascentSchema.shape.tries.optional(),
-    year: z.number().optional(),
+    year: yearSchema.optional(),
     rating: ascentSchema.shape.rating.optional(),
   })
   .optional()

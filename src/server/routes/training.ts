@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { zValidator } from 'zod-validator'
 import { getAllTrainingSessions } from 'services/training.ts'
 import { z } from 'zod'
+import { yearSchema } from 'schema/generics.ts'
 
 const createTrainingRoute = (fetchTraining = getAllTrainingSessions) =>
   new Hono().get(
@@ -9,7 +10,7 @@ const createTrainingRoute = (fetchTraining = getAllTrainingSessions) =>
     zValidator(
       'query',
       z.object({
-        year: z.string().optional(),
+        year: yearSchema.optional(),
       })
         .optional(),
     ),

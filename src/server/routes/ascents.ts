@@ -8,6 +8,7 @@ import { zValidator } from 'zod-validator'
 import { ascentSchema, holdsSchema, profileSchema } from 'schema/ascent.ts'
 import { getAllAscents } from 'services/ascents.ts'
 import { z } from 'zod'
+import { yearSchema } from 'schema/generics.ts'
 
 const createAscentRoute = (fetchAscents = getAllAscents) =>
   new Hono().get(
@@ -23,7 +24,7 @@ const createAscentRoute = (fetchAscents = getAllAscents) =>
         profile: profileSchema.optional(),
         style: ascentSchema.shape.style.optional(),
         tries: ascentSchema.shape.tries.optional(),
-        year: z.number().optional(),
+        year: yearSchema.optional(),
         rating: ascentSchema.shape.rating.optional(),
       })
         .optional(),

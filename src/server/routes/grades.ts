@@ -10,12 +10,13 @@ import { ascentSchema, type Grade } from 'schema/ascent.ts'
 import { getFilteredAscents } from 'services/ascents.ts'
 import { z } from 'zod'
 import { zValidator } from 'zod-validator'
+import { yearSchema } from 'schema/generics.ts'
 
 const gradesQueryValidator = zValidator(
   'query',
   z.object({
-    ['climbing-discipline']: ascentSchema.shape.climbingDiscipline.optional(),
-    year: z.string().transform(Number).optional(),
+    climbingDiscipline: ascentSchema.shape.climbingDiscipline.optional(),
+    year: yearSchema.optional(),
   }).optional(),
 )
 
@@ -24,7 +25,7 @@ export const grades = new Hono().get(
   gradesQueryValidator,
   async (c) => {
     const {
-      'climbing-discipline': climbingDiscipline,
+      climbingDiscipline,
       year,
     } = c.req.valid('query') ?? {}
 
@@ -42,7 +43,7 @@ export const grades = new Hono().get(
     gradesQueryValidator,
     async (c) => {
       const {
-        'climbing-discipline': climbingDiscipline,
+        climbingDiscipline,
         year,
       } = c.req.valid('query') ?? {}
 
@@ -63,7 +64,7 @@ export const grades = new Hono().get(
     gradesQueryValidator,
     async (c) => {
       const {
-        'climbing-discipline': climbingDiscipline,
+        climbingDiscipline,
         year,
       } = c.req.valid('query') ?? {}
 

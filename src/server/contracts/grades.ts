@@ -1,10 +1,11 @@
 import { oc as orpcContract } from '@orpc/contract'
 import { ascentSchema } from 'schema/ascent.ts'
 import { z } from 'zod'
+import { yearSchema } from 'schema/generics.ts'
 
 const climbingDisciplineAndYearOptionalSchema = z.object({
   climbingDiscipline: ascentSchema.shape.climbingDiscipline.optional(),
-  year: z.number().optional(),
+  year: yearSchema.optional(),
 }).optional()
 
 export const list = orpcContract

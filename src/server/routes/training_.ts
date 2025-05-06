@@ -7,9 +7,7 @@ export const list = orpcServer.training.list.handler(
     const sessions = await getAllTrainingSessions()
 
     return sessions.filter((session) =>
-      year === undefined || year === ''
-        ? true
-        : new Date(session.date).getFullYear().toString() === year
+      year === undefined ? true : new Date(session.date).getFullYear() === year
     )
   },
 )
