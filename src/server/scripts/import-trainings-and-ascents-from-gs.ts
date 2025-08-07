@@ -85,7 +85,7 @@ export function transformClimbingData(
 ): Record<string, string | number | boolean>[] {
   return csvData.map((rowOfStrings, index) => {
     const record = headers.reduce((acc, header, index) => {
-      const valueAsString = rowOfStrings[index]
+      const valueAsString = rowOfStrings[index].trim().replaceAll('’', "'")
 
       if (valueAsString === '') return acc
 
