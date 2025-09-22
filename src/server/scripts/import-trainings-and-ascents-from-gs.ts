@@ -121,7 +121,7 @@ async function writeDataToFile(
   try {
     await Deno.writeTextFile(
       `${backupFilePath}${fileName}`,
-      JSON.stringify({ data }, null, 2),
+      JSON.stringify(data, null, 2),
       { create: true },
     )
   } catch (error) {

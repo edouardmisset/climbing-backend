@@ -1,8 +1,5 @@
-import ascentBackup from 'backup/ascent-data.json' with { type: 'json' }
-import trainingBackup from 'backup/training-data.json' with { type: 'json' }
-
-const { data: ascentData } = ascentBackup
-const { data: trainingData } = trainingBackup
+import ascentData from 'backup/ascent-data.json' with { type: 'json' }
+import trainingData from 'backup/training-data.json' with { type: 'json' }
 
 const sampleSize = 100
 const stratifyAscentBy: (keyof (typeof ascentData)[number])[] = [
