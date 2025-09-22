@@ -43,6 +43,7 @@ Deno.test('transformAscentFromJSToGS', async (t) => {
       'My Grade': '6a',
       Height: '',
       Departement: 'Île-de-France',
+      Comments: 'Great climb!',
     } satisfies GSAscentRecord
 
     assertEquals(
@@ -53,20 +54,20 @@ Deno.test('transformAscentFromJSToGS', async (t) => {
 
   await t.step('route', () => {
     const routeAscent: Omit<Ascent, 'id'> = {
-      style: 'Redpoint',
-      tries: 3,
-      climber: 'Edouard Misset',
-      crag: 'Balme de Yenne',
-      climbingDiscipline: 'Route',
-      topoGrade: '8a',
       area: 'Secteur 13',
-      routeName: 'Bonobo',
+      climber: 'Edouard Misset',
+      climbingDiscipline: 'Route',
+      crag: 'Balme de Yenne',
       date: '2022-05-10T12:00:00.000Z',
-      profile: 'Overhang',
+      height: 20,
       holds: 'Pinch',
       personalGrade: '7a',
+      profile: 'Overhang',
       region: 'ARA',
-      height: 20,
+      routeName: 'Bonobo',
+      style: 'Redpoint',
+      topoGrade: '8a',
+      tries: 3,
     }
 
     const expectedGSRecord = {
@@ -74,6 +75,7 @@ Deno.test('transformAscentFromJSToGS', async (t) => {
       'Area': 'Secteur 13',
       'Ascent Comments': '',
       'Climber': 'Edouard Misset',
+      'Comments': '',
       'Crag': 'Balme de Yenne',
       'Date': '10/05/2022',
       'Departement': 'ARA',
@@ -95,33 +97,34 @@ Deno.test('transformAscentFromJSToGS', async (t) => {
 
   await t.step('edge case with undefined values', () => {
     const undefinedAscent: Omit<Ascent, 'id'> = {
-      style: 'Onsight',
-      tries: 1,
-      climber: 'Edouard Misset',
-      crag: 'Ceuse',
-      climbingDiscipline: 'Route',
-      topoGrade: '7b+',
       area: 'Berlin',
-      routeName: 'Biographie',
+      climber: 'Edouard Misset',
+      climbingDiscipline: 'Route',
+      crag: 'Ceuse',
       date: '2023-07-15T08:00:00.000Z',
+      routeName: 'Biographie',
+      style: 'Onsight',
+      topoGrade: '7b+',
+      tries: 1,
     }
 
     const expectedGSRecord = {
-      Climber: 'Edouard Misset',
       '# Tries': '001 Onsight',
-      Crag: 'Ceuse',
-      'Route / Boulder': 'Route',
-      'Topo Grade': '7b+',
       'Area': 'Berlin',
-      'Route Name': 'Biographie',
-      Date: '15/07/2023',
-      Rating: '',
       'Ascent Comments': '',
-      Profile: '',
-      Holds: '',
       'My Grade': '',
-      Height: '',
+      'Route / Boulder': 'Route',
+      'Route Name': 'Biographie',
+      'Topo Grade': '7b+',
+      Climber: 'Edouard Misset',
+      Comments: '',
+      Crag: 'Ceuse',
+      Date: '15/07/2023',
       Departement: '',
+      Height: '',
+      Holds: '',
+      Profile: '',
+      Rating: '',
     } satisfies GSAscentRecord
 
     assertEquals(
@@ -134,39 +137,40 @@ Deno.test('transformAscentFromJSToGS', async (t) => {
 Deno.test('transformAscentFromGSToJS', async (t) => {
   await t.step('boulder', () => {
     const boulderingGSRecord: GSAscentRecord = {
-      Climber: 'Edouard Misset',
       '# Tries': '01 Flash',
-      Crag: 'Fontainebleau',
-      'Route / Boulder': 'Bouldering',
-      'Topo Grade': '6a',
       'Area': 'Le Cul de Chien',
-      'Route Name': 'La Marie Rose',
-      Date: '30/10/2024',
-      Rating: '5*',
       'Ascent Comments': 'Great climb!',
-      Profile: 'Overhang',
-      Holds: 'Sloper',
       'My Grade': '6a',
-      Height: '',
+      'Route / Boulder': 'Bouldering',
+      'Route Name': 'La Marie Rose',
+      'Topo Grade': '6a',
+      Climber: 'Edouard Misset',
+      Comments: 'Great climb!',
+      Crag: 'Fontainebleau',
+      Date: '30/10/2024',
       Departement: 'Île-de-France',
+      Height: '',
+      Holds: 'Sloper',
+      Profile: 'Overhang',
+      Rating: '5*',
     }
 
     const expectedAscent = {
-      style: 'Flash',
-      tries: 1,
-      climber: 'Edouard Misset',
-      crag: 'Fontainebleau',
-      climbingDiscipline: 'Boulder',
-      topoGrade: '6a',
       area: 'Le Cul de Chien',
-      routeName: 'La Marie Rose',
-      date: '2024-10-30T12:00:00.000Z',
-      rating: 5,
+      climber: 'Edouard Misset',
+      climbingDiscipline: 'Boulder',
       comments: 'Great climb!',
-      profile: 'Overhang',
+      crag: 'Fontainebleau',
+      date: '2024-10-30T12:00:00.000Z',
       holds: 'Sloper',
       personalGrade: '6a',
+      profile: 'Overhang',
+      rating: 5,
       region: 'Île-de-France',
+      routeName: 'La Marie Rose',
+      style: 'Flash',
+      topoGrade: '6a',
+      tries: 1,
     } as const satisfies Omit<Ascent, 'id'>
 
     assertEquals(
@@ -181,6 +185,7 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
       'Area': 'Secteur 13',
       'Ascent Comments': '',
       'Climber': 'Edouard Misset',
+      'Comments': '',
       'Crag': 'Balme de Yenne',
       'Date': '10/05/2022',
       'Departement': 'ARA',
@@ -195,20 +200,20 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
     }
 
     const expectedAscent = {
-      style: 'Redpoint',
-      tries: 3,
-      climber: 'Edouard Misset',
-      crag: 'Balme de Yenne',
-      climbingDiscipline: 'Route',
-      topoGrade: '8a',
       area: 'Secteur 13',
-      routeName: 'Bonobo',
+      climber: 'Edouard Misset',
+      climbingDiscipline: 'Route',
+      crag: 'Balme de Yenne',
       date: '2022-05-10T12:00:00.000Z',
-      profile: 'Overhang',
+      height: 20,
       holds: 'Pinch',
       personalGrade: '7a',
+      profile: 'Overhang',
       region: 'ARA',
-      height: 20,
+      routeName: 'Bonobo',
+      style: 'Redpoint',
+      topoGrade: '8a',
+      tries: 3,
     } as const satisfies Omit<Ascent, 'id'>
 
     assertEquals(
@@ -219,33 +224,34 @@ Deno.test('transformAscentFromGSToJS', async (t) => {
 
   await t.step('edge case with empty values', () => {
     const emptyGSRecord: GSAscentRecord = {
-      Climber: 'Edouard Misset',
       '# Tries': '001 Onsight',
-      Crag: 'Ceuse',
-      'Route / Boulder': 'Route',
-      'Topo Grade': '7b+',
       'Area': 'Berlin',
-      'Route Name': 'Biographie',
-      Date: '15/07/2023',
-      Rating: '',
       'Ascent Comments': '',
-      Profile: '',
-      Holds: '',
       'My Grade': '',
-      Height: '',
+      'Route / Boulder': 'Route',
+      'Route Name': 'Biographie',
+      'Topo Grade': '7b+',
+      Climber: 'Edouard Misset',
+      Comments: '',
+      Crag: 'Ceuse',
+      Date: '15/07/2023',
       Departement: '',
+      Height: '',
+      Holds: '',
+      Profile: '',
+      Rating: '',
     }
 
     const bareBoneAscent = {
-      style: 'Onsight',
-      tries: 1,
-      climber: 'Edouard Misset',
-      crag: 'Ceuse',
-      climbingDiscipline: 'Route',
-      topoGrade: '7b+',
       area: 'Berlin',
-      routeName: 'Biographie',
+      climber: 'Edouard Misset',
+      climbingDiscipline: 'Route',
+      crag: 'Ceuse',
       date: '2023-07-15T12:00:00.000Z',
+      routeName: 'Biographie',
+      style: 'Onsight',
+      topoGrade: '7b+',
+      tries: 1,
     } as const satisfies Omit<Ascent, 'id'>
 
     assertEquals(
