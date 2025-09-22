@@ -16304,6 +16304,23 @@
       "style": "Onsight",
       "topoGrade": "7a",
       "tries": 1
+    },
+    {
+      "area": "La Baleine",
+      "climber": "Edouard Misset",
+      "climbingDiscipline": "Route",
+      "crag": "Saint-Léger-du-Ventoux",
+      "date": "2025-09-20T12:00:00.000Z",
+      "height": 35,
+      "holds": "Sloper",
+      "id": 910,
+      "personalGrade": "7a+",
+      "profile": "Overhang",
+      "rating": 4,
+      "routeName": "Dieu s'est trompé d'adresse",
+      "style": "Onsight",
+      "topoGrade": "7a+",
+      "tries": 1
     }
   ]
 }

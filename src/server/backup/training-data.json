@@ -8646,6 +8646,80 @@
       "load": 24,
       "sessionType": "Out",
       "volume": 40
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "comments": "Attention au doigt et au coude gauche",
+      "date": "2025-08-13T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Block Out",
+      "id": 801,
+      "intensity": 70,
+      "load": 53,
+      "sessionType": "MS",
+      "volume": 75
+    },
+    {
+      "anatomicalRegion": "Ar",
+      "climbingDiscipline": "Route",
+      "comments": "Toujours mal au majeur gauche",
+      "date": "2025-08-21T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Mur de Lyon",
+      "id": 802,
+      "load": 60,
+      "sessionType": "St",
+      "volume": 60
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "comments": "Séance sympas avec Julie et Antoine à Genoble mais toujours blessé au doigt",
+      "date": "2025-08-31T12:00:00.000Z",
+      "energySystem": "AE",
+      "gymCrag": "Espace Vertical 3",
+      "id": 803,
+      "intensity": 50,
+      "load": 35,
+      "sessionType": "St",
+      "volume": 70
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Boulder",
+      "date": "2025-09-16T12:00:00.000Z",
+      "energySystem": "AA",
+      "gymCrag": "Bloc Session",
+      "id": 804,
+      "intensity": 60,
+      "load": 42,
+      "sessionType": "Ta",
+      "volume": 70
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2025-09-20T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Saint-Léger-du-Ventoux",
+      "id": 805,
+      "intensity": 80,
+      "load": 56,
+      "sessionType": "Out",
+      "volume": 70
+    },
+    {
+      "anatomicalRegion": "Ge",
+      "climbingDiscipline": "Route",
+      "date": "2025-09-21T12:00:00.000Z",
+      "energySystem": "AL",
+      "gymCrag": "Saint-Léger-du-Ventoux",
+      "id": 806,
+      "intensity": 70,
+      "load": 21,
+      "sessionType": "Out",
+      "volume": 30
     }
   ]
 }
