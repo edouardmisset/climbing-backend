@@ -99,7 +99,8 @@
     "exclude": [
       "src/server/scripts/*",
       "src/server/helpers/remove-undefined-values.ts",
-      "src/server/backup/sample*.ts"
+      "src/server/backup/sample*.ts",
+      "lgtm/"
     ]
   },
   "fmt": {

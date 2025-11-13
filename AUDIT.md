@@ -55,8 +55,6 @@ repository as of 2025-11-11.
 
 ## Data & Validation
 
-- `ascentSchema.shape.climber` transforms to a constant "Edouard Misset". If
-  intentional, remove from input or document; otherwise respect user input.
 - ✅ **RESOLVED:** `transformTriesJSToGS` error messages improved for clarity
   (fixed typo "nor Redpoint", clarified try constraints for
   Flash/Onsight/Redpoint).
