@@ -35,12 +35,12 @@ export const search = orpcServer.ascents.search.handler(
       },
     )
 
-    return results.map((result) =>
-      Object.assign(result.obj, {
-        highlight: result.highlight(),
-        target: result.target,
-      })
-    )
+    // Return a new object per result to avoid mutating cached ascent objects
+    return results.map((result) => ({
+      ...result.obj,
+      highlight: result.highlight(),
+      target: result.target,
+    }))
   },
 )
 

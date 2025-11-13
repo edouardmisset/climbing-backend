@@ -235,8 +235,10 @@ export function transformAscentFromGSToJS(
         TRANSFORMED_ASCENT_HEADER_NAMES[key as GSAscentKeys]
 
       if (transformedKey === 'tries') {
-        acc[transformedKey] = transformTriesGSToJS(value).tries
-        acc.style = transformTriesGSToJS(value).style
+        // Compute the climbing attempt only once
+        const attempt = transformTriesGSToJS(value)
+        acc[transformedKey] = attempt.tries
+        acc.style = attempt.style
       } else {
         const transform = TRANSFORM_FUNCTIONS_GS_TO_JS[
           transformedKey as keyof typeof TRANSFORM_FUNCTIONS_GS_TO_JS
@@ -299,17 +301,15 @@ const transformRatingJSToGS = (rating: string): string =>
 export const transformTriesJSToGS = (
   { style, tries }: ClimbingAttempt,
 ): string => {
-  if (tries < 1) throw new Error('Tries must be greater than 1')
+  if (tries < 1) throw new Error('Tries must be at least 1')
   if (style === 'Redpoint' && tries === 1) {
     throw new Error(
-      '1 try means Flash or Onsight but nor Redpoint ascent style',
+      'Redpoint ascents require more than 1 try (use Flash or Onsight for 1 try).',
     )
   }
-  if (
-    (style === 'Flash' || style === 'Onsight') && tries !== 1
-  ) {
+  if ((style === 'Flash' || style === 'Onsight') && tries !== 1) {
     throw new Error(
-      'Flash or Onsight ascents should their number of tries equal to 1',
+      'Flash or Onsight ascents must have exactly 1 try.',
     )
   }
 
