@@ -39,10 +39,10 @@ function getServiceAccountAuth(): JWT {
   })
 }
 
-export const loadWorksheet = async (
+export async function loadWorksheet(
   climbingDataType: keyof typeof SHEETS_INFO,
   options?: { edit?: boolean },
-): Promise<GoogleSpreadsheetWorksheet> => {
+): Promise<GoogleSpreadsheetWorksheet> {
   const { id, sheetTitle, editSheetTitle } = SHEETS_INFO[climbingDataType]
 
   if (!id) {

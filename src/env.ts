@@ -1,5 +1,6 @@
 import { load } from '@std/dotenv'
 import { z } from 'zod'
+import { FALLBACK_PORT } from './server/constants.ts'
 
 await load({ export: true })
 
@@ -51,5 +52,4 @@ if (isProduction) {
 
 export const env = parsedBase
 
-const FALLBACK_PORT = 8000
 export const port = Number(env.PORT) || FALLBACK_PORT

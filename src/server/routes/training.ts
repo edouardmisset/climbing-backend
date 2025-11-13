@@ -1,30 +1,26 @@
-import { Hono } from 'hono'
-import { zValidator } from 'zod-validator'
 import { getAllTrainingSessions } from 'services/training.ts'
-import { z } from 'zod'
-import { yearSchema } from 'schema/generics.ts'
+import { orpcServer } from './server.ts'
+import { stringEquals } from '@edouardmisset/text'
 
-const createTrainingRoute = (fetchTraining = getAllTrainingSessions) =>
-  new Hono().get(
-    '/',
-    zValidator(
-      'query',
-      z.object({
-        year: yearSchema.optional(),
-      })
-        .optional(),
-    ),
-    async (c) => {
-      const year = c.req.query('year')
-      const sessions = await fetchTraining()
+export const list = orpcServer.training.list.handler(
+  async ({ input }) => {
+    const { year, gymCrag, sessionType, climbingDiscipline } = input ?? {}
+    const sessions = await getAllTrainingSessions()
 
-      const filteredSessions = sessions.filter((session) =>
-        year === undefined || year === ''
-          ? true
-          : new Date(session.date).getFullYear().toString() === year
-      )
-      return c.json({ data: filteredSessions })
-    },
-  )
-
-export { createTrainingRoute }
+    return sessions.filter((
+      session,
+    ) =>
+      (year === undefined
+        ? true
+        : new Date(session.date).getFullYear() === year) &&
+      (gymCrag === undefined
+        ? true
+        : stringEquals(session.gymCrag ?? '', gymCrag)) &&
+      (sessionType === undefined
+        ? true
+        : session.sessionType === sessionType) &&
+      (climbingDiscipline === undefined ? true : session.climbingDiscipline ===
+        climbingDiscipline)
+    )
+  },
+)

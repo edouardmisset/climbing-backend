@@ -136,9 +136,7 @@ type ClimbingAttempt = {
  * @param {string} value - The tries string to transform.
  * @returns {{ style: 'Onsight' | 'Flash' | 'Redpoint', tries: number }} - The transformed style and tries.
  */
-export function transformTriesGSToJS(
-  value: string,
-): ClimbingAttempt {
+export const transformTriesGSToJS = (value: string): ClimbingAttempt => {
   const style = value.includes('Onsight')
     ? 'Onsight'
     : value.includes('Flash')

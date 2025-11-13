@@ -1,136 +1,67 @@
-import { validNumberWithFallback } from '@edouardmisset/math'
 import { removeAccents } from '@edouardmisset/text'
 import fuzzySort from 'fuzzysort'
-import { filterAscents } from 'helpers/filter-ascents.ts'
-import { groupSimilarStrings } from 'helpers/find-similar.ts'
-import { Hono } from 'hono'
-import { zValidator } from 'zod-validator'
-import { ascentSchema, holdsSchema, profileSchema } from 'schema/ascent.ts'
-import { getAllAscents } from 'services/ascents.ts'
-import { z } from 'zod'
-import { yearSchema } from 'schema/generics.ts'
+import {
+  addAscent,
+  getAllAscents,
+  getFilteredAscents,
+} from 'services/ascents.ts'
+import { orpcServer } from './server.ts'
+import { FUZZY_SEARCH_THRESHOLD } from '../constants.ts'
 
-const createAscentRoute = (fetchAscents = getAllAscents) =>
-  new Hono().get(
-    '/',
-    zValidator(
-      'query',
-      z.object({
-        climbingDiscipline: ascentSchema.shape.climbingDiscipline.optional(),
-        crag: ascentSchema.shape.crag.optional(),
-        grade: ascentSchema.shape.topoGrade.optional(),
-        height: ascentSchema.shape.height.optional(),
-        holds: holdsSchema.optional(),
-        profile: profileSchema.optional(),
-        style: ascentSchema.shape.style.optional(),
-        tries: ascentSchema.shape.tries.optional(),
-        year: yearSchema.optional(),
-        rating: ascentSchema.shape.rating.optional(),
-      })
-        .optional(),
-    ),
-    async (c) => {
-      const validatedQuery = c.req.valid('query') ?? {}
+export const list = orpcServer.ascents.list.handler(
+  async ({ input }) => {
+    const filteredAscents = await getFilteredAscents(input)
 
-      const ascents = await fetchAscents()
+    return filteredAscents.sort((a, b) => {
+      const dateA = new Date(a.date)
+      const dateB = new Date(b.date)
+      if (dateA < dateB) return 1
+      if (dateA > dateB) return -1
+      return 0
+    })
+  },
+)
 
-      const filteredAscents = filterAscents(ascents, validatedQuery)
+export const search = orpcServer.ascents.search.handler(
+  async ({ input }) => {
+    const { query, limit } = input
 
-      const dateSortedAscents = filteredAscents
-        .sort(
-          (
-            { date: leftDate },
-            { date: rightDate },
-          ) => {
-            if (!leftDate || !rightDate || leftDate === rightDate) {
-              return 0
-            }
-
-            return new Date(leftDate) > new Date(rightDate) ? 1 : -1
-          },
-        )
-
-      return c.json({
-        data: dateSortedAscents,
-      })
-    },
-  )
-    .get(
-      '/duplicates',
-      async (c) => {
-        const ascentMap = new Map<string, number>()
-        const ascents = await fetchAscents()
-
-        ascents.forEach(
-          ({ routeName, crag, topoGrade }) => {
-            // We ignore the "+" in the topoGrade in case it was logged inconsistently
-            const key = [routeName, topoGrade.replace('+', ''), crag].map((
-              string,
-            ) => removeAccents(string.toLocaleLowerCase())).join('-')
-
-            ascentMap.set(key, (ascentMap.get(key) || 0) + 1)
-          },
-        )
-
-        const duplicateRoutes = Array.from(ascentMap.entries())
-          .filter(([, count]) => count > 1)
-          .map(([key]) => key)
-
-        return c.json({ data: duplicateRoutes })
-      },
-    )
-    .get(
-      '/similar',
-      async (c) => {
-        const ascents = await fetchAscents()
-        const similarAscents = Array.from(
-          groupSimilarStrings(
-            ascents.map(({ routeName }) => routeName),
-            2,
-          )
-            .entries(),
-        )
-
-        return c.json({ data: similarAscents })
-      },
-    )
-    .get(
-      '/search',
-      zValidator(
-        'query',
-        z.object({
-          query: z.string(),
-          limit: z.string().optional().transform((val) =>
-            validNumberWithFallback(val, 100)
-          ),
-        }),
-      ),
-      async (c) => {
-        const { query, limit } = c.req.valid('query')
-
-        const results = fuzzySort.go(
-          removeAccents(query),
-          await getAllAscents(),
-          {
-            key: ({ routeName }) => routeName,
-            limit,
-            threshold: 0.7,
-          },
-        )
-
-        return c.json({
-          data: results.map((result) => ({
-            ...result.obj,
-            highlight: result.highlight(),
-            target: result.target,
-          })),
-          metadata: {
-            query,
-            limit,
-            results: results.total,
-          },
-        })
+    const results = fuzzySort.go(
+      removeAccents(query),
+      await getAllAscents(),
+      {
+        key: ({ routeName }) => routeName,
+        limit,
+        threshold: FUZZY_SEARCH_THRESHOLD,
       },
     )
 
-export { createAscentRoute }
+    // Return a new object per result to avoid mutating cached ascent objects
+    return results.map((result) => ({
+      ...result.obj,
+      highlight: result.highlight(),
+      target: result.target,
+    }))
+  },
+)
+
+export const findById = orpcServer.ascents.findById.handler(
+  async ({ input }) => {
+    const ascents = await getAllAscents()
+    const foundAscent = ascents.find(({ id }) => id === input.id)
+    if (foundAscent === undefined) {
+      return undefined
+    }
+    return foundAscent
+  },
+)
+
+export const create = orpcServer.ascents.create.handler(
+  async ({ input }) => {
+    try {
+      return await addAscent(input)
+    } catch (error) {
+      throw new Error(`Failed to add ascent: ${error}`)
+    }
+  },
+)

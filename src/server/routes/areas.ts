@@ -1,56 +1,45 @@
-import { frequency } from '@edouardmisset/array'
+import { frequency as calcFrequency } from '@edouardmisset/array'
 import { findSimilar, groupSimilarStrings } from 'helpers/find-similar.ts'
 import { sortNumericalValues } from 'helpers/sort-values.ts'
-import { Hono } from 'hono'
-
-import type { Ascent } from 'schema/ascent.ts'
 import { getAllAscents } from 'services/ascents.ts'
+import { orpcServer } from './server.ts'
 
-async function getValidAreas(): Promise<NonNullable<Ascent['area']>[]> {
+async function getValidAreas(): Promise<string[]> {
   const ascents = await getAllAscents()
   return ascents.map(({ area }) => area?.trim()).filter(
     (area) => area !== undefined,
   )
 }
 
-// Get all known areas from the ascents
-export const areas = new Hono().get(
-  '/',
-  async (c) => {
+export const list = orpcServer.areas.list.handler(
+  async () => {
     const validAreas = await getValidAreas()
-    const sortedAreas = [...new Set(validAreas)].sort()
-
-    return c.json({ data: sortedAreas })
+    return [...new Set(validAreas)].sort()
   },
 )
-  .get(
-    '/frequency',
-    async (c) => {
-      const validAreas = await getValidAreas()
-      const sortedAreasByFrequency = sortNumericalValues(
-        frequency(validAreas),
-        false,
-      )
-      return c.json({ data: sortedAreasByFrequency })
-    },
-  )
-  .get(
-    '/duplicates',
-    async (c) => {
-      const validAreas = await getValidAreas()
-      const duplicateAreas = findSimilar(validAreas)
 
-      return c.json({ data: duplicateAreas })
-    },
-  )
-  .get(
-    '/similar',
-    async (c) => {
-      const validAreas = await getValidAreas()
-      const similarAreas = Array.from(
-        groupSimilarStrings(validAreas, 3).entries(),
-      )
+export const frequency = orpcServer.areas.frequency.handler(
+  async () => {
+    const validAreas = await getValidAreas()
+    return sortNumericalValues(
+      calcFrequency(validAreas),
+      false,
+    )
+  },
+)
 
-      return c.json({ data: similarAreas })
-    },
-  )
+export const duplicates = orpcServer.areas.duplicates.handler(
+  async () => {
+    const validAreas = await getValidAreas()
+
+    return findSimilar(validAreas)
+  },
+)
+
+export const similar = orpcServer.areas.similar.handler(
+  async () => {
+    const validAreas = await getValidAreas()
+
+    return Object.fromEntries(groupSimilarStrings(validAreas, 3))
+  },
+)

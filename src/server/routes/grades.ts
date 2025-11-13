@@ -1,81 +1,42 @@
-import { frequency } from '@edouardmisset/array'
-import { average } from '@edouardmisset/math/average.ts'
+import { frequency as calcFrequency } from '@edouardmisset/array'
+import { average as calcAverage } from '@edouardmisset/math/average.ts'
 import {
   convertGradeToNumber,
   convertNumberToGrade,
 } from 'helpers/converters.ts'
 import { sortKeys } from 'helpers/sort-keys.ts'
-import { Hono } from 'hono'
-import { ascentSchema, type Grade } from 'schema/ascent.ts'
+import { type Grade } from 'schema/ascent.ts'
 import { getFilteredAscents } from 'services/ascents.ts'
-import { z } from 'zod'
-import { zValidator } from 'zod-validator'
-import { yearSchema } from 'schema/generics.ts'
+import { orpcServer } from './server.ts'
 
-const gradesQueryValidator = zValidator(
-  'query',
-  z.object({
-    climbingDiscipline: ascentSchema.shape.climbingDiscipline.optional(),
-    year: yearSchema.optional(),
-  }).optional(),
-)
+export const list = orpcServer.grades.list.handler(
+  async ({ input }) => {
+    const filteredGrades = (await getFilteredAscents(input))
+      .map(({ topoGrade }) => topoGrade)
 
-export const grades = new Hono().get(
-  '/',
-  gradesQueryValidator,
-  async (c) => {
-    const {
-      climbingDiscipline,
-      year,
-    } = c.req.valid('query') ?? {}
-
-    const filteredGrades =
-      (await getFilteredAscents({ climbingDiscipline, year }))
-        .map(({ topoGrade }) => topoGrade)
-
-    const sortedGrades = [...new Set(filteredGrades)].sort()
-
-    return c.json({ data: sortedGrades })
+    return [...new Set(filteredGrades)].sort()
   },
 )
-  .get(
-    '/frequency',
-    gradesQueryValidator,
-    async (c) => {
-      const {
-        climbingDiscipline,
-        year,
-      } = c.req.valid('query') ?? {}
 
-      const filteredGrades =
-        (await getFilteredAscents({ climbingDiscipline, year }))
-          .map(({ topoGrade }) => topoGrade)
+export const frequency = orpcServer.grades.frequency.handler(
+  async ({ input }) => {
+    const filteredGrades = (await getFilteredAscents(input))
+      .map(({ topoGrade }) => topoGrade)
 
-      const sortedGradesByFrequency = sortKeys(
-        frequency(filteredGrades),
-        true,
-      )
+    return sortKeys(
+      calcFrequency(filteredGrades),
+      true,
+    )
+  },
+)
 
-      return c.json({ data: sortedGradesByFrequency })
-    },
-  )
-  .get(
-    '/average',
-    gradesQueryValidator,
-    async (c) => {
-      const {
-        climbingDiscipline,
-        year,
-      } = c.req.valid('query') ?? {}
+export const average = orpcServer.grades.average.handler(
+  async ({ input }) => {
+    const filteredNumberGrades = (await getFilteredAscents(input))
+      .map(({ topoGrade }) => convertGradeToNumber(topoGrade as Grade))
 
-      const filteredNumberGrades =
-        (await getFilteredAscents({ climbingDiscipline, year }))
-          .map(({ topoGrade }) => convertGradeToNumber(topoGrade as Grade))
-
-      const averageGrade = convertNumberToGrade(
-        Math.round(average(filteredNumberGrades)),
-      )
-
-      return c.json({ data: averageGrade })
-    },
-  )
+    return convertNumberToGrade(
+      Math.round(calcAverage(filteredNumberGrades)),
+    )
+  },
+)

@@ -17,11 +17,14 @@ import { etag } from 'hono/etag'
 import { logger as requestLogger } from 'hono/logger'
 import { endTime, startTime, timing } from 'hono/timing'
 import { trimTrailingSlash } from 'hono/trailing-slash'
-import { api } from 'routes/mod.ts'
 import { logger as log } from 'helpers/logger.ts'
 import { router } from 'routes/routes.ts'
 import { backupAscentsAndTrainingFromGoogleSheets } from './server/scripts/import-trainings-and-ascents-from-gs.ts'
 import { pages } from './client/pages/index.tsx'
+import {
+  BACKUP_THROTTLE_MINUTES,
+  BACKUP_THROTTLE_MS,
+} from './server/constants.ts'
 
 await load({ export: true })
 const env = Deno.env.toObject()
@@ -71,17 +74,15 @@ const app = new Hono().use(cors(), trimTrailingSlash())
   })
   .all('/api/backup', async (c) => {
     try {
-      const throttleTimeInMinutes = 5
-      const throttleTimeInMs = 1000 * 60 * throttleTimeInMinutes
-      if (Date.now() - timestamp < throttleTimeInMs) {
+      if (Date.now() - timestamp < BACKUP_THROTTLE_MS) {
         // Too Many Requests (throttled)
         c.status(429)
         return c.json({
           status: 'failure',
           code: 'BACKUP_THROTTLED',
-          retryAfterMinutes: throttleTimeInMinutes,
+          retryAfterMinutes: BACKUP_THROTTLE_MINUTES,
           message:
-            `Backup was triggered less than ${throttleTimeInMinutes} min ago.`,
+            `Backup was triggered less than ${BACKUP_THROTTLE_MINUTES} min ago.`,
         })
       }
 
@@ -117,7 +118,6 @@ const app = new Hono().use(cors(), trimTrailingSlash())
       }, 500)
     }
   })
-  .route('/api', api)
   .route('/', pages)
   .notFound((c) => {
     const notFoundMessage = 'Route Not Found'
