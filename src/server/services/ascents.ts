@@ -4,22 +4,18 @@ import {
   ascentSchema,
   type OptionalAscentFilter,
 } from 'schema/ascent.ts'
-import { loadWorksheet } from 'services/google-sheets.ts'
 import {
   transformAscentFromGSToJS,
   transformAscentFromJSToGS,
 } from 'helpers/transformers.ts'
 import { filterAscents } from 'helpers/filter-ascents.ts'
+import { loadWorksheet } from './google-sheets.ts'
+import { sampleAscents } from 'backup/samples.ts'
 
 /**
- * Retrieves all ascent records from the Google Sheets 'ascents' worksheet,
- * transforms them from Google Sheets format to JavaScript object format,
- * and validates them against the ascent schema.
- *
- * @returns A promise that resolves to an array of Ascent objects, each
- * representing a validated ascent record.
+ * Fetch ascents from Google Sheets
  */
-export async function getAscentsFromDB(): Promise<Ascent[]> {
+async function fetchAscentsFromGoogleSheets(): Promise<Ascent[]> {
   const allAscentsSheet = await loadWorksheet('ascents')
   const rows = await allAscentsSheet.getRows()
 
@@ -32,26 +28,45 @@ export async function getAscentsFromDB(): Promise<Ascent[]> {
   return ascentSchema.array().parse(rawAscents)
 }
 
+/**
+ * Return sample ascents (for testing)
+ */
+export function getSampleAscents(): Promise<Ascent[]> {
+  return Promise.resolve(sampleAscents)
+}
+
 const { getCache, setCache } = createCache<Ascent[]>()
 
 export async function getAllAscents(
-  options?: { refresh?: boolean },
+  options?: {
+    refresh?: boolean
+    fetchAscentData?: () => Promise<Ascent[]>
+  },
 ): Promise<Ascent[]> {
-  const cachedData = getCache()
+  // Use sample data in test mode unless explicitly overridden
+  const isTestMode = Deno.env.get('DENO_TEST_MODE') === 'true'
+  const defaultFetcher = isTestMode
+    ? getSampleAscents
+    : fetchAscentsFromGoogleSheets
 
-  if (options?.refresh === true || cachedData === undefined) {
-    const ascents = await getAscentsFromDB()
+  const { refresh, fetchAscentData = defaultFetcher } = options ?? {}
+
+  const cachedAscents = getCache()
+
+  if (refresh || cachedAscents === undefined) {
+    const ascents = await fetchAscentData()
     setCache(ascents)
     return ascents
   }
 
-  return cachedData
+  return cachedAscents
 }
 
 export async function getFilteredAscents(
   filters?: OptionalAscentFilter,
+  options?: { fetchAscentData?: () => Promise<Ascent[]> },
 ): Promise<Ascent[]> {
-  const ascents = await getAllAscents()
+  const ascents = await getAllAscents(options)
   if (filters === undefined) return ascents
   return filterAscents(ascents, filters)
 }
