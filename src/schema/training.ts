@@ -18,7 +18,8 @@ export const sessionTypeSchema = z.enum([
   'FB',
 ])
 
-const percentSchema = z.number().min(0).max(100)
+/** Integer percentage between 0 and 100 */
+const percentSchema = z.number().int().min(0).max(100)
 
 const anatomicalRegion = ['Ar', 'Fi', 'Ge'] as const
 const anatomicalRegionSchema = z.enum(anatomicalRegion)

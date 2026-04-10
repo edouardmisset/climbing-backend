@@ -2,6 +2,7 @@ import { validNumberWithFallback } from '@edouardmisset/math'
 import { oc as orpcContract } from '@orpc/contract'
 import { ascentSchema, optionalAscentFilterSchema } from 'schema/ascent.ts'
 import { z } from 'zod'
+import { DEFAULT_SMALL_SEARCH_LIMIT } from '../constants.ts'
 
 export const list = orpcContract
   .route({ method: 'GET', path: '/ascents' })
@@ -13,7 +14,9 @@ export const search = orpcContract
   .input(
     z.object({
       query: z.string().min(1),
-      limit: z.string().transform((val) => validNumberWithFallback(val, 10)),
+      limit: z.string().optional().transform((val) =>
+        validNumberWithFallback(val, DEFAULT_SMALL_SEARCH_LIMIT)
+      ),
     }),
   )
   .output(

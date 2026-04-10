@@ -14,13 +14,17 @@ import { cors } from 'hono/cors'
 import { csrf } from 'hono/csrf'
 import { serveStatic } from 'hono/deno'
 import { etag } from 'hono/etag'
-import { logger } from 'hono/logger'
+import { logger as requestLogger } from 'hono/logger'
 import { endTime, startTime, timing } from 'hono/timing'
 import { trimTrailingSlash } from 'hono/trailing-slash'
-import { api } from 'routes/mod.ts'
+import { logger as log } from 'helpers/logger.ts'
 import { router } from 'routes/routes.ts'
 import { backupAscentsAndTrainingFromGoogleSheets } from './server/scripts/import-trainings-and-ascents-from-gs.ts'
 import { pages } from './client/pages/index.tsx'
+import {
+  BACKUP_THROTTLE_MINUTES,
+  BACKUP_THROTTLE_MS,
+} from './server/constants.ts'
 
 await load({ export: true })
 const env = Deno.env.toObject()
@@ -56,7 +60,7 @@ if (import.meta.main) {
 const app = new Hono().use(cors(), trimTrailingSlash())
   .use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
   .use('/api/*', otel())
-  .use('/openapi/*', async (c, next) => {
+  .use('/openapi/*', otel(), async (c, next) => {
     const { matched, response } = await openApiHandler.handle(c.req.raw, {
       prefix: '/openapi',
       context: {}, // Provide initial context if needed
@@ -68,58 +72,61 @@ const app = new Hono().use(cors(), trimTrailingSlash())
 
     await next()
   })
-  .all('/api/backup', async (c) => {
+  .all('/api/backup', async (ctx) => {
     try {
-      const throttleTimeInMinutes = 5
-      const throttleTimeInMs = 1000 * 60 * throttleTimeInMinutes
-      if (Date.now() - timestamp < throttleTimeInMs) {
-        c.status(200)
-        return c.json({
+      if (Date.now() - timestamp < BACKUP_THROTTLE_MS) {
+        // Too Many Requests (throttled)
+        ctx.status(429)
+        return ctx.json({
           status: 'failure',
+          code: 'BACKUP_THROTTLED',
+          retryAfterMinutes: BACKUP_THROTTLE_MINUTES,
           message:
-            `Backup was triggered less than ${throttleTimeInMinutes} min ago.`,
+            `Backup was triggered less than ${BACKUP_THROTTLE_MINUTES} min ago.`,
         })
       }
 
       startTime(
-        c,
+        ctx,
         'backup',
         'Backing up ascents and training from Google Sheets',
       )
       const success = await backupAscentsAndTrainingFromGoogleSheets()
-      endTime(c, 'backup')
-      timestamp = Date.now()
+      endTime(ctx, 'backup')
 
       if (!success) {
-        return c.json(
+        return ctx.json(
           {
             status: 'failure',
+            code: 'BACKUP_FAILED',
             message: 'Backup failed due to an internal server error.',
           },
           500,
         )
       }
 
-      return c.json({ status: 'success' }, 200)
+      timestamp = Date.now()
+      return ctx.json({ status: 'success', code: 'BACKUP_SUCCESS' }, 200)
     } catch (error) {
-      globalThis.console.error(error)
-      return c.json({
-        error: error instanceof Error
+      log.error('Backup endpoint error', error)
+      return ctx.json({
+        status: 'failure',
+        code: 'BACKUP_ERROR',
+        message: error instanceof Error
           ? error.message
           : 'An unexpected error occurred',
       }, 500)
     }
   })
-  .route('/api', api)
   .route('/', pages)
   .notFound((c) => {
     const notFoundMessage = 'Route Not Found'
-    globalThis.console.log(notFoundMessage, c.req.url)
+    log.warn(notFoundMessage, { url: c.req.url })
     return c.json({ message: notFoundMessage }, 404)
   })
 
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
-if (ENV === 'dev') app.use(timing(), logger())
+if (ENV === 'dev') app.use(timing(), requestLogger())
 
 registerShutdownHandlers()
 
