@@ -20,9 +20,6 @@ export type RouteGrade = `${Degree}${RouteGradeLetter}${OptionalPlus}`
 export type BoulderGrade = Uppercase<RouteGrade>
 export type Grade = RouteGrade | BoulderGrade
 
-const routeFrenchGradeSchema = z.string().min(2).regex(/^\d{1}[a-c]\+?$/)
-const _boulderingFrenchGradeSchema = routeFrenchGradeSchema.toUpperCase()
-
 export const _GRADES = [
   '1a',
   '1a+',
@@ -147,7 +144,7 @@ export const holdsSchema = z.enum(holds)
 
 export const ascentSchema = z.object({
   area: z.string().or(z.number()).transform(String).optional(),
-  climber: z.string().optional().transform((_) => 'Edouard Misset'),
+  climber: z.string().optional().default('Edouard Misset'),
   climbingDiscipline: climbingDisciplineSchema,
   comments: z.string().max(10_000).optional(),
   crag: z.string().min(1),

@@ -53,7 +53,7 @@ export async function loadWorksheet(
   }
   if (!editSheetTitle) {
     throw new Error(
-      `Google edit Sheet title for ${climbingDataType} is missing.`,
+      `Google edit sheet title for ${climbingDataType} is missing.`,
     )
   }
   const { edit = false } = options ?? {}

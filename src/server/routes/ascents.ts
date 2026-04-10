@@ -30,7 +30,7 @@ export const search = orpcServer.ascents.search.handler(
       removeAccents(query),
       await getAllAscents(),
       {
-        key: ({ routeName }) => routeName,
+        key: ({ routeName }) => removeAccents(routeName),
         limit,
         threshold: FUZZY_SEARCH_THRESHOLD,
       },
@@ -61,7 +61,7 @@ export const create = orpcServer.ascents.create.handler(
     try {
       return await addAscent(input)
     } catch (error) {
-      throw new Error(`Failed to add ascent: ${error}`)
+      throw new Error("Failed to add ascent", { cause: error })
     }
   },
 )

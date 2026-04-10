@@ -1,14 +1,20 @@
 import { assertEquals, assertExists } from '@std/assert'
 import app from '~/app.ts'
 
-Deno.test('ORPC - GET /openapi/training returns training list', async () => {
-  const req = new Request('http://localhost/openapi/training')
+const fetchAndAssertList = async (path: string): Promise<unknown[]> => {
+  const req = new Request(`http://localhost${path}`)
   const res = await app.fetch(req)
 
   assertEquals(res.status, 200)
   const body = await res.json() as unknown[]
 
   assertEquals(Array.isArray(body), true)
+
+  return body
+}
+
+Deno.test('ORPC - GET /openapi/training returns training list', async () => {
+  const body = await fetchAndAssertList('/openapi/training')
 
   // All items should have required fields
   if (body.length <= 0) return
@@ -18,35 +24,15 @@ Deno.test('ORPC - GET /openapi/training returns training list', async () => {
   assertExists(firstSession.date)
 })
 
-Deno.test('ORPC - GET /openapi/areas returns area list', async () => {
-  const req = new Request('http://localhost/openapi/areas')
-  const res = await app.fetch(req)
-
-  assertEquals(res.status, 200)
-  const body = await res.json() as unknown[]
-
-  assertEquals(Array.isArray(body), true)
-})
-
-Deno.test('ORPC - GET /openapi/crags returns crag list', async () => {
-  const req = new Request('http://localhost/openapi/crags')
-  const res = await app.fetch(req)
-
-  assertEquals(res.status, 200)
-  const body = await res.json() as unknown[]
-
-  assertEquals(Array.isArray(body), true)
-})
-
-Deno.test('ORPC - GET /openapi/grades returns grade list', async () => {
-  const req = new Request('http://localhost/openapi/grades')
-  const res = await app.fetch(req)
-
-  assertEquals(res.status, 200)
-  const body = await res.json() as unknown[]
-
-  assertEquals(Array.isArray(body), true)
-})
+for (const endpoint of [
+  { path: '/openapi/areas', name: 'areas' },
+  { path: '/openapi/crags', name: 'crags' },
+  { path: '/openapi/grades', name: 'grades' },
+]) {
+  Deno.test(`ORPC - GET ${endpoint.path} returns ${endpoint.name} list`, async () => {
+    await fetchAndAssertList(endpoint.path)
+  })
+}
 
 Deno.test('ORPC - OPTIONS request includes CORS headers', async () => {
   const req = new Request('http://localhost/openapi/ascents', {

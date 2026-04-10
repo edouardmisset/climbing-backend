@@ -1,4 +1,4 @@
-import { assertEquals, assertExists } from '@std/assert'
+import { assertEquals, assertExists, assertStrictEquals } from '@std/assert'
 import { getAllTrainingSessions } from './training.ts'
 
 Deno.test('training service - getAllTrainingSessions returns array', async () => {
@@ -20,7 +20,7 @@ Deno.test('training service - getAllTrainingSessions caches results', async () =
   // Second call should return cached data
   const sessions2 = await getAllTrainingSessions()
 
-  assertEquals(sessions1.length, sessions2.length)
+  assertStrictEquals(sessions1.length, sessions2.length)
 })
 
 Deno.test('training service - training sessions have valid structure', async () => {

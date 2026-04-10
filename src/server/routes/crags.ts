@@ -15,8 +15,8 @@ const highestGradeNumber = [...ROUTE_GRADE_TO_NUMBER.values()].at(-1) ?? 1
 
 async function getValidCrags(): Promise<Ascent['crag'][]> {
   const ascents = await getAllAscents()
-  return ascents.map(({ crag }) => crag.trim()).filter((crag) =>
-    crag !== undefined
+  return ascents.map(({ crag }) => crag?.trim()).filter((crag) =>
+    crag !== undefined  && crag !== ''
   )
 }
 
@@ -77,7 +77,7 @@ export const mostSuccessful = orpcServer.crags.mostSuccessful.handler(
         ([crag, number]) => {
           const daysClimbedInCrag = new Set(
             ascents.filter(({ crag: ascentCrag }) =>
-              stringEqualsCaseInsensitive(crag, ascentCrag)
+              stringEqualsCaseInsensitive(crag, ascentCrag.trim())
             ).map(({ date }) => date),
           ).size
 

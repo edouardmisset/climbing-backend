@@ -1,4 +1,4 @@
-import { assertEquals, assertExists } from '@std/assert'
+import { assertEquals, assertExists, assertStrictEquals } from '@std/assert'
 import { getAllAscents, getFilteredAscents } from './ascents.ts'
 
 Deno.test('ascents service - getAllAscents returns array', async () => {
@@ -23,7 +23,7 @@ Deno.test('ascents service - getAllAscents caches results', async () => {
   // Second call should return cached data (same reference if cached properly)
   const ascents2 = await getAllAscents()
 
-  assertEquals(ascents1.length, ascents2.length)
+  assertStrictEquals(ascents1.length, ascents2.length)
 })
 
 Deno.test('ascents service - getFilteredAscents with no filter returns all', async () => {

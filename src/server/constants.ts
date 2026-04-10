@@ -4,6 +4,8 @@
 
 // Cache configuration
 export const DEFAULT_CACHE_TTL_MS = 10 * 60 * 1000 // 10 minutes
+
+// Server configuration
 export const FALLBACK_PORT = 8000
 
 // Backup configuration

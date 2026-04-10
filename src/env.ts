@@ -31,25 +31,23 @@ const parsedBase = baseEnvSchema.parse(rawEnv)
 
 // In production, ensure required Google credentials are present
 const isProduction = parsedBase.ENV === 'production'
-if (isProduction) {
-  const prodSchema = baseEnvSchema.extend({
-    GOOGLE_SHEET_ID_ASCENTS: z.string().min(1),
-    GOOGLE_SHEET_ASCENTS_SHEET_TITLE: z.string().min(1),
-    GOOGLE_SHEET_ASCENTS_EDIT_SHEET_TITLE: z.string().min(1),
-    GOOGLE_SHEET_ASCENTS_URL_CSV: z.string().url(),
+const prodSchema = baseEnvSchema.extend({
+  GOOGLE_SHEET_ID_ASCENTS: z.string().min(1),
+  GOOGLE_SHEET_ASCENTS_SHEET_TITLE: z.string().min(1),
+  GOOGLE_SHEET_ASCENTS_EDIT_SHEET_TITLE: z.string().min(1),
+  GOOGLE_SHEET_ASCENTS_URL_CSV: z.string().url(),
 
-    GOOGLE_SHEET_ID_TRAINING: z.string().min(1),
-    GOOGLE_SHEET_TRAINING_SHEET_TITLE: z.string().min(1),
-    GOOGLE_SHEET_TRAINING_EDIT_SHEET_TITLE: z.string().min(1),
-    GOOGLE_SHEET_TRAINING_URL_CSV: z.string().url(),
+  GOOGLE_SHEET_ID_TRAINING: z.string().min(1),
+  GOOGLE_SHEET_TRAINING_SHEET_TITLE: z.string().min(1),
+  GOOGLE_SHEET_TRAINING_EDIT_SHEET_TITLE: z.string().min(1),
+  GOOGLE_SHEET_TRAINING_URL_CSV: z.string().url(),
 
-    GOOGLE_SERVICE_ACCOUNT_EMAIL: z.string().email(),
-    GOOGLE_PRIVATE_KEY: z.string().min(1),
-  })
-  // Will throw with a descriptive zod error in production if missing
-  prodSchema.parse(rawEnv)
-}
+  GOOGLE_SERVICE_ACCOUNT_EMAIL: z.string().email(),
+  GOOGLE_PRIVATE_KEY: z.string().min(1),
+})
 
-export const env = parsedBase
+export const env = isProduction
+  ? prodSchema.parse(rawEnv)
+  : parsedBase
 
 export const port = Number(env.PORT) || FALLBACK_PORT

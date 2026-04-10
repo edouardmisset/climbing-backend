@@ -22,7 +22,10 @@ export function createCache<T>(
     if (!cache) return undefined
 
     const isCacheValid = (Date.now() - cache.timestamp) < expiryDuration
-    if (!isCacheValid) return undefined
+    if (!isCacheValid) {
+      cache = undefined
+      return undefined
+    }
 
     return cache.data
   }

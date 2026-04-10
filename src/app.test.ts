@@ -43,7 +43,14 @@ Deno.test('app - CORS headers present', async () => {
   const res = await app.fetch(req)
 
   // CORS middleware should add access-control headers
-  assertExists(res.headers.get('access-control-allow-origin'))
+  const allowOrigin = res.headers.get('access-control-allow-origin')
+  assertExists(allowOrigin)
+  assertEquals(
+    allowOrigin === 'http://example.com' || allowOrigin === '*',
+    true,
+  )
+  
+  await res.body?.cancel()
 })
 
 Deno.test('app - trailing slash trimmed', async () => {

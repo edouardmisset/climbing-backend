@@ -35,6 +35,8 @@ export const average = orpcServer.grades.average.handler(
     const filteredNumberGrades = (await getFilteredAscents(input))
       .map(({ topoGrade }) => convertGradeToNumber(topoGrade as Grade))
 
+    if (filteredNumberGrades.length === 0) return '1a'
+
     return convertNumberToGrade(
       Math.round(calcAverage(filteredNumberGrades)),
     )
