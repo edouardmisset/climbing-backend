@@ -5,6 +5,4 @@ This is the backend that powers my climbing application.
 This application has two main focuses :
 
 - Log my training data and ascents
-- Analyse / Visualize these
-
-https://climbing-back.edouardmisset.deno.net/
+- Analyze / Visualize these
