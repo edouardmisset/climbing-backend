@@ -1,5 +1,5 @@
 import { frequency as calcFrequency } from '@edouardmisset/array'
-import { mapObject } from '@edouardmisset/object'
+import { mapObject, objectKeys } from '@edouardmisset/object'
 import { stringEqualsCaseInsensitive } from '@edouardmisset/text'
 import {
   convertGradeToNumber,
@@ -86,12 +86,16 @@ export const mostSuccessful = orpcServer.crags.mostSuccessful.handler(
       ).sort(([, a], [, b]) => b - a),
     )
 
-    const highestScore =
-      mostSuccessfulCrags[Object.keys(mostSuccessfulCrags)[0]]
+    const mostSuccessfulCragKeys = objectKeys(mostSuccessfulCrags)
 
+    if (mostSuccessfulCragKeys.length === 0) {
+      return mapObject(mostSuccessfulCrags, () => 0)
+    }
+
+    const highestScore = mostSuccessfulCrags[mostSuccessfulCragKeys[0]]
     return mapObject(
       mostSuccessfulCrags,
-      (val) => Number((val / highestScore).toFixed(1)),
+      (val) => highestScore ? Number((val / highestScore).toFixed(1)) : 0,
     )
   },
 )

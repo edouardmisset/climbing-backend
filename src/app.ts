@@ -60,7 +60,7 @@ if (import.meta.main) {
 const app = new Hono().use(cors(), trimTrailingSlash())
   .use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
   .use('/api/*', otel())
-  .use('/openapi/*', async (c, next) => {
+  .use('/openapi/*', otel(), async (c, next) => {
     const { matched, response } = await openApiHandler.handle(c.req.raw, {
       prefix: '/openapi',
       context: {}, // Provide initial context if needed
@@ -72,12 +72,12 @@ const app = new Hono().use(cors(), trimTrailingSlash())
 
     await next()
   })
-  .all('/api/backup', async (c) => {
+  .all('/api/backup', async (ctx) => {
     try {
       if (Date.now() - timestamp < BACKUP_THROTTLE_MS) {
         // Too Many Requests (throttled)
-        c.status(429)
-        return c.json({
+        ctx.status(429)
+        return ctx.json({
           status: 'failure',
           code: 'BACKUP_THROTTLED',
           retryAfterMinutes: BACKUP_THROTTLE_MINUTES,
@@ -87,16 +87,15 @@ const app = new Hono().use(cors(), trimTrailingSlash())
       }
 
       startTime(
-        c,
+        ctx,
         'backup',
         'Backing up ascents and training from Google Sheets',
       )
       const success = await backupAscentsAndTrainingFromGoogleSheets()
-      endTime(c, 'backup')
-      timestamp = Date.now()
+      endTime(ctx, 'backup')
 
       if (!success) {
-        return c.json(
+        return ctx.json(
           {
             status: 'failure',
             code: 'BACKUP_FAILED',
@@ -106,10 +105,11 @@ const app = new Hono().use(cors(), trimTrailingSlash())
         )
       }
 
-      return c.json({ status: 'success', code: 'BACKUP_SUCCESS' }, 200)
+      timestamp = Date.now()
+      return ctx.json({ status: 'success', code: 'BACKUP_SUCCESS' }, 200)
     } catch (error) {
       log.error('Backup endpoint error', error)
-      return c.json({
+      return ctx.json({
         status: 'failure',
         code: 'BACKUP_ERROR',
         message: error instanceof Error

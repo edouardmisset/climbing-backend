@@ -1,5 +1,6 @@
 import ascentData from 'backup/ascent-data.json' with { type: 'json' }
 import trainingData from 'backup/training-data.json' with { type: 'json' }
+import { objectKeys } from '@edouardmisset/object'
 
 const sampleSize = 100
 const stratifyAscentBy: (keyof (typeof ascentData)[number])[] = [
@@ -38,7 +39,7 @@ function stratifiedSample(
   }, {} as { [key: string]: any[] })
 
   const sample: any[] = []
-  const strataKeys = Object.keys(strata)
+  const strataKeys = objectKeys(strata)
   const samplesPerStratum = Math.floor(sampleSize / strataKeys.length)
 
   strataKeys.forEach((key) => {

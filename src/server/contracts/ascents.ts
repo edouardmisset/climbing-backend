@@ -14,7 +14,7 @@ export const search = orpcContract
   .input(
     z.object({
       query: z.string().min(1),
-      limit: z.string().transform((val) =>
+      limit: z.string().optional().transform((val) =>
         validNumberWithFallback(val, DEFAULT_SMALL_SEARCH_LIMIT)
       ),
     }),
