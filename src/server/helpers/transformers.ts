@@ -233,7 +233,6 @@ export function transformAscentFromGSToJS(
         TRANSFORMED_ASCENT_HEADER_NAMES[key as GSAscentKeys]
 
       if (transformedKey === 'tries') {
-        // Compute the climbing attempt only once
         const attempt = transformTriesGSToJS(value)
         acc[transformedKey] = attempt.tries
         acc.style = attempt.style

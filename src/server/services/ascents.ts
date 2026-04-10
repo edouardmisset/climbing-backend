@@ -43,7 +43,6 @@ export async function getAllAscents(
     fetchAscentData?: () => Promise<Ascent[]>
   },
 ): Promise<Ascent[]> {
-  // Use sample data in test mode unless explicitly overridden
   const isTestMode = Deno.env.get('DENO_TEST_MODE') === 'true'
   const defaultFetcher = isTestMode
     ? getSampleAscents

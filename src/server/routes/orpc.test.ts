@@ -8,15 +8,14 @@ Deno.test('ORPC - GET /openapi/training returns training list', async () => {
   assertEquals(res.status, 200)
   const body = await res.json() as unknown[]
 
-  // Should return an array
   assertEquals(Array.isArray(body), true)
 
   // All items should have required fields
-  if (body.length > 0) {
-    const firstSession = body[0] as Record<string, unknown>
-    assertExists(firstSession.id)
-    assertExists(firstSession.date)
-  }
+  if (body.length <= 0) return;
+  
+  const firstSession = body[0] as Record<string, unknown>
+  assertExists(firstSession.id)
+  assertExists(firstSession.date)
 })
 
 Deno.test('ORPC - GET /openapi/areas returns area list', async () => {

@@ -79,11 +79,7 @@ export const convertGradeToNumber = <GradeType extends Grade>(
     ? ROUTE_GRADE_TO_NUMBER.get(grade as RouteGrade) ?? 0
     : BOULDER_GRADE_TO_NUMBER.get(grade as BoulderGrade) ?? 0
 
-export function convertNumberToGrade(
-  gradeNumber: number,
-  toBoulderGrade = false,
-): Grade {
-  return toBoulderGrade
-    ? NUMBER_TO_BOULDER_GRADE.get(gradeNumber) ?? '1A'
-    : NUMBER_TO_ROUTE_GRADE.get(gradeNumber) ?? '1a'
-}
+export const convertNumberToGrade = (gradeNumber: number,
+  toBoulderGrade = false): Grade => toBoulderGrade
+? NUMBER_TO_BOULDER_GRADE.get(gradeNumber) ?? '1A'
+: NUMBER_TO_ROUTE_GRADE.get(gradeNumber) ?? '1a';

@@ -65,7 +65,7 @@ Deno.test('ORPC - GET /openapi/ascents/search with query', async () => {
 })
 
 Deno.test('ORPC - GET /openapi/ascents/{id} returns specific ascent', async () => {
-  const req = new Request('http://localhost/openapi/ascents/0')
+  const req = new Request('http://localhost/openapi/ascents/391')
   const res = await app.fetch(req)
 
   assertEquals(res.status, 200)
@@ -73,7 +73,7 @@ Deno.test('ORPC - GET /openapi/ascents/{id} returns specific ascent', async () =
 
   // Should return either an ascent or null
   if (body !== null) {
-    assertEquals(body.id, 0)
+    assertEquals(body.id, 391)
     assertExists(body.routeName)
   }
 })

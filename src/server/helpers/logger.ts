@@ -1,8 +1,8 @@
 type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 
 function format(level: LogLevel, message: string, meta?: unknown): string {
-  const ts = new Date().toISOString()
-  const base = `[${ts}] [${level.toUpperCase()}] ${message}`
+  const timestamp = new Date().toISOString()
+  const base = `[${timestamp}] [${level.toUpperCase()}] ${message}`
   if (meta === undefined) return base
   try {
     const serialized = typeof meta === 'string' ? meta : JSON.stringify(meta)
