@@ -30,7 +30,7 @@ async function fetchTrainingFromGoogleSheets(): Promise<TrainingSession[]> {
   try {
     return trainingSessionSchema.array().parse(transformedClimbingData)
   } catch (error) {
-    throw new Error('The data could not be parsed', error as Error)
+    throw new Error('The data could not be parsed', { cause: error })
   }
 }
 
