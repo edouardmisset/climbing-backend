@@ -11,8 +11,8 @@ Deno.test('ORPC - GET /openapi/training returns training list', async () => {
   assertEquals(Array.isArray(body), true)
 
   // All items should have required fields
-  if (body.length <= 0) return;
-  
+  if (body.length <= 0) return
+
   const firstSession = body[0] as Record<string, unknown>
   assertExists(firstSession.id)
   assertExists(firstSession.date)
