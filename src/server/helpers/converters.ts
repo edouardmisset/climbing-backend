@@ -1,11 +1,9 @@
 import {
-  type BoulderGrade,
   type BoulderGradeLetter,
   degreeSchema,
   type Grade,
   optionalPlus,
   ROUTE_LETTERS,
-  type RouteGrade,
 } from 'schema/ascent.ts'
 
 interface CreateFrenchGradingScaleParams {
@@ -44,11 +42,11 @@ const createFrenchGradingScale = <GradeType extends Grade>(
   )
 }
 
-const ROUTE_GRADES = createFrenchGradingScale<RouteGrade>({
+const ROUTE_GRADES = createFrenchGradingScale<Grade>({
   minDegree: 4,
   maxDegree: 9,
 })
-const BOULDER_GRADES = createFrenchGradingScale<BoulderGrade>({
+const BOULDER_GRADES = createFrenchGradingScale<Grade>({
   minDegree: 4,
   maxDegree: 8,
   isBoulderGrade: true,
@@ -75,14 +73,14 @@ export const NUMBER_TO_BOULDER_GRADE = invertMapKeyValue(
 export const convertGradeToNumber = <GradeType extends Grade>(
   grade: GradeType,
 ): number =>
-  ROUTE_GRADES.includes(grade as RouteGrade)
-    ? ROUTE_GRADE_TO_NUMBER.get(grade as RouteGrade) ?? 0
-    : BOULDER_GRADE_TO_NUMBER.get(grade as BoulderGrade) ?? 0
+  ROUTE_GRADES.includes(grade as Grade)
+    ? ROUTE_GRADE_TO_NUMBER.get(grade as Grade) ?? 0
+    : BOULDER_GRADE_TO_NUMBER.get(grade as Grade) ?? 0
 
 export const convertNumberToGrade = (
   gradeNumber: number,
   toBoulderGrade = false,
-): Grade =>
+): Grade | Uppercase<Grade> =>
   toBoulderGrade
     ? NUMBER_TO_BOULDER_GRADE.get(gradeNumber) ?? '1A'
     : NUMBER_TO_ROUTE_GRADE.get(gradeNumber) ?? '1a'

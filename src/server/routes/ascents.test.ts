@@ -11,7 +11,6 @@ Deno.test('ORPC - GET /openapi/ascents returns ascent list', async () => {
   // Should return an array
   assert(Array.isArray(body), 'Expected response to be an array')
 
-
   // All items should have required fields
   if (body.length <= 0) return
 
@@ -59,7 +58,6 @@ Deno.test('ORPC - GET /openapi/ascents/search with query', async () => {
   }[]
 
   assert(Array.isArray(body), 'Expected response to be an array')
-
 
   // Results should have highlight and target fields
   for (const item of body) {

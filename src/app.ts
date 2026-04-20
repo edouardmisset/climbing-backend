@@ -52,9 +52,11 @@ const openApiHandler = new OpenAPIHandler(router, {
 })
 
 let timestamp = 0
+let backupInProgress = false
 
 if (import.meta.main) {
   startOpenTelemetry()
+  registerShutdownHandlers()
 }
 
 const app = new Hono().use(cors(), trimTrailingSlash())
@@ -74,6 +76,16 @@ const app = new Hono().use(cors(), trimTrailingSlash())
   })
   .all('/api/backup', async (ctx) => {
     try {
+      if (backupInProgress) {
+        ctx.status(429)
+        return ctx.json({
+          status: 'failure',
+          code: 'BACKUP_THROTTLED',
+          retryAfterMinutes: BACKUP_THROTTLE_MINUTES,
+          message: 'A backup is already running.',
+        })
+      }
+
       if (Date.now() - timestamp < BACKUP_THROTTLE_MS) {
         // Too Many Requests (throttled)
         ctx.status(429)
@@ -91,6 +103,7 @@ const app = new Hono().use(cors(), trimTrailingSlash())
         'backup',
         'Backing up ascents and training from Google Sheets',
       )
+      backupInProgress = true
       const success = await backupAscentsAndTrainingFromGoogleSheets()
       endTime(ctx, 'backup')
 
@@ -116,6 +129,8 @@ const app = new Hono().use(cors(), trimTrailingSlash())
           ? error.message
           : 'An unexpected error occurred',
       }, 500)
+    } finally {
+      backupInProgress = false
     }
   })
   .route('/', pages)
@@ -127,7 +142,5 @@ const app = new Hono().use(cors(), trimTrailingSlash())
 
 if (ENV === 'production') app.use(etag({ weak: true }), csrf(), compress())
 if (ENV === 'dev') app.use(timing(), requestLogger())
-
-registerShutdownHandlers()
 
 export default app

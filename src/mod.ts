@@ -3,9 +3,9 @@ import { inspectRoutes } from 'hono/dev'
 import { getAllAscents } from 'services/ascents.ts'
 import { getAllTrainingSessions } from 'services/training.ts'
 import app from './app.ts'
-import { env, port } from './env.ts'
+import { env, PORT } from './env.ts'
 
-Deno.serve({ port }, app.fetch)
+Deno.serve({ port: PORT }, app.fetch)
 
 if (env.ENV === 'dev') {
   // Display the "GET" routes in the console for easy access during development.
@@ -21,7 +21,7 @@ if (env.ENV === 'dev') {
 }
 
 function displayRoutes(): void {
-  const domain = `http://localhost:${port}`
+  const domain = `http://localhost:${PORT}`
 
   globalThis.console.log(
     `\n${domain}${red(bold('/openapi'))}\n`,

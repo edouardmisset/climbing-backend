@@ -72,11 +72,10 @@ export async function getFilteredAscents(
 
 export async function addAscent(ascent: Omit<Ascent, 'id'>): Promise<Ascent> {
   const manualAscentsSheet = await loadWorksheet('ascents', { edit: true })
-  
-  const allAscentsPromise = getAllAscents({ refresh: true })
+
   await manualAscentsSheet.addRow(transformAscentFromJSToGS(ascent))
+  
+  const allAscents = await getAllAscents({ refresh: true })
 
-  const ascentsCount = (await allAscentsPromise).length;
-
-  return { ...ascent, id: ascentsCount }
+  return { ...ascent, id: allAscents.length }
 }

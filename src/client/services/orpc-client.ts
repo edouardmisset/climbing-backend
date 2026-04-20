@@ -3,11 +3,11 @@ import type { ContractRouterClient } from '@orpc/contract'
 import type { JsonifiedClient } from '@orpc/openapi-client'
 import { OpenAPILink } from '@orpc/openapi-client/fetch'
 import { contract } from 'contracts/contract.ts'
-import { port } from '~/env.ts'
+import { PORT } from '~/env.ts'
 import { BatchLinkPlugin, ClientRetryPlugin } from '@orpc/client/plugins'
 
 const link = new OpenAPILink(contract, {
-  url: `http://127.0.0.1:${port}/openapi`,
+  url: `http://127.0.0.1:${PORT}/openapi`,
   plugins: [
     new BatchLinkPlugin({
       groups: [

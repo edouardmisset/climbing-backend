@@ -16,7 +16,7 @@ const highestGradeNumber = [...ROUTE_GRADE_TO_NUMBER.values()].at(-1) ?? 1
 async function getValidCrags(): Promise<Ascent['crag'][]> {
   const ascents = await getAllAscents()
   return ascents.map(({ crag }) => crag?.trim()).filter((crag) =>
-    crag !== undefined  && crag !== ''
+    crag !== undefined && crag !== ''
   )
 }
 

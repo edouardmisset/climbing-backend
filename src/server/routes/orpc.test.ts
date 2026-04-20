@@ -24,11 +24,13 @@ Deno.test('ORPC - GET /openapi/training returns training list', async () => {
   assertExists(firstSession.date)
 })
 
-for (const endpoint of [
-  { path: '/openapi/areas', name: 'areas' },
-  { path: '/openapi/crags', name: 'crags' },
-  { path: '/openapi/grades', name: 'grades' },
-]) {
+for (
+  const endpoint of [
+    { path: '/openapi/areas', name: 'areas' },
+    { path: '/openapi/crags', name: 'crags' },
+    { path: '/openapi/grades', name: 'grades' },
+  ]
+) {
   Deno.test(`ORPC - GET ${endpoint.path} returns ${endpoint.name} list`, async () => {
     await fetchAndAssertList(endpoint.path)
   })

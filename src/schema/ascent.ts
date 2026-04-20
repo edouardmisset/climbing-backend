@@ -16,9 +16,7 @@ export const optionalPlus = ['', '+'] as const
 const optionalPlusSchema = z.enum(optionalPlus)
 type OptionalPlus = z.infer<typeof optionalPlusSchema>
 
-export type RouteGrade = `${Degree}${RouteGradeLetter}${OptionalPlus}`
-export type BoulderGrade = Uppercase<RouteGrade>
-export type Grade = RouteGrade | BoulderGrade
+export type Grade = `${Degree}${RouteGradeLetter}${OptionalPlus}`
 
 export const _GRADES = [
   '1a',

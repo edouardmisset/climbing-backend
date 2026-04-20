@@ -61,7 +61,7 @@ export const create = orpcServer.ascents.create.handler(
     try {
       return await addAscent(input)
     } catch (error) {
-      throw new Error("Failed to add ascent", { cause: error })
+      throw new Error('Failed to add ascent', { cause: error })
     }
   },
 )

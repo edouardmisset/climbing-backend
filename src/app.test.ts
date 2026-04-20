@@ -49,7 +49,7 @@ Deno.test('app - CORS headers present', async () => {
     allowOrigin === 'http://example.com' || allowOrigin === '*',
     true,
   )
-  
+
   await res.body?.cancel()
 })
 

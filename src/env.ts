@@ -10,21 +10,21 @@ const rawEnv = Deno.env.toObject()
 // Basic schema. Only enforce strict requirements in production to avoid
 // hindering local dev and tests when Google credentials are not set.
 const baseEnvSchema = z.object({
-  ENV: z.string().optional(),
-  PORT: z.string().optional(),
+  ENV: z.string(),
+  PORT: z.string(),
 
-  GOOGLE_SHEET_ID_ASCENTS: z.string().optional(),
-  GOOGLE_SHEET_ASCENTS_SHEET_TITLE: z.string().optional(),
-  GOOGLE_SHEET_ASCENTS_EDIT_SHEET_TITLE: z.string().optional(),
-  GOOGLE_SHEET_ASCENTS_URL_CSV: z.string().optional(),
+  GOOGLE_SHEET_ID_ASCENTS: z.string(),
+  GOOGLE_SHEET_ASCENTS_SHEET_TITLE: z.string(),
+  GOOGLE_SHEET_ASCENTS_EDIT_SHEET_TITLE: z.string(),
+  GOOGLE_SHEET_ASCENTS_URL_CSV: z.string(),
 
-  GOOGLE_SHEET_ID_TRAINING: z.string().optional(),
-  GOOGLE_SHEET_TRAINING_SHEET_TITLE: z.string().optional(),
-  GOOGLE_SHEET_TRAINING_EDIT_SHEET_TITLE: z.string().optional(),
-  GOOGLE_SHEET_TRAINING_URL_CSV: z.string().optional(),
+  GOOGLE_SHEET_ID_TRAINING: z.string(),
+  GOOGLE_SHEET_TRAINING_SHEET_TITLE: z.string(),
+  GOOGLE_SHEET_TRAINING_EDIT_SHEET_TITLE: z.string(),
+  GOOGLE_SHEET_TRAINING_URL_CSV: z.string(),
 
-  GOOGLE_SERVICE_ACCOUNT_EMAIL: z.string().optional(),
-  GOOGLE_PRIVATE_KEY: z.string().optional(),
+  GOOGLE_SERVICE_ACCOUNT_EMAIL: z.string(),
+  GOOGLE_PRIVATE_KEY: z.string(),
 })
 
 const parsedBase = baseEnvSchema.parse(rawEnv)
@@ -46,8 +46,6 @@ const prodSchema = baseEnvSchema.extend({
   GOOGLE_PRIVATE_KEY: z.string().min(1),
 })
 
-export const env = isProduction
-  ? prodSchema.parse(rawEnv)
-  : parsedBase
+export const env = isProduction ? prodSchema.parse(rawEnv) : parsedBase
 
-export const port = Number(env.PORT) || FALLBACK_PORT
+export const PORT = Number(env.PORT) || FALLBACK_PORT
