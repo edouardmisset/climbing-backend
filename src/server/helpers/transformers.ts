@@ -30,25 +30,27 @@ export const ASCENT_HEADERS = [
   'Departement',
   'Date',
   'Climber',
+  'Comments',
   'Ascent Comments',
 ] as const
 
 export const TRANSFORMED_ASCENT_HEADER_NAMES = {
-  'Route Name': 'routeName',
-  'Topo Grade': 'topoGrade',
   '# Tries': 'tries',
-  'My Grade': 'personalGrade',
+  'Area': 'area',
+  'Ascent Comments': 'comments',
+  'Climber': 'climber',
+  'Comments': 'comments',
+  'Crag': 'crag',
+  'Date': 'date',
+  'Departement': 'region',
   'Height': 'height',
-  'Profile': 'profile',
   'Holds': 'holds',
+  'My Grade': 'personalGrade',
+  'Profile': 'profile',
   'Rating': 'rating',
   'Route / Boulder': 'climbingDiscipline',
-  'Crag': 'crag',
-  'Area': 'area',
-  'Departement': 'region',
-  'Date': 'date',
-  'Climber': 'climber',
-  'Ascent Comments': 'comments',
+  'Route Name': 'routeName',
+  'Topo Grade': 'topoGrade',
 } as const satisfies Record<typeof ASCENT_HEADERS[number], string>
 
 export type GSAscentKeys = keyof typeof TRANSFORMED_ASCENT_HEADER_NAMES
@@ -134,9 +136,7 @@ type ClimbingAttempt = {
  * @param {string} value - The tries string to transform.
  * @returns {{ style: 'Onsight' | 'Flash' | 'Redpoint', tries: number }} - The transformed style and tries.
  */
-export function transformTriesGSToJS(
-  value: string,
-): ClimbingAttempt {
+export const transformTriesGSToJS = (value: string): ClimbingAttempt => {
   const style = value.includes('Onsight')
     ? 'Onsight'
     : value.includes('Flash')
@@ -233,8 +233,9 @@ export function transformAscentFromGSToJS(
         TRANSFORMED_ASCENT_HEADER_NAMES[key as GSAscentKeys]
 
       if (transformedKey === 'tries') {
-        acc[transformedKey] = transformTriesGSToJS(value).tries
-        acc.style = transformTriesGSToJS(value).style
+        const attempt = transformTriesGSToJS(value)
+        acc[transformedKey] = attempt.tries
+        acc.style = attempt.style
       } else {
         const transform = TRANSFORM_FUNCTIONS_GS_TO_JS[
           transformedKey as keyof typeof TRANSFORM_FUNCTIONS_GS_TO_JS
@@ -297,17 +298,15 @@ const transformRatingJSToGS = (rating: string): string =>
 export const transformTriesJSToGS = (
   { style, tries }: ClimbingAttempt,
 ): string => {
-  if (tries < 1) throw new Error('Tries must be greater than 1')
+  if (tries < 1) throw new Error('Tries must be at least 1')
   if (style === 'Redpoint' && tries === 1) {
     throw new Error(
-      '1 try means Flash or Onsight but nor Redpoint ascent style',
+      'Redpoint ascents require more than 1 try (use Flash or Onsight for 1 try).',
     )
   }
-  if (
-    (style === 'Flash' || style === 'Onsight') && tries !== 1
-  ) {
+  if ((style === 'Flash' || style === 'Onsight') && tries !== 1) {
     throw new Error(
-      'Flash or Onsight ascents should their number of tries equal to 1',
+      'Flash or Onsight ascents must have exactly 1 try.',
     )
   }
 
@@ -352,7 +351,7 @@ export const TRANSFORM_FUNCTIONS_JS_TO_GS = {
 // Key = JS ascent object's key
 // Header = Google Sheet's ascent's header
 export function transformAscentFromJSToGS(
-  ascent: Ascent,
+  ascent: Omit<Ascent, 'id'>,
 ): GSAscentRecord {
   return ASCENT_HEADERS.reduce((accumulator, header) => {
     const key = TRANSFORMED_ASCENT_HEADER_NAMES[header]
@@ -368,8 +367,6 @@ export function transformAscentFromJSToGS(
       accumulator['# Tries'] = GSTries
     } else {
       const rawStringValue = ascent[key]?.toString() ?? ''
-
-      //? how to deal with special chars in comments ?
 
       const keyAs = key as keyof typeof TRANSFORM_FUNCTIONS_JS_TO_GS
       const transformer = keyAs in TRANSFORM_FUNCTIONS_JS_TO_GS

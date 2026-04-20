@@ -1,3 +1,3 @@
-import { backupAscentsAndTrainingFromGoogleSheets } from 'scripts/import-training-and-ascent-data-from-gs.ts'
+import { backupAscentsAndTrainingFromGoogleSheets } from './import-trainings-and-ascents-from-gs.ts'
 
 await backupAscentsAndTrainingFromGoogleSheets()

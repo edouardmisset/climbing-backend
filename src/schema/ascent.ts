@@ -1,4 +1,5 @@
-import { number, string, z } from 'zod'
+import { z } from 'zod'
+import { yearSchema } from './generics.ts'
 
 const degrees = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] as const
 export const degreeSchema = z.enum(degrees)
@@ -15,14 +16,77 @@ export const optionalPlus = ['', '+'] as const
 const optionalPlusSchema = z.enum(optionalPlus)
 type OptionalPlus = z.infer<typeof optionalPlusSchema>
 
-export type RouteGrade = `${Degree}${RouteGradeLetter}${OptionalPlus}`
-export type BoulderGrade = Uppercase<RouteGrade>
-export type Grade = RouteGrade | BoulderGrade
+export type Grade = `${Degree}${RouteGradeLetter}${OptionalPlus}`
 
-const routeFrenchGradeSchema = string().min(2).regex(/^\d{1}[a-c]\+?$/)
-const boulderingFrenchGradeSchema = routeFrenchGradeSchema.toUpperCase()
+export const _GRADES = [
+  '1a',
+  '1a+',
+  '1b',
+  '1b+',
+  '1c',
+  '1c+',
+
+  '2a',
+  '2a+',
+  '2b',
+  '2b+',
+  '2c',
+  '2c+',
+
+  '3a',
+  '3a+',
+  '3b',
+  '3b+',
+  '3c',
+  '3c+',
+
+  '4a',
+  '4a+',
+  '4b',
+  '4b+',
+  '4c',
+  '4c+',
+
+  '5a',
+  '5a+',
+  '5b',
+  '5b+',
+  '5c',
+  '5c+',
+
+  '6a',
+  '6a+',
+  '6b',
+  '6b+',
+  '6c',
+  '6c+',
+
+  '7a',
+  '7a+',
+  '7b',
+  '7b+',
+  '7c',
+  '7c+',
+
+  '8a',
+  '8a+',
+  '8b',
+  '8b+',
+  '8c',
+  '8c+',
+
+  '9a',
+  '9a+',
+  '9b',
+  '9b+',
+  '9c',
+  '9c+',
+] as const
+
+export const gradeSchema = z.enum(_GRADES)
 
 const ascentStyle = ['Onsight', 'Flash', 'Redpoint'] as const
+export const ascentStyleSchema = z.enum(ascentStyle)
 export const climbingDisciplineSchema = z.enum([
   'Route',
   'Boulder',
@@ -76,36 +140,25 @@ export const profileSchema = z.enum(profiles)
 export const holdsFomGSSchema = z.enum(holdsFromGS)
 export const holdsSchema = z.enum(holds)
 
-// For extending the Zod schema with OpenAPI properties
-import 'zod-openapi/extend'
-
 export const ascentSchema = z.object({
-  area: string().or(number()).transform(String).optional().openapi({
-    effectType: 'input',
-    type: 'string',
-  }),
-  climber: string().optional().transform((_) => 'Edouard Misset').openapi({
-    effectType: 'input',
-    type: 'string',
-  }),
+  area: z.string().or(z.number()).transform(String).optional(),
+  climber: z.string().optional().default('Edouard Misset'),
   climbingDiscipline: climbingDisciplineSchema,
-  comments: string().max(10_000).optional(),
-  crag: string().min(1),
-  date: string(), // ISO 8601 date format
-  region: string().optional(),
-  height: number().int().min(5).max(1_000).optional(),
+  comments: z.string().max(10_000).optional(),
+  crag: z.string().min(1),
+  date: z.string(), // ISO 8601 date format
+  region: z.string().optional(),
+  height: z.number().int().min(5).max(1_000).optional(),
   holds: holdsSchema.optional(),
-  personalGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema)
+  personalGrade: gradeSchema
     .optional(),
   profile: profileSchema.optional(),
-  rating: number().int().min(0).max(5).optional(),
-  routeName: string().min(1).or(number()).transform(String).openapi({
-    effectType: 'input',
-    type: 'string',
-  }),
-  style: z.enum(ascentStyle),
-  topoGrade: routeFrenchGradeSchema.or(boulderingFrenchGradeSchema),
-  tries: number().int().min(1),
+  rating: z.number().int().min(0).max(5).optional(),
+  routeName: z.string().min(1).or(z.number()).transform(String),
+  style: ascentStyleSchema,
+  topoGrade: gradeSchema,
+  tries: z.number().int().min(1),
+  id: z.number().int().min(0),
 })
 export type Ascent = z.infer<typeof ascentSchema>
 
@@ -119,7 +172,7 @@ export const optionalAscentFilterSchema = z
     profile: profileSchema.optional(),
     style: ascentSchema.shape.style.optional(),
     tries: ascentSchema.shape.tries.optional(),
-    year: number().optional(),
+    year: yearSchema.optional(),
     rating: ascentSchema.shape.rating.optional(),
   })
   .optional()

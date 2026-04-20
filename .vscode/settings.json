@@ -6,12 +6,16 @@
   "deno.lint": true,
   "deno.cacheOnSave": true,
   "deno.suggest.imports.autoDiscover": true,
+  "deno.organizeImports.enabled": true,
   "editor.formatOnSaveMode": "modifications",
   "editor.codeActionsOnSave": {
     "source.fixAll.ts": "explicit"
   },
   "cSpell.words": [
     "departement",
+    "orpc",
+    "otrpc",
+    "topo",
     "Undercling"
   ],
   "deno.codeLens.test": true,
@@ -34,5 +38,8 @@
     "titleBar.inactiveBackground": "#fb006b99",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#fb006b"
+  "peacock.color": "#fb006b",
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  }
 }

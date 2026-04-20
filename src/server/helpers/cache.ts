@@ -1,3 +1,5 @@
+import { DEFAULT_CACHE_TTL_MS } from '../constants.ts'
+
 export type Cache<T> = {
   data: T
   timestamp: number
@@ -9,23 +11,21 @@ type CreateCacheOutput<T> = {
   clearCache: () => void
 }
 
-// Create cache expiry duration
-const tenMinutesInMs = 10 * 60 * 1000
-const defaultCacheExpiryDurationInMs = tenMinutesInMs
-
 export function createCache<T>(
   options?: { expiryDurationInMs?: number },
 ): CreateCacheOutput<T> {
   let cache: Cache<T> = undefined
 
-  const expiryDuration = options?.expiryDurationInMs ??
-    defaultCacheExpiryDurationInMs
+  const expiryDuration = options?.expiryDurationInMs ?? DEFAULT_CACHE_TTL_MS
 
   function getCache(): T | undefined {
-    const isCacheValid = cache !== undefined &&
-      (Date.now() - cache.timestamp) < expiryDuration
+    if (!cache) return undefined
 
-    if (!cache || !isCacheValid) return
+    const isCacheValid = (Date.now() - cache.timestamp) < expiryDuration
+    if (!isCacheValid) {
+      cache = undefined
+      return undefined
+    }
 
     return cache.data
   }

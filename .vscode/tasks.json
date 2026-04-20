@@ -9,9 +9,8 @@
   },
   "tasks": [
     {
-      "label": "Lint, format, test and run dev scripts",
+      "label": "Lint, test and run dev scripts",
       "dependsOn": [
-        "Format",
         "Lint",
         "Test",
         "Dev"
@@ -47,20 +46,6 @@
       },
       "type": "shell",
       "command": "deno task test:watch",
-      "isBackground": true,
-      "problemMatcher": [],
-      "presentation": {
-        "group": "deno"
-      }
-    },
-    {
-      "label": "Format",
-      "icon": {
-        "id": "paintcan",
-        "color": "terminal.ansiGreen"
-      },
-      "type": "shell",
-      "command": "deno task format:watch",
       "isBackground": true,
       "problemMatcher": [],
       "presentation": {

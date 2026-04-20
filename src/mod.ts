@@ -1,16 +1,11 @@
-import { load } from '@std/dotenv'
-import { blue, bold, green } from '@std/fmt/colors'
+import { blue, bold, green, red } from '@std/fmt/colors'
 import { inspectRoutes } from 'hono/dev'
 import { getAllAscents } from 'services/ascents.ts'
 import { getAllTrainingSessions } from 'services/training.ts'
 import app from './app.ts'
+import { env, PORT } from './env.ts'
 
-await load({ export: true })
-export const env = Deno.env.toObject()
-const FALLBACK_PORT = 8000
-
-const port = Number(env.PORT) || FALLBACK_PORT
-Deno.serve({ port }, app.fetch)
+Deno.serve({ port: PORT }, app.fetch)
 
 if (env.ENV === 'dev') {
   // Display the "GET" routes in the console for easy access during development.
@@ -26,14 +21,20 @@ if (env.ENV === 'dev') {
 }
 
 function displayRoutes(): void {
+  const domain = `http://localhost:${PORT}`
+
+  globalThis.console.log(
+    `\n${domain}${red(bold('/openapi'))}\n`,
+  )
+
   inspectRoutes(app)
     .filter(({ method, isMiddleware }) => method === 'GET' && !isMiddleware)
     .forEach(({ path }) => {
-      const domain = `http://localhost:${port}`
-
       if (path.startsWith('/api')) {
+        // API routes
         globalThis.console.log(`${domain}${green(bold(path))}`)
       } else {
+        // Frontend routes
         globalThis.console.log(`${domain}${blue(bold(path))}`)
       }
     })

@@ -83,15 +83,19 @@ export function transformClimbingData(
   csvData: CSVData,
   headers: CSVHeaders,
 ): Record<string, string | number | boolean>[] {
-  return csvData.map((rowOfStrings) =>
-    headers.reduce((acc, header, index) => {
-      const valueAsString = rowOfStrings[index]
+  return csvData.flatMap((rowOfStrings, rowIndex) => {
+    const record = headers.reduce((acc, header, colIndex) => {
+      const valueAsString = (rowOfStrings[colIndex] ?? '').trim().replaceAll(
+        '’',
+        "'",
+      )
 
       if (valueAsString === '') return acc
 
       if (header === 'tries') {
-        acc.style = transformTriesGSToJS(valueAsString).style
-        acc[header] = transformTriesGSToJS(valueAsString).tries
+        const { style, tries } = transformTriesGSToJS(valueAsString)
+        acc.style = style
+        acc[header] = tries
       } else {
         const transform = TRANSFORM_FUNCTIONS_GS_TO_JS[
           header as keyof typeof TRANSFORM_FUNCTIONS_GS_TO_JS
@@ -102,9 +106,13 @@ export function transformClimbingData(
 
       return acc
     }, {} as Record<CSVHeaders[number], string | number | boolean>)
-  )
-    .map((item) => removeObjectExtendedNullishValues(item))
-    .map((item) => sortKeys(item))
+
+    if (Object.keys(record).length === 0) return []
+
+    return [sortKeys(
+      removeObjectExtendedNullishValues({ ...record, id: rowIndex + 1 }),
+    )]
+  })
 }
 
 /**
@@ -119,11 +127,12 @@ async function writeDataToFile(
   try {
     await Deno.writeTextFile(
       `${backupFilePath}${fileName}`,
-      JSON.stringify({ data }, null, 2),
+      JSON.stringify(data, null, 2),
       { create: true },
     )
   } catch (error) {
     globalThis.console.error(error)
+    throw error
   }
 }
 
@@ -150,6 +159,7 @@ export async function processCsvDataFromUrl(
     await writeDataToFile(fileName, transformedData)
   } catch (error) {
     globalThis.console.error(error)
+    throw error
   }
 }
 
@@ -194,10 +204,10 @@ export async function backupAscentsAndTrainingFromGoogleSheets(): Promise<
     }
 
     return allPromisesFulfilled
-  } catch (_error) {
+  } catch (error) {
     globalThis.console.error(
       'An error occurred while backing up data from Google Sheets',
-      _error,
+      error,
     )
     return false
   }
