@@ -74,7 +74,7 @@ export async function addAscent(ascent: Omit<Ascent, 'id'>): Promise<Ascent> {
   const manualAscentsSheet = await loadWorksheet('ascents', { edit: true })
 
   await manualAscentsSheet.addRow(transformAscentFromJSToGS(ascent))
-  
+
   const allAscents = await getAllAscents({ refresh: true })
 
   return { ...ascent, id: allAscents.length }
