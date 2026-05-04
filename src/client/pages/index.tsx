@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import type { FC } from 'hono/jsx'
-import { orpc } from '../services/orpc-client.ts'
+import { getOrpcClient } from '../services/orpc-client.ts'
 
 const Layout: FC = (props) => {
   return (
@@ -48,6 +48,7 @@ export const pages = new Hono().get('/', (c) => {
   )
 })
   .get('/ascents', async (c) => {
+    const orpc = getOrpcClient(c.req.url)
     const ascents = await orpc.ascents.list()
 
     return c.html(
